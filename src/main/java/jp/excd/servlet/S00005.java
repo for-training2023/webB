@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jp.excd.bean.SongBean;
 import jp.excd.bean.SongRecord;
 import jp.excd.conponent.PlaceHolderInput;
 
@@ -805,34 +806,34 @@ public class S00005 extends HttpServlet {
 
 		// (16) executeQueryを実行し、結果の「ResultSet」を得る。
 		ResultSet rs = pstmt.executeQuery();
-		List<SongRecord> songList = new ArrayList<SongRecord>();
+		List<SongBean> songList = new ArrayList<SongBean>();
 
-//		while (rs.next()) {
-//			SongRecord record = new SongRecord();
-//			//ソングID
-//			String Song_id = rs.getString("id");
-//			record.setSong_id(Song_id);
-//			//曲名
-//			String Title = rs.getString("title");
-//			record.setTitle(Title);
-//			//総評価数
-//			String Rating_total = NumberFormat.getNumberInstance().format(rs.getLong("rating_total"));
-//			record.setRating_total(Rating_total);
-//			//平均評価数
-//			double Rating_average = rs.getDouble("rating_average");
-//			record.setRating_average(Rating_average);
-//			//再生回数
-//			String Total_listen_count = NumberFormat.getNumberInstance().format(rs.getLong("Total_listen_count"));
-//			record.setTotal_listen_count(Total_listen_count);
-//			//公開日
-//			double Release_datetime = rs.getDouble("release_datetime");
-//			record.setRelease_datetime(getLastUploadTime(Release_datetime));
-//			//ファイルネーム
-//			String Image_file_name = rs.getString("Image_file_name");
-//			record.setImage_file_name(Image_file_name);
-//
-//			songList.add(record);
-//		}
+		while (rs.next()) {
+			SongBean bean = new SongBean();
+			//ソングID
+			String Song_id = rs.getString("id");
+			bean.setSong_id(Song_id);
+			//曲名
+			String Title = rs.getString("title");
+			bean.setTitle(Title);
+			//総評価数
+			String Rating_total = NumberFormat.getNumberInstance().format(rs.getLong("rating_total"));
+			bean.setRating_total_formated(Rating_total);
+			//平均評価数
+			String Rating_average = rs.getString("rating_average");
+			bean.setRating_average_formated(Rating_average);
+			//再生回数
+			String Total_listen_count = NumberFormat.getNumberInstance().format(rs.getLong("Total_listen_count"));
+			bean.setTotal_listen_count_formated(Total_listen_count);
+			//公開日
+			double Release_datetime = rs.getDouble("release_datetime");
+			bean.setRelease_datetime_formated(getLastUploadTime(Release_datetime));
+			//ファイルネーム
+			String Image_file_name = rs.getString("Image_file_name");
+			bean.setImage_file_name(Image_file_name);
+
+			songList.add(bean);
+		}
 		
 		// (17) ResultSetのインスタンス、PreparedStatementのインスタンスをクローズする。
 		pstmt.close();
