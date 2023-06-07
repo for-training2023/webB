@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jp.excd.bean.SongBean;
-import jp.excd.bean.SongRecord;
 import jp.excd.conponent.PlaceHolderInput;
 
 public class S00005 extends HttpServlet {
@@ -35,7 +34,7 @@ public class S00005 extends HttpServlet {
 	public void doPost(
 			HttpServletRequest request,
 			HttpServletResponse response)
-			throws IOException, ServletException {
+			throws IOException, ServletException {									
 
 		Connection con = null;
 		request.setCharacterEncoding("UTF-8");
@@ -423,7 +422,7 @@ public class S00005 extends HttpServlet {
 		}
 		
 		// (17) SQLの組み立てと、Where句への値の設定を行う。
-		List<SongRecord> results = null;
+		List<SongBean> results = null;
 		try {
 			results = executeQuery(request, response, con,
 					release_date_Radio,
@@ -450,7 +449,7 @@ public class S00005 extends HttpServlet {
 		}
 		
 		if (results == null) {
-			results = new ArrayList<SongRecord>();
+			results = new ArrayList<SongBean>();
 		}
 		int listSize = results.size();
 
@@ -463,11 +462,11 @@ public class S00005 extends HttpServlet {
 		}
 		
 		// (19) 前処理で得られたListを用いて、Requestオブジェクトに値を設定していく。
-		List<SongRecord> newList =  new ArrayList<SongRecord>();
+		List<SongBean> newList =  new ArrayList<SongBean>();
 		
 		int counter = 0;
 		
-		for (SongRecord l : results) {
+		for (SongBean l : results) {
 			counter = counter + 1;
 			// 先頭の10件のみ処理を行う。
 			if (counter > 10) {
@@ -504,7 +503,7 @@ public class S00005 extends HttpServlet {
 
 	}
 
-	private List<SongRecord> executeQuery(HttpServletRequest request, HttpServletResponse response, Connection con,
+	private List<SongBean> executeQuery(HttpServletRequest request, HttpServletResponse response, Connection con,
 			String release_date_radio,
 			String release_date_from,
 			String release_date_to,
