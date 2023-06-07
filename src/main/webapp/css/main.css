@@ -1,0 +1,1000 @@
+/******************************************************************************/
+/* ■ブラウザ固有の初期化                                                     */
+/******************************************************************************/
+* {
+  padding: 0;
+  margin: 0;
+}
+/******************************************************************************/
+/* ■文字基本設定                                                              */
+/******************************************************************************/
+* {
+  font-size: 14px;
+  color: #333333;
+  line-height: 1.5em;
+  font-family: "メイリオ","MS Pゴシック",sans-serif;
+  letter-spacing: 0.3px;
+}
+/******************************************************************************/
+/* ■レスポンシブ設定                                                           */
+/******************************************************************************/
+@media screen and (min-width:901px) {
+  /* PC用設定 */
+  * {
+    /* 何もしない */
+  }
+}
+@media only screen and (min-width:415px) and (max-width: 900px) {
+  /* タブレット用設定 */
+  * {
+    /*  何もしない */
+  }
+}
+@media screen and (max-width:414px) {
+  /* スマートフォン用設定 */
+  * {
+    /* 何もしない */
+  }
+}
+/******************************************************************************/
+/* ■全体設定                                                                 */
+/******************************************************************************/
+/******************************************************************************/
+/* ■■テーブルの設定                                                         */
+/******************************************************************************/
+table {
+  border: 0px;
+  border-spacing: 0px;
+}
+/******************************************************************************/
+/* ■■全体のラッパー                                                         */
+/******************************************************************************/
+div.wrapper {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 640px;
+}
+/******************************************************************************/
+/* ■■タイトルバー                                                           */
+/******************************************************************************/
+div.title_bar {
+  /* absoluteの起点 */
+  position:relative;
+  width: 100%;
+  height: 40px;
+  background-color: #bfffe4;
+}
+a.back {
+  position:absolute;
+  display: block;
+  height: 40px;
+  width: 60px;
+  top: 0px;
+  left: 0px;
+  box-sizing: border-box;
+  font-size: 12px;
+  line-height: 40px;
+  color: #333333;
+  text-align:center;
+  background-color: #cccccc;
+  text-decoration: none;
+}
+p.page_title {
+  position:absolute;
+  display: block;
+  height: 40px;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  box-sizing: border-box;
+  font-size: 18px;
+  line-height: 40px;
+  color: #333333;
+  text-align:center;
+}
+div.title_bar a#menu_open {
+  position:absolute;
+  height: 40px;
+  width: 60px;
+  top: 0px;
+  right: 0px;
+}
+div.title_bar a#menu_open img.menu-icon {
+  display: block;
+  height: 40px;
+  width: 60px;
+}
+/******************************************************************************/
+/* ■■曲リスト                                                               */
+/******************************************************************************/
+div.song_list {
+  width: 100%;
+}
+div.song_list ul {
+  list-style: none;
+  width: 100%;
+}
+div.song_list ul li{
+  width: 100%;
+}
+div.song_list ul li div.cell{
+  box-sizing: border-box;
+  width: 95%;
+  margin: 2.5%;
+  border: thin solid #1e90ff;
+}
+div.song_list ul li div.cell div.song_title {
+  font-size: 18px;
+  color: #333333;
+  padding-top: 4px;
+  padding-left: 8px;
+}
+div.song_list ul li div.cell div.composer {
+  padding-top: 0px;
+  padding-left: 8px;
+}
+div.song_list ul li div.cell div span.label {
+  font-size: 9px;
+  color: #000080;
+  padding-top: 4px;
+  padding-left: 8px;
+}
+div.song_list ul li div.cell div span.label_top {
+  font-size: 9px;
+  color: #000080;
+  padding-top: 4px;
+  padding-left: 0px;
+}
+div.song_list ul li div.cell div span.value {
+  font-size: 14px;
+  color: #333333;
+  padding-top: 4px;
+  padding-left: 2px;
+}
+div.song_list ul li div.cell div span.composer_link a {
+  font-size: 14px;
+  color: #000080;
+}
+div.song_list ul li div.cell div.image_base {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align:center;
+}
+div.song_list ul li div.cell div.image_base div.image {
+  position: relative;
+  margin: 0 auto;
+  width: 275px;
+  height: 160px;
+  overflow: hidden;
+}
+div.song_list ul li div.cell div.image_base div.image:after {
+  position: absolute;
+  display: block;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow:
+    inset 0 0 20px #fff,
+    inset 0 0 20px #fff,
+    inset 0 0 20px #fff,
+    inset 0 0 20px #fff;
+}
+div.song_list ul li div.cell div.image_base img.play {
+  position: absolute;
+  display: block;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+}
+div.song_list ul li div.cell div.detail {
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+  padding-left: 8px;
+}
+/******************************************************************************/
+/* ■■メインボタン                                                           */
+/******************************************************************************/
+div.main_button {
+  margin-top: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 40px;
+  width: 95%;
+}
+div.main_button a {
+  display: block;
+  box-sizing: border-box;
+  font-size: 18px;
+  text-align: center;
+  width: 100%;
+  height: 36px;
+  line-height: 36px;
+  border: thin solid #333333;
+  background-color: #cccccc;
+  color: #000080;
+  text-decoration: none;
+}
+/******************************************************************************/
+/* ■■ページトップボタン                                                     */
+/******************************************************************************/
+#pagetop{
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    cursor: pointer;
+    z-index: 10;
+}
+/******************************************************************************/
+/* ■■フッター                                                               */
+/******************************************************************************/
+footer {
+  font-size: 0.8em;
+  text-align: right;
+  border-top: thin solid #666666;
+  margin-top: 1.0em;
+  padding-top: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 1.5em;
+}
+/******************************************************************************/
+/* ■■２セルのテーブル                                                       */
+/******************************************************************************/
+div.double_rows_table {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+}
+div.double_rows_table table {
+  width: 100%;
+}
+div.double_rows_table table tr td {
+  box-sizing: border-box;
+  height: 28px;
+  line-height: 28px;
+  font-size: 14px;
+}
+div.double_rows_table table tr td.label {
+  box-sizing: border-box;
+  width: 30%;
+  background-color: #afeeee;
+  border-left: thin solid #333333;
+  border-bottom: thin solid #333333;
+  border-right: thin solid #333333;
+  text-align: center;
+}
+div.double_rows_table table tr td.value {
+  box-sizing: border-box;
+  width: 70%;
+  background-color: #ffffff;
+  border-bottom: thin solid #333333;
+  border-right: thin solid #333333;
+  text-align: left;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+div.double_rows_table table tr:first-child td {
+  border-top: thin solid #333333;
+}
+/******************************************************************************/
+/* ■■入力テーブル                                                           */
+/******************************************************************************/
+div.input_table {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+}
+div.input_table table {
+  width: 100%;
+}
+div.input_table table tr td {
+  box-sizing: border-box;
+  min-height: 28px;
+  line-height: 28px;
+  font-size: 14px;
+}
+div.input_table table tr td.label {
+  box-sizing: border-box;
+  width: 30%;
+  background-color: #afeeee;
+  border-left: thin solid #333333;
+  border-bottom: thin solid #333333;
+  border-right: thin solid #333333;
+  text-align: center;
+}
+div.input_table table tr td.value {
+  box-sizing: border-box;
+  width: 70%;
+  background-color: #ffffff;
+  border-bottom: thin solid #333333;
+  border-right: thin solid #333333;
+  text-align: left;
+  padding-top: 8px;
+  padding-right: 8px;
+  padding-bottom: 8px;
+  padding-left: 8px;
+}
+div.input_table table tr:first-child td {
+  border-top: thin solid #333333;
+}
+/******************************************************************************/
+/* ■■■指定ラジオ                                                           */
+/******************************************************************************/
+div.input_table table tr td table.radio_base tr td {
+  border: 0px;
+}
+table.radio_base tr td {
+  width: 50%;
+}
+/******************************************************************************/
+/* ■■■ラジオ、チェックボックス連動span                                     */
+/******************************************************************************/
+span.radio_label {
+  padding-left: 4px;
+}
+span.check_label {
+  padding-left: 4px;
+}
+
+/******************************************************************************/
+/* ■■■必須状態                                                             */
+/******************************************************************************/
+div.required table tr td.value {
+  background-color: #ffff99;
+}
+/******************************************************************************/
+/* ■■■エラー状態                                                             */
+/******************************************************************************/
+div.error table tr td.label {
+  background-color: #ffc0cb;
+}
+div.error table tr td.value {
+  background-color: #ffc0cb;
+}
+/******************************************************************************/
+/* ■■■エラーメッセージ                                                     */
+/******************************************************************************/
+div.error_message {
+  /* 起点 */
+  position: relative;
+  width: 95%;
+  margin-top:8px;
+  margin-left:auto;
+  margin-right:auto;
+  background-color: #ffff00;
+}
+div.error_message img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 30px;
+  height: 30px;
+}
+div.error_message p {
+  font-size: 16px;
+  color: #ff0000;
+  min-height: 24px;
+  padding-left: 24px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 4px;
+}
+
+/******************************************************************************/
+/* ■■ラベル＆リンク                                                         */
+/******************************************************************************/
+div.label_and_link {
+  margin-top: 2px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+}
+div.label_and_link span.label {
+  font-size: 12px;
+  color: #000080;
+  padding-left: 8px;
+}
+div.label_and_link span.link {
+  padding-left: 8px;
+}
+div.label_and_link span.link a {
+  font-size: 12px;
+  color: #000080;
+}
+
+/******************************************************************************/
+/* ■■１セルのテーブル                                                       */
+/******************************************************************************/
+div.single_row_table {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+}
+div.single_row_table table {
+  width: 100%;
+}
+div.single_row_table table tr td.label {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 28px;
+  line-height: 28px;
+  font-size: 14px;
+  background-color: #afeeee;
+  border-top: thin solid #333333;
+  border-left: thin solid #333333;
+  border-bottom: thin solid #333333;
+  border-right: thin solid #333333;
+  text-align: center;
+}
+div.single_row_table table tr td.value {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: thin solid #333333;
+  border-left: thin solid #333333;
+  border-right: thin solid #333333;
+  text-align: left;
+  padding-top: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-bottom: 4px;
+}
+
+div.single_row_table table tr td.value span.label {
+  font-size: 9px;
+  color: #000080;
+  padding-left: 8px;
+}
+div.single_row_table table tr td.value span.label_top {
+  font-size: 9px;
+  color: #000080;
+  padding-left: 0px;
+}
+div.single_row_table table tr td.value span.value {
+  font-size: 14px;
+  color: #333333;
+  padding-left: 2px;
+}
+div.single_row_table table tr td.value a {
+  font-size: 14px;
+  color: #000080;
+}
+/******************************************************************************/
+/* ■■サブヘッダー                                                               */
+/******************************************************************************/
+div.sub_header {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+}
+div.sub_header p {
+  box-sizing: border-box;
+  width: 100%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 12px;
+  background-color: #ffff00;
+  border-top: thin solid #333333;
+  border-bottom: thin solid #333333;
+  text-align: center;
+}
+/******************************************************************************/
+/* ■■レイティング                                                           */
+/******************************************************************************/
+div.rating {
+   background-image: url('../images/starlevels.gif');/*星画像*/
+   background-repeat: no-repeat; /* 繰り返しはナシ */
+   width: 75px;                  /* 横幅は星５つ分 */
+   height: 21px;                 /* 高さは星１つ分 + 上下余白3pxずつ*/
+}
+div.star50 { background-position: 0px 3px; }
+div.star40 { background-position: -15px 3px; }
+div.star30 { background-position: -30px 3px; }
+div.star20 { background-position: -30px 3px; }
+div.star10 { background-position: -60px 3px; }
+div.star00 { background-position: -75px 3px; }
+div.star45 { background-position: -150px 3px; }
+div.star35 { background-position: -165px 3px; }
+div.star25 { background-position: -180px 3px; }
+div.star15 { background-position: -195px 3px; }
+div.star05 { background-position: -210px 3px; }
+
+/******************************************************************************/
+/* ■■右にボタンのあるメッセージ                                             */
+/******************************************************************************/
+div.message_with_right_button {
+  /* 起点 */
+  position: relative;
+  width:95%;
+  margin: 8px auto;
+}
+div.message_with_right_button p {
+  padding-top: 4px;
+  padding-left: 4px;
+  padding-right: 120px;
+  text-align: left;
+  min-height: 36px;
+}
+div.message_with_right_button div.right_button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 120px;
+  height: 36px;
+}
+div.message_with_right_button div.right_button a {
+  display: block;
+  box-sizing: border-box;
+  font-size: 18px;
+  text-align: center;
+  width: 120;
+  height: 36px;
+  line-height: 36px;
+  border: thin solid #333333;
+  background-color: #cccccc;
+  color: #000080;
+  text-decoration: none;
+}
+/******************************************************************************/
+/* ■■メニューキャンセルレイヤ                                               */
+/******************************************************************************/
+div#marker {
+  position :relative;
+  width: 100%;
+}
+div#layer {
+  position :absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: #ccc;
+  opacity:0.5;
+  z-index:10;
+}
+/******************************************************************************/
+/* ■■メニュー                                                               */
+/******************************************************************************/
+div#menu_marker {
+  /* 起点 */
+  position: relative;
+  width:100%;
+}
+div.menu_base {
+  position:absolute;
+  width:90%;
+  top: 0px;
+  right: 0px;
+  height: 258px;
+  z-index:20;
+  background: #0000ff;
+  opacity:1.0;
+}
+div.menu_header {
+  box-sizing: border-box;
+  width:100%;
+  height:38px;
+  background-color: #bfffe4;
+  border-top: thin solid #333333;
+  border-bottom: thin solid #333333;
+}
+div.menu_header p {
+  width:100%;
+  height:38px;
+  line-height:38px;
+  text-align: center;
+  color: #333333;
+  font-size: 16px;
+}
+div.menu_header a#menu_close {
+  position:absolute;
+  top: 0px;
+  right: 0px;
+  width: 100px;
+  height: 38px;
+  line-height:38px;
+  text-align: center;
+  color: #333333;
+  font-size: 16px;
+  text-decoration: none;
+}
+div.menu_base ul {
+  list-style: none;
+  width: 100%;
+}
+div.menu_base ul {
+  list-style: none;
+  width: 100%;
+}
+div.menu_base ul li {
+  box-sizing: border-box;
+  width: 100%;
+  height:44px;
+  background-color: #afeeee;
+  border-bottom: thin solid #333333;
+}
+div.menu_base ul li a {
+  /* 起点 */
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height:44px;
+  text-decoration: none;
+}
+div.menu_base ul li a p {
+  box-sizing: border-box;
+  width: 100%;
+  height: 44px;
+  line-height: 44px;
+  padding-right: 44px;
+  padding-left: 12px;
+  text-decoration: none;
+}
+div.menu_base ul li a img.right_arrow {
+  position: absolute;
+  box-sizing: border-box;
+  top: 15px;
+  right :15px;
+  width: 16px;
+  height: 16px;
+}
+div.menu_base ul li a p.to_excd {
+  display: block;
+  box-sizing: border-box;
+  height: 44px;
+  width: 80px;
+  line-height: 44px;
+  padding-right: 0px;
+  padding-left: 12px;
+  float: left;
+}
+div.menu_base ul li a img.pop_up {
+  box-sizing: border-box;
+  margin-top: 7px;
+  width: 28px;
+  height: 28px;
+  clear: left;
+}
+
+
+
+/******************************************************************************/
+/* ■個別(S00001:トップページ)                                                */
+/******************************************************************************/
+/******************************************************************************/
+/* ■■トップバナー                                                           */
+/******************************************************************************/
+div.top_banner {
+  position:relative;
+  width: 100%;
+  height: 68px;
+  background-color: #ffc0cb;
+}
+div.top_banner img.icon {
+  position:absolute;
+  width: 60px;
+  height: 60px;
+  top: 4px;
+  left: 4px;
+  -webkit-border-radius: 10px;
+     -moz-border-radius: 10px;
+          border-radius: 10px;
+}
+div.top_banner p {
+  box-sizing: border-box;
+  font-size: 12px;
+  position: absolute;
+  height: 68px;
+  top: 0px;
+  left: 0px;
+  padding-top: 6px;
+  padding-left: 70px;
+  padding-right: 36px;
+  padding-bottom: 6px;
+}
+div.top_banner img.to_download_page_arrow {
+  position:absolute;
+  height: 60px;
+  width: 30px;
+  top: 4px;
+  right: 4px;
+}
+
+/******************************************************************************/
+/* ■■タイトルバー                                                           */
+/******************************************************************************/
+div.title_bar p.main_title {
+  position:absolute;
+  height: 40px;
+  width: 120px;
+  top: 0px;
+  left: 0px;
+  text-align:center;
+  font-size: 32px;
+  color: #0000ff;
+  font-weight:bold;
+  text-shadow: 0 0 0.2em rgba(255,255,255,1);
+}
+div.title_bar p.sub_title {
+  position:absolute;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  top: 0px;
+  left: 120px;
+  font-size: 9px;
+  vertical-align: middle;
+  padding-right: 62px;
+}
+/******************************************************************************/
+/* ■■トップタブバー                                                           */
+/******************************************************************************/
+div.top_tab {
+  /* absoluteの起点 */
+  position:relative;
+  width: 100%;
+  height: 28px;
+  background-color: #ffffff;
+}
+div.top_tab ul {
+  position:absolute;
+  top: 0px;
+  left: 0px;
+  height: 28px;
+  list-style: none;
+}
+div.top_tab ul li.tab1 {
+  position:absolute;
+  height: 28px;
+  width: 80px;
+  top: 0px;
+  left: 0px;
+  font-size: 10px;
+  line-height: 28px;
+  text-align:center;
+}
+div.top_tab ul li.tab2 {
+  position:absolute;
+  height: 28px;
+  width: 80px;
+  top: 0px;
+  left: 80px;
+  font-size: 10px;
+  line-height: 28px;
+  text-align:center;
+}
+div.top_tab ul li.tab3 {
+  position:absolute;
+  height: 28px;
+  width: 80px;
+  top: 0px;
+  left: 160px;
+  font-size: 10px;
+  line-height: 28px;
+  text-align:center;
+}
+div.top_tab ul li.tab4 {
+  position:absolute;
+  height: 28px;
+  width: 80px;
+  top: 0px;
+  left: 240px;
+  font-size: 10px;
+  line-height: 28px;
+  text-align:center;
+}
+div.top_tab ul li {
+  background-color: #ffffff;
+}
+div.top_tab ul li.selected {
+  background-color: #fffacd;
+}
+div.top_tab ul li a {
+  text-decoration: none;
+}
+/******************************************************************************/
+/* ■■トップ告知                                                           */
+/******************************************************************************/
+div.top_notice {
+  /* absoluteの起点 */
+  position:relative;
+  width: 100%;
+  background-color: #ffff00;
+}
+div.top_notice p.top_notice_title {
+  position:absolute;
+  height: 18px;
+  width: 80px;
+  top: 0px;
+  left: 6px;
+  font-size: 14px;
+  line-height: 14px;
+  text-align: left;
+  padding-top: 8px;
+  padding-left: 4px;
+}
+div.top_notice p.top_notice_body {
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 14px;
+  line-height: 14px;
+  text-align: left;
+  padding-top: 28px;
+  padding-left: 28px;
+  padding-right: 28px;
+  padding-bottom: 8px;
+  color: #ff0000;
+}
+
+
+/******************************************************************************/
+/* ■個別(S00003:曲紹介)                                                      */
+/******************************************************************************/
+/******************************************************************************/
+/* ■■画像リンク                                                             */
+/******************************************************************************/
+div.song_link {
+  width: 100%;
+}
+div.song_link div.cell div.image_base {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align:center;
+}
+div.song_link div.cell div.image_base div.image {
+  position: relative;
+  margin: 0 auto;
+  width: 275px;
+  height: 160px;
+  overflow: hidden;
+}
+div.song_link div.cell div.image_base div.image:after {
+  position: absolute;
+  display: block;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow:
+    inset 0 0 20px #fff,
+    inset 0 0 20px #fff,
+    inset 0 0 20px #fff,
+    inset 0 0 20px #fff;
+}
+div.song_link div.cell div.image_base img.play {
+  position: absolute;
+  display: block;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+}
+
+/******************************************************************************/
+/* ■■コメント一覧                                                           */
+/******************************************************************************/
+div.comments {
+  position: relative;
+  width: 95%;
+  margin-top: 0px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 30px;
+}
+div.comments ul {
+  list-style: none;
+  width: 100%;
+
+}
+div.comments ul li{
+  width: 100%;
+}
+div.comments ul li a {
+  font-size: 14px;
+  color: #000080;
+}
+
+div.comments ul li div.normal {
+  /* ポジションの起点 */
+  position: relative;
+  margin-top: 10px;
+  margin-right: 4px;
+  margin-bottom: 2px;
+  margin-left: 4px;
+}
+div.comments ul li div.normal div.composer_link {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 21px;
+  line-height: 21px;
+  padding-left: 83px;
+}
+div.comments ul li div.normal div.composer_link_no_rating {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 21px;
+  line-height: 21px;
+  padding-left: 8px;
+}
+div.comments ul li div.normal p.comment {
+  padding-top: 2px;
+  padding-left: 0px;
+  font-size: 14px;
+}
+div.comments ul li div.normal p.time {
+  padding-top: 2px;
+  padding-left: 0px;
+  font-size: 12px;
+  color: #999999;
+}
+div.comments ul li div.reply {
+  /* ポジションの起点 */
+  position: relative;
+  margin-top: 10px;
+  margin-right: 4px;
+  margin-bottom: 2px;
+  margin-left: 4px;
+}
+div.comments ul li div.reply div.rating {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0px;
+  left: 20px;
+  width: 75px;
+  height: 21px;
+}
+div.comments ul li div.reply div.composer_link {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 21px;
+  line-height: 21px;
+  padding-left: 103px;
+}
+div.comments ul li div.reply div.composer_link_no_rating {
+  position: absolute;
+  box-sizing: border-box;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 21px;
+  line-height: 21px;
+  padding-left: 20px;
+}
+div.comments ul li div.reply p.comment {
+  padding-top: 2px;
+  padding-left: 20px;
+  font-size: 14px;
+}
+div.comments ul li div.reply p.time {
+  padding-top: 2px;
+  padding-left: 20px;
+  font-size: 12px;
+  color: #999999;
+}
+
+
+
