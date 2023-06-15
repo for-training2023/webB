@@ -30,7 +30,20 @@
 
 	<error-page>
     <error-code>404</error-code>
-    <location>/jsp/404.jsp</location>
+    <location>/ja/404.jsp</location>
     </error-page>
+    
+    <servlet>
+		<servlet-name>S00004</servlet-name>
+		<servlet-class>jp.excd.servlet.S00004</servlet-class>
+		<init-param>
+			<param-name>javaEncoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>S00004</servlet-name>
+		<url-pattern>/ja/S00004/*</url-pattern>
+	</servlet-mapping>
 
 </web-app>
