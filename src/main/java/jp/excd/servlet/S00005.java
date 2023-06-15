@@ -28,13 +28,13 @@ public class S00005 extends HttpServlet {
 			HttpServletResponse response)
 			throws IOException, ServletException {
 		
-		getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request, response);
+		getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request, response);
 	}
 
 	public void doPost(
 			HttpServletRequest request,
 			HttpServletResponse response)
-			throws IOException, ServletException {									
+			throws IOException, ServletException {
 
 		Connection con = null;
 		request.setCharacterEncoding("UTF-8");
@@ -42,7 +42,7 @@ public class S00005 extends HttpServlet {
 		String dbName = "meloko";
 		String userName = "meloko";
 		String password = "exceed";
-		String timeZone = "JST";
+		String timeZone = "Asia/Tokyo";
 
 		try {
 			// (1)DB接続（コネクションの確立）
@@ -53,7 +53,7 @@ public class S00005 extends HttpServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			getServletConfig().getServletContext().getRequestDispatcher("/jsp/500.jsp").forward(request, response);
+			getServletConfig().getServletContext().getRequestDispatcher("/ja/500.jsp").forward(request, response);
 
 		} finally {
 			try {
@@ -64,7 +64,7 @@ public class S00005 extends HttpServlet {
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/500.jsp").forward(request, response);
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/500.jsp").forward(request, response);
 			}
 
 		}
@@ -77,9 +77,11 @@ public class S00005 extends HttpServlet {
 		String URL = request.getRequestURI();
 
 		// (1) 接続URLが「/ja/S00005/searh」以外の場合は、404.jspへフォワーディングする。
-		if ("/web/ja/S00005/search".equals(URL)) {
+		if ("/webB/ja/S00005/search".equals(URL)) {
+			System.out.println("sssssssssssssssss");
 		} else {
-			getServletConfig().getServletContext().getRequestDispatcher("/jsp/404.jsp").forward(request, response);
+			System.out.println("bbbbbbbbbbbbbbb");
+			getServletConfig().getServletContext().getRequestDispatcher("/ja/404.jsp").forward(request, response);
 		}
 
 		// POSTパラメタの文字コードを指定
@@ -147,7 +149,7 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_001");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request,
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request,
 						response);
 				return;
 			} else {
@@ -164,7 +166,7 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_002");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request,
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request,
 						response);
 			} else {
 				// 処理継続
@@ -179,7 +181,7 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_003");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request,
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request,
 						response);
 				return;
 			} else if (release_date_from == null
@@ -193,12 +195,12 @@ public class S00005 extends HttpServlet {
 		// (6) 公開日FROM、公開日TOについてエラー判定を行う。
 		if ("1".equals(release_date_Radio)) {
 			int checkResult = release_date_to.compareTo(release_date_from);
-			if (checkResult > 0) {
+			if (checkResult < 0) {
 				// エラー
 				String s = this.getDescription(con, "ES00005_004");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request,
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request,
 						response);
 				return;
 			}
@@ -213,15 +215,12 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_005");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request,
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request,
 						response);
 				return;
 			} else {
 				// 処理継続
 				rf = Integer.parseInt(rating_from);
-			}
-			if (!("1".equals(rating_Radio))) {
-				//処理続行
 			}
 		}
 
@@ -234,15 +233,12 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_006");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request,
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request,
 						response);
 				return;
 			} else {
 				//処理継続
 				rt = Integer.parseInt(rating_To);
-			}
-			if (!("1".equals(rating_Radio))) {
-				//処理続行
 			}
 		}
 		
@@ -254,7 +250,7 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_007");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request,
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request,
 						response);
 				return;
 			} else if (rating_from == null || "".equals(rating_from) && this.isNumber(rating_To) == true) {
@@ -262,9 +258,6 @@ public class S00005 extends HttpServlet {
 			} else if (this.isNumber(rating_from)) {
 				//処理続行
 			}
-		if (!("1".equals(rating_Radio))) {
-			//処理続行
-		}
 
 		// (10) 感動指数FROM　感動指数TO（逆転チェック）
 		if ("1".equals(rating_Radio)) {
@@ -279,14 +272,11 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_008");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request,
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request,
 						response);
 				return;
 
 			} else {
-				//処理続行
-			}
-			if (!("1".equals(rating_Radio))) {
 				//処理続行
 			}
 		}
@@ -304,14 +294,11 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_009");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp")
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp")
 						.forward(request, response);
 				return;
 			}
 		} else {
-			//処理続行
-		}
-		if (!("1".equals(rating_average_radio))) {
 			//処理続行
 		}
 
@@ -324,17 +311,15 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_010");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp")
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp")
 						.forward(request, response);
 				return;
 			} else {
 				//処理継続
 				vf = Integer.parseInt(views_from);
 			}
-			if (!("1".equals(views_radio))) {
-				//処理続行
-			}
 		}
+		
 		// (13) 再生回数TO エラー判定を行う。
 		if ("1".equals(views_radio)) {
 			if (views_to == null || "".equals(views_to)) {
@@ -344,15 +329,12 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_011");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp")
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp")
 						.forward(request, response);
 				return;
 			} else {
 				//処理継続
 				vt = Integer.parseInt(views_to);
-			}
-			if (!("1".equals(views_radio))) {
-				//処理続行
 			}
 		}
 		
@@ -364,7 +346,7 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_012");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp")
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp")
 						.forward(request, response);
 				return;
 			} else if (views_from == null
@@ -373,9 +355,6 @@ public class S00005 extends HttpServlet {
 			} else if (this.isNumber(views_from)) {
 				//処理続行
 			}
-		if (!("1".equals(views_radio))) {
-			//処理続行
-		}
 
 		// (15) 再生回数FROM、再生回数TOについて、以下のとおりエラー判定を行う。
 		if ("1".equals(views_radio)) {
@@ -390,16 +369,13 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_013");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp")
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp")
 						.forward(request, response);
 				return;
 			}
 		} else {
 			//処理続行
 
-		}
-		if (!("1".equals(views_radio))) {
-			//処理続行
 		}
 
 		// (16) 曲名についてエラー判定を行う。
@@ -409,15 +385,11 @@ public class S00005 extends HttpServlet {
 				String s = this.getDescription(con, "ES00005_014");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "1");
-				getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp")
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp")
 						.forward(request, response);
 				return;
 			} else {
 				//処理続行
-				if (!("1".equals(title_radio))) {
-					//処理続行
-				}
-
 			}
 		}
 		
@@ -444,7 +416,8 @@ public class S00005 extends HttpServlet {
 		} catch (Exception e) {
 			String error = getDescription(con, "ES00005_015");
 			request.setAttribute("error", error);
-			getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request, response);
+			e.printStackTrace();
+			getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request, response);
 			return;
 		}
 		
@@ -457,7 +430,7 @@ public class S00005 extends HttpServlet {
 		if (listSize == 0) {
 			String error = getDescription(con, "ES00005_016");
 			request.setAttribute("error", error);
-			getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00005.jsp").forward(request, response);
+			getServletConfig().getServletContext().getRequestDispatcher("/ja/S00005.jsp").forward(request, response);
 			return;
 		}
 		
@@ -479,7 +452,11 @@ public class S00005 extends HttpServlet {
 		request.setAttribute("list", newList);
 
 		// (20) S00006.jsp にフォワーディングする。
-		getServletConfig().getServletContext().getRequestDispatcher("/jsp/S00006.jsp").forward(request, response);
+		
+		//request.getRequestDispatcher("/jsp/S00006.jsp").forward(request,response);
+		
+		getServletConfig().getServletContext().getRequestDispatcher("/ja/S00006.jsp").forward(request, response);
+		System.out.println("wwwwwwwwwwwwwwww");
 	}
 
 	//文言マスタより引数で渡されたkeyをIDにもつレコードを取得
@@ -785,7 +762,7 @@ public class S00005 extends HttpServlet {
 			throw new Exception();
 		}
 
-		query = query + sql30;
+		query += sql30;
 
 		// (14) PreparedStatementのインスタンスを得る。
 		PreparedStatement pstmt = con.prepareStatement(query);
@@ -820,6 +797,7 @@ public class S00005 extends HttpServlet {
 			bean.setRating_total_formated(Rating_total);
 			//平均評価数
 			String Rating_average = rs.getString("rating_average");
+			
 			bean.setRating_average_formated(Rating_average);
 			//再生回数
 			String Total_listen_count = NumberFormat.getNumberInstance().format(rs.getLong("Total_listen_count"));
@@ -829,6 +807,9 @@ public class S00005 extends HttpServlet {
 			bean.setRelease_datetime_formated(getLastUploadTime(Release_datetime));
 			//ファイルネーム
 			String Image_file_name = rs.getString("Image_file_name");
+			if(Image_file_name == null || Image_file_name.equals("")) {
+				Image_file_name = "noimage.png";
+			}
 			bean.setImage_file_name(Image_file_name);
 
 			songList.add(bean);

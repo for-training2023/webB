@@ -6,7 +6,7 @@ public class SongRecord {
 	private long rating_total;
 	private double rating_average;
 	private long total_listen_count;
-	private double release_datetime;
+	private String release_datetime;
 	private String image_file_name;
 	private String song_id;
 	private int image_file_height;
@@ -63,13 +63,13 @@ public class SongRecord {
 	/**
 	 * @return release_datetime
 	 */
-	public double getRelease_datetime() {
+	public String getRelease_datetime() {
 		return release_datetime;
 	}
 	/**
 	 * @param release_datetime セットする release_datetime
 	 */
-	public void setRelease_datetime(double release_datetime) {
+	public void setRelease_datetime(String release_datetime) {
 		this.release_datetime = release_datetime;
 	}
 	/**

@@ -7,13 +7,13 @@
 	String errorMessage = (String)request.getAttribute("error");
     if (errorMessage == null) errorMessage = "";
 
-	// (2) 「公開日_エラー状態(release_date_is_error)」= "1"の場合
+	// (2) 「公開日_エラー状態(release_date_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
 	String release_date_is_error = "";
 	if ("1".equals(request.getAttribute("release_date_is_error"))) {
 		release_date_is_error = ", error";
 	}
 
-	// (3) 以下の項目を元にニックネームの入力状態を再現する。
+	// (3) 以下の項目を元に公開日の入力状態を再現する。
 	String release_date_Radio1 = "";
     if ("1".equals(request.getAttribute("release_date_is_radio"))) {
     	release_date_Radio1 = "checked=\"checked\"";
@@ -137,9 +137,10 @@ $(function(){
 
 <style>
 
-.exceed{
-text-align: center;
-}
+	.exceed{
+	text-align: center;
+	}
+
 </style>
 
 </head>
@@ -154,7 +155,7 @@ text-align: center;
 			<!-- タイトルバー -->
 			<div class="title_bar">
 			<p class="page_title">作品検索</p>
-			<a href="#" id="menu_open"> <img alt="メニュー" src="../images/menu.png" class="menu-icon">
+			<a href="#" id="menu_open"> <img alt="メニュー" src="/webB/images/menu.png" class="menu-icon">
 			</a>
 			</div>
 
@@ -165,13 +166,14 @@ text-align: center;
 			<%
 			if ("".equals(errorMessage) == false) {
 			%>
-			<div class="errormesage">
-			<%= errorMessage %>
+			<div class="error_message">
+			<img alt="エラー" src="/webB/images/error_mark.png">
+			<p><%= errorMessage %></p>
 			</div>
 			<% } %>
 
 			<!-- フォーム -->
-			<form method="post" id="form1" action="/webB/ja/S00005/search">
+			<form method="post" name="form1" action="/webB/ja/S00005/search">
 
 			<!--条件divをまとめるdiv(contents)-->
 			<div class="contents_search">
@@ -189,10 +191,10 @@ text-align: center;
 									<tr>
 										<td>
 											<input type="radio" id="id_release_date_radio1" 
-											name="release_date_radio" value="1" class="onOffRadio" <%= release_date_Radio1 %>><span class="radio_label">指定&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+											name="release_date_radio" value="1" class="onOffRadio" <%= release_date_Radio1 %>><span class="radio_label">指定 </span></td>
 										<td>
 											<input type="radio" id="id_release_date_radio2" 
-											name="release_date_radio" value="0" class="onOffRadio" <%= release_date_Radio2 %>><span class="radio_label">指定なし&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+											name="release_date_radio" value="0" class="onOffRadio" <%= release_date_Radio2 %>><span class="radio_label">指定なし </span></td>
 									</tr>
 								</table>
 							</td>
@@ -221,10 +223,10 @@ text-align: center;
 									<tr>
 										<td>
 											<input type="radio" id="id_rating_radio1" name="rating_radio"
-											value="1" class="onOffRadio" <%= rating_radio1 %>><span class="radio_label">指定&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+											value="1" class="onOffRadio" <%= rating_radio1 %>><span class="radio_label">指定 </span></td>
 										<td>
 											<input type="radio" id="id_rating_radio2" name="rating_radio" 
-											value="0" class="onOffRadio" <%= rating_radio2 %>><span class="radio_label">指定なし&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+											value="0" class="onOffRadio" <%= rating_radio2 %>><span class="radio_label">指定なし </span></td>
 									</tr>
 								</table>
 							</td>
@@ -253,10 +255,10 @@ text-align: center;
 									<tr>
 										<td>
 											<input type="radio" id="id_rating_average_radio1"
-											name="rating_average_radio" value="1" class="onOffRadio" <%= rating_radio1 %>><span class="radio_label">指定&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+											name="rating_average_radio" value="1" class="onOffRadio" <%= rating_radio1 %>><span class="radio_label">指定 </span></td>
 										<td>
 											<input type="radio" id="id_rating_average_radio2"
-											name="rating_average_radio" value="0" class="onOffRadio" <%= rating_radio2 %>><span class="radio_label">指定なし&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+											name="rating_average_radio" value="0" class="onOffRadio" <%= rating_radio2 %>><span class="radio_label">指定なし </span></td>
 									</tr>
 								</table>
 							</td>
@@ -367,10 +369,10 @@ text-align: center;
 									<tr>
 										<td>
 											<input type="radio" id="id_views_radio1" name="views_radio"
-											value="1" class="onOffRadio" <%= views_radio1 %>><span class="radio_label">指定&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+											value="1" class="onOffRadio" <%= views_radio1 %>><span class="radio_label">指定 </span></td>
 										<td>
 											<input type="radio"id="id_views_radio2" name="views_radio" 
-											value="0" class="onOffRadio" <%= views_radio2 %>><span class="radio_label">指定なし&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+											value="0" class="onOffRadio" <%= views_radio2 %>><span class="radio_label">指定なし </span></td>
 									</tr>
 								</table>
 							</td>
@@ -399,10 +401,10 @@ text-align: center;
 									<tr>
 										<td>
 											<input type="radio" id="id_song_title_radio1"
-											name="song_title_radio" value="1" class="onOffRadio" <%=title_radio1 %>><span class="radio_label">指定&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+											name="song_title_radio" value="1" class="onOffRadio" <%=title_radio1 %>><span class="radio_label">指定 </span></td>
 										<td>
 											<input type="radio" id="id_song_title_radio2"
-											name="song_title_radio" value="0" class="onOffRadio" <%=title_radio2 %>><span class="radio_label">指定なし&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+											name="song_title_radio" value="0" class="onOffRadio" <%=title_radio2 %>><span class="radio_label">指定なし </span></td>
 									</tr>
 								</table>
 							</td>
@@ -413,10 +415,10 @@ text-align: center;
 									<tr>
 										<td>
 											<input type="radio" id="id_song_title_match_radio1"
-											name="song_title_match_radio" value="3" <%=title_type_radio1 %>>あいまい </td>
+											name="song_title_match_radio" value="3" <%=title_type_radio1 %>><span class="radio_label">あいまい </span></td>
 										<td>
 											<input type="radio" id="id_song_title_match_radio2"
-											name="song_title_match_radio" value="4" <%=title_type_radio2 %>>完全一致 </td>
+											name="song_title_match_radio" value="4" <%=title_type_radio2 %>><span class="radio_label">完全一致 </span></td>
 									</tr>
 								</table>
 									<br><input type="text" id="id_song_title_text"
@@ -452,8 +454,9 @@ text-align: center;
 
 				<!-- メインボタン -->   
 				<div class="main_button">
-					<a href="S00006.html">検索</a>
+					<input type="submit" name="main_button" value="検索">
 				</div>
+				
 
 			</div>
 			</form>
@@ -461,7 +464,7 @@ text-align: center;
 
 		<!-- ページトップへjavaScript -->
 		<div id="pagetop" hidden>
-			<img alt="ページトップ" src="../images/pagetop.png">
+			<img alt="ページトップ" src="/webB/images/pagetop.png">
 		</div>
 
 		<!-- フッター -->
