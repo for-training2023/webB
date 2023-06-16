@@ -61,11 +61,12 @@ div.song_list ul li div.cell div.song3 img {
 	String other_link_url = (String) request.getAttribute("other_link_url");
 	String other_link_description = (String) request.getAttribute("other_link_description");
 	String songsum = (String) request.getAttribute("songsum");//作品数
-	String listenSum = (String) request.getAttribute("listenSum");
+	String listensum = (String) request.getAttribute("listensum");
 	String rating_total = (String) request.getAttribute("rating_total");
-	String rating_average = (String) request.getAttribute("rating_average");
 	String total_listen_count = (String) request.getAttribute("total_listen_count");
 	String s_averageAll = (String) request.getAttribute("s_averageAll");
+	String image_file_name = (String) request.getAttribute("image_file_name");
+	String ratingAll = (String) request.getAttribute("ratingAll");
 
 	String nothing = "データがありません。";
 	%>
@@ -163,8 +164,7 @@ div.song_list ul li div.cell div.song3 img {
  if (gender != null || birthday != null) {
  %> <br> <%
  }
- %><span
-							class="label_top">FB：</span> <span class="value"><a
+ %><span class="label_top">FB：</span> <span class="value"><a
 								href="<%=fb_link%>"> <%
  out.println(fb_link);
  %>
@@ -199,8 +199,8 @@ div.song_list ul li div.cell div.song3 img {
 					</span> <br> <span class="label_top">総感動指数：</span> <span
 						class="value"> <%
  if (rating_total != null) {
- 	int rating_total2 = Integer.parseInt(rating_total);
- 	out.println(String.format("%,d", rating_total2));
+ 	int ratingAll2 = Integer.parseInt(ratingAll);
+ 	out.println(String.format("%,d", ratingAll2));
  } else {
  	out.println(nothing);
  }
@@ -210,14 +210,14 @@ div.song_list ul li div.cell div.song3 img {
  if (s_averageAll.equals("0.0")) {
  	out.println(nothing);
  } else {
-	 out.println(s_averageAll);
+ 	out.println(s_averageAll);
  }
  %>
 					</span> <br> <span class="label_top">総再生回数：</span> <span
 						class="value"> <%
- if (listenSum != null) {
- 	int listenSum2 = Integer.parseInt(listenSum);
- 	out.println(String.format("%,d", listenSum2));
+ if (listensum != null) {
+ 	int listensum2 = Integer.parseInt(listensum);
+ 	out.println(String.format("%,d", listensum2));
  } else {
  	out.println(nothing);
  }
@@ -265,47 +265,59 @@ div.song_list ul li div.cell div.song3 img {
 						<div class="image_base">
 							<a href="/web/ja/S00003/<%=map.get("song_id")%>">
 								<div class="image song1">
+									<%
+									if (image_file_name != null) {
+									%>
 									<img alt="希望の扉"
 										src="/webB/images/<%=map.get("image_file_name")%>"> <img
 										alt="play" class="play" src="/webB/images/play.png">
 								</div>
 							</a>
 						</div>
-						<div class="detail">
-							<span class="label_top">総感動指数：</span> <span class="value">
-								<%=map.get("rating_total")%>
-							</span> <span class="label">平均感動指数：</span> <span class="value"> <%=map.get("rating_average")%>
-							</span> <span class="label">再生回数：</span> <span class="value"> <%=map.get("total_listen_count")%>
-							</span> <span class="label">公開：</span> <span class="value"> <%=map.get("release_datetime")%>
-							</span>
-						</div>
-					</div>
-				</li>
-				<%
-				}
-				%>
-				<!--曲の情報ここまで-->
-				<%
-				} else {
-				;
-				}
-				%>
-
-
-			</ul>
+						<%
+						} else {
+						%>
+						<img alt="希望の扉" src="/webB/images/noimage.png"> <img
+							alt="play" class="play" src="/webB/images/play.png">
+					</div> </a>
 		</div>
-
-
-		<!-- ページトップへjavaScript -->
-		<div id="pagetop" hidden>
-			<img alt="ページトップ" src="../images/pagetop.png">
+		<%
+		}
+		%>
+		<div class="detail">
+			<span class="label_top">総感動指数：</span> <span class="value"> <%=map.get("rating_total")%>
+			</span> <span class="label">平均感動指数：</span> <span class="value"><%=map.get("r_average")%>
+			</span> <span class="label">再生回数：</span> <span class="value"> <%=map.get("total_listen_count")%>
+			</span> <span class="label">公開：</span> <span class="value"> <%=map.get("release_datetime")%>
+			</span>
 		</div>
+	</div>
+	</li>
+	<%
+	}
+	%>
+	<!--曲の情報ここまで-->
+	<%
+	} else {
+	;
+	}
+	%>
 
-		<!-- フッター -->
-		<footer>
-			Copyright <a href="https://www.excd.jp/">© EXCEED Co., Ltd.</a> All
-			Rights Reserved.
-		</footer>
+
+	</ul>
+	</div>
+
+
+	<!-- ページトップへjavaScript -->
+	<div id="pagetop" hidden>
+		<img alt="ページトップ" src="/webB/images/pagetop.png">
+	</div>
+
+	<!-- フッター -->
+	<footer>
+		Copyright <a href="https://www.excd.jp/">© EXCEED Co., Ltd.</a> All
+		Rights Reserved.
+	</footer>
 
 	</div>
 </body>
