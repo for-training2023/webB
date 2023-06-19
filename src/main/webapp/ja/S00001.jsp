@@ -450,11 +450,15 @@ div.song_list ul li div.cell div.song3 img {
 				*/
 				for (int i = outPutMin; i < outPutMax; i++) {
 					System.out.println("i=" + i);
+					System.out.println("outPutMin=" + outPutMin);
+					System.out.println("outPutMax=" + outPutMax);
 
 					// 表示件数が100を超える場合はループを中断する。
 					//　データが100件ないので正常に動作するか不明
-					if (i == 100) {
+					if (i == 99) {
 						outPutMax = listMap.size();
+						System.out.println("outPutMax=" + outPutMax);
+
 						break;
 					}
 					map = listMap.get(i);
