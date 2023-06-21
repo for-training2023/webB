@@ -3,10 +3,10 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="../css/main.css">
-<script src="../js/jquery-3.3.0.min.js"></script>
-<script src="../js/jquery-3.3.0.min.js"></script>
-<script src="../js/util.js"></script>
+<link rel="stylesheet" href="/webB/css/main.css">
+<script src="/webB/js/jquery-3.3.0.min.js"></script>
+<script src="/webB/js/jquery-3.3.0.min.js"></script>
+<script src="/webB/js/util.js"></script>
 <style>
 div.title_bar {
 	/* absoluteの起点 */

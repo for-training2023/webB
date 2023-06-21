@@ -1,4 +1,4 @@
-﻿/******************************************************************************/
+/******************************************************************************/
 /* ■ブラウザ固有の初期化                                                     */
 /******************************************************************************/
 * {
@@ -795,6 +795,17 @@ div.top_tab ul li.tab4 {
   line-height: 28px;
   text-align:center;
 }
+div.top_tab ul li.tab5 {
+  position:absolute;
+  height: 28px;
+  width: 80px;
+  top: 0px;
+  left: 320px;
+  font-size: 10px;
+  line-height: 28px;
+  text-align:center;
+}
+
 div.top_tab ul li {
   background-color: #ffffff;
 }

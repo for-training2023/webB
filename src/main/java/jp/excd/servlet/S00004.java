@@ -39,44 +39,46 @@ public class S00004 extends HttpServlet {
 				+ "&useSSL=false";
 		Connection con = null; // コネクション
 
-		String url = request.getRequestURI();  //URL取得
-		String u_cord = url.substring(16);  //文字数分「url」から除く
-
-		//SQL結果を格納する変数の宣言(作曲家情報用)
-		String id = null;//作曲家ID
-		String nickname = null;//ニックネーム  
-		String message = null;//メッセージ
-		String joined_date = null; //登録日
-		String unique_code = null; //ユニークコード
-		String gender = null; //性別
-		String birthday = null;//生年月日
-		String fb_link = null; //Facebookリンク
-		String tw_link = null; //Twitterリンク
-		String other_link_url = null; //関連リンクURL
-		String other_link_description = null;//関連リンク文字列
-		Double averageAll = null;//全体の平均感動指数
-		String ratingAll = null;//感動指数の合計値
-		String listensum = null;//再生回数の合計値
-		String songsum = null;//総曲数
-
-		//SQL結果を格納する変数の宣言(公開曲一覧用)
-		String total_listen_count = null;  //再生回数
-		String title = null; //曲名
-		String image_file_name = null; //画像名前
-		String image_file_height = null; //画像高さ
-		String image_file_width = null;//画像幅
-		String rating_total = null;  //感動指数
-		Double release_datetime = null; //公開日
-		String song_id = null;//曲ID
-		String listener_count = null;//総再生回数
-		Double rating_average = null;  //平均感動指数
-
-
-		//Listの宣言
-		List<Map<String,String>> SongList = new ArrayList<>();
-
 		try {
 			con = DriverManager.getConnection(URL, connectUserName, connectPassword);
+
+			
+			String url = request.getRequestURI();  //URL取得
+			String u_cord = url.substring(16);  //文字数分「url」から除く
+
+			//SQL結果を格納する変数の宣言(作曲家情報用)
+			String id = null;//作曲家ID
+			String nickname = null;//ニックネーム
+			String message = null;//メッセージ
+			String joined_date = null; //登録日
+			String unique_code = null; //ユニークコード
+			String gender = null; //性別
+			String birthday = null;//生年月日
+			String fb_link = null; //Facebookリンク
+			String tw_link = null; //Twitterリンク
+			String other_link_url = null; //関連リンクURL
+			String other_link_description = null;//関連リンク文字列
+			Double averageAll = null;//全体の平均感動指数
+			String ratingAll = null;//感動指数の合計値
+			String listensum = null;//再生回数の合計値
+			String songsum = null;//総曲数
+
+			//SQL結果を格納する変数の宣言(公開曲一覧用)
+			String total_listen_count = null;  //再生回数
+			String title = null; //曲名
+			String image_file_name = null; //画像名前
+			String image_file_height = null; //画像高さ
+			String image_file_width = null;//画像幅
+			String rating_total = null;  //感動指数
+			Double release_datetime = null; //公開日
+			String song_id = null;//曲ID
+			String listener_count = null;//総再生回数
+			Double rating_average = null;  //平均感動指数
+
+
+			//Listの宣言
+			List<Map<String,String>> SongList = new ArrayList<>();
+
 
 			try {
 				request.setCharacterEncoding("UTF-8");
@@ -278,6 +280,16 @@ public class S00004 extends HttpServlet {
 			getRequestDispatcher("/ja/500.jsp").
 			forward( request, response );
 		}
+		
+		finally {
+		    if (con != null) {
+		    	try {
+		    		con.close();
+		            }catch(SQLException e) {
+		                e.printStackTrace();
+		            }
+		    }
+		}
 
 	}
 
@@ -307,7 +319,7 @@ public class S00004 extends HttpServlet {
 		}
 		//2秒以上かつ60秒未満
 		else if (diff < 60000) {
-			resultVal = diff + "秒前";
+			resultVal = numberFormat.format(diff/1000) + "秒前";
 		}
 		//1分以上かつ2分未満
 		else if (diff < 120000) {

@@ -23,10 +23,10 @@
 <style>
 div.song_list ul li div.cell div.song1 img {
 	position: relative;
-	left: 0px;
-	top: -11px;
+/* 	left: 0px;
+	top: -11px; */
 	width: 275px;
-	height: 182px;
+	height: 160px;
 }
 
 div.song_list ul li div.cell div.song2 img {
@@ -44,29 +44,36 @@ div.song_list ul li div.cell div.song3 img {
 	width: 275px;
 	height: 220px;
 }
+
+.song_list div.cell div.song1 img.songimage {
+    height:100%;
+    width:100%;
+    object-fit:cover;
+}
+
 </style>
 </head>
 <body>
 <%
-String id = (String) request.getAttribute("id");
-String nickname = (String) request.getAttribute("nickname");
-String message = (String) request.getAttribute("message");
-String joined_date = (String) request.getAttribute("joined_date");
-String unique_code = (String) request.getAttribute("unique_code");
-String gender = (String) request.getAttribute("gender");
-String birthday = (String) request.getAttribute("birthday");
-String listener_count = (String) request.getAttribute("listener_count");
-String fb_link = (String) request.getAttribute("fb_link");
-String tw_link = (String) request.getAttribute("tw_link");
-String other_link_url = (String) request.getAttribute("other_link_url");
-String other_link_description = (String) request.getAttribute("other_link_description");
+String id = (String) request.getAttribute("id");//作曲家ID
+String nickname = (String) request.getAttribute("nickname");//ニックネーム
+String message = (String) request.getAttribute("message");//メッセージ
+String joined_date = (String) request.getAttribute("joined_date");//登録日
+String unique_code = (String) request.getAttribute("unique_code");//ユニークコード
+String gender = (String) request.getAttribute("gender");//性別
+String birthday = (String) request.getAttribute("birthday");//生年月日
+String listener_count = (String) request.getAttribute("listener_count");//再生回数
+String fb_link = (String) request.getAttribute("fb_link");//Facebookリンク
+String tw_link = (String) request.getAttribute("tw_link");//Twiterリンク
+String other_link_url = (String) request.getAttribute("other_link_url");//関連リンクURL
+String other_link_description = (String) request.getAttribute("other_link_description");//関連リンク文字列
 String songsum = (String) request.getAttribute("songsum");//作品数
-String listensum = (String) request.getAttribute("listensum");
-String rating_total = (String) request.getAttribute("rating_total");
-String total_listen_count = (String) request.getAttribute("total_listen_count");
-String s_averageAll = (String) request.getAttribute("s_averageAll");
-String image_file_name = (String) request.getAttribute("image_file_name");
-String ratingAll = (String) request.getAttribute("ratingAll");
+String listensum = (String) request.getAttribute("listensum");//総再生回数
+String rating_total = (String) request.getAttribute("rating_total");//総感動指
+String total_listen_count = (String) request.getAttribute("total_listen_count");//総再生回数
+String s_averageAll = (String) request.getAttribute("s_averageAll");//総平均
+String image_file_name = (String) request.getAttribute("image_file_name");//画像名前
+String ratingAll = (String) request.getAttribute("ratingAll");//総感動指数
 
 String nothing = "データがありません。"; %>
 
@@ -253,7 +260,11 @@ String nothing = "データがありません。"; %>
 				</tr>
 			</table>
 		</div>
-
+		
+		<%
+		//作品を一曲でも持っている場合
+		if (songsum != null) { 
+					%>
 		<!-- 公開曲一覧のヘッダー -->
 		<div class="sub_header">
 			<p>公開曲一覧</p>
@@ -265,8 +276,6 @@ String nothing = "データがありません。"; %>
 
 				<!--公開曲一覧で表示する情報はここから-->
 				<%
-				//作品を一曲でも持っている場合
-				if (songsum != null) { 
 				
 					//曲が存在する分だけ繰り返し表示する
 					for (int i = 0; i < SongList.size(); i++) {
@@ -278,20 +287,21 @@ String nothing = "データがありません。"; %>
 					<div class="cell">
 						<div class="song_title"><%=map.get("title") %></div><!-- 曲名 -->
 						<div class="image_base">
-							<a href="/web/ja/S00003/<%=map.get("song_id")%>"><!-- 曲ID -->
+							<a href="/webB/ja/S00003/<%=map.get("song_id")%>"><!-- 曲ID -->
 								<div class="image song1">
+								
 									<% 
 									//画像が設定されている場合
 									if (image_file_name != null) { %>
 									
 									<!-- リンクを参照して画像を表示する -->
-									<img alt="<%=map.get("image_file_name")%>" src="/webB/images/<%=map.get("image_file_name")%>">
+									<img  class= "songimage" alt="<%=map.get("title")%>" src="/webB/images/<%=map.get("image_file_name")%>">
 									<img alt="play" class="play" src="/webB/images/play.png">
 								</div>
 							</a>
 						</div>
 						<% } else { //画像が未設定の場合 Noimageを表示させる %>
-						<img alt="<%=(image_file_name)%>" src="/webB/images/noimage.png">
+						<img alt="<%=map.get("image_file_name")%>" src="/webB/images/noimage.png">
 						<img alt="play" class="play" src="/webB/images/play.png">
 					</div> </a>
 		</div>
@@ -308,15 +318,14 @@ String nothing = "データがありません。"; %>
 		</div>
 	</div>
 				</li>
-	<% }
-	//<!--曲の情報ここまで-->
-	} else {
-	;
-	}%>
-
-
+	<% } %>
+	<!--曲の情報ここまで-->
 			</ul>
 	</div>
+	
+	<%} else {
+	;
+	}%>
 
 
 	<!-- ページトップへjavaScript -->
