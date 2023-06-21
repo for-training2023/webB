@@ -73,7 +73,7 @@ public class S00003 extends HttpServlet {
 	        String title = null;  //タイトル
 	        String songComposerId = null;  //曲の作曲者id
 	        int ratingTotal = 0;  //総感動指数
-	        String ratingAverage = null;  //平均感動指数
+	        double ratingAverage = 0;  //平均感動指数
 	        int totalListeningCount = 0;  //再生回数
 	        double releaseDatetime = 0;  //公開日
 	        double lastUpdateDatetime = 0;  //最終更新日
@@ -162,7 +162,7 @@ public class S00003 extends HttpServlet {
                 title = rs.getString("song.title");
                 songComposerId = rs.getString("song.composer_id");
                 ratingTotal = rs.getInt("song.rating_total");
-                ratingAverage = rs.getString("song.rating_average");
+                ratingAverage = rs.getDouble("song.rating_average");
                 totalListeningCount = rs.getInt("song.total_listen_count");
                 releaseDatetime = rs.getDouble("song.release_datetime");
                 lastUpdateDatetime = rs.getDouble("song.last_update_datetime");
@@ -231,6 +231,11 @@ public class S00003 extends HttpServlet {
 			if(imageFileName == null) {
 				imageFileName = "noimage.png";
 			}
+			
+			ratingAverage = ratingAverage * 10;  //平均感動指数の小数点第２位を四捨五入
+			double afterratingAverage = Math.round(ratingAverage);			
+			ratingAverage = afterratingAverage/10;
+			
 		    request.setAttribute("songId",songId);
 			request.setAttribute("title",title);  //リクエストスコープへオブジェクト設定
 			request.setAttribute("songComposerId",songComposerId);
