@@ -41,11 +41,11 @@ String style = null;
   <meta name="description" content="「メロコ」はiPhone,iPadで動作する作曲アプリです。思いついたメロディーをどんどん曲として保存していきましょう。">
   <title><%=title %></title>
   
-  <link rel="stylesheet" href="/web/css/main.css">
+  <link rel="stylesheet" href="/webB/css/main.css">
   
-  <script src="/web/js/jquery-3.3.0.min.js"></script>
+  <script src="/webB/js/jquery-3.3.0.min.js"></script>
   
-  <script src="/web/js/util.js"></script>
+  <script src="/webB/js/util.js"></script>
  
 <!-- 画像の圧縮表示設定 -->
 <style>
@@ -94,7 +94,7 @@ div.song_link div.cell div.song1 {
     <div class="title_bar">
       <p class="page_title"><%=title %></p>
       <a href="#" id="menu_open">
-        <img alt="メニュー" src="/web/images/menu.png" class="menu-icon">
+        <img alt="メニュー" src="/webB/images/menu.png" class="menu-icon">
       </a>
     </div>
 
@@ -114,7 +114,7 @@ div.song_link div.cell div.song1 {
 
     <!-- 作者へのリンク -->
     <div class="label_and_link">
-      <span class="label">作者：</span><span class="link"><a href="/web/ja/S00004/<%=uniqueCode %>"><%=nickName %></a></span>
+      <span class="label">作者：</span><span class="link"><a href="/webB/ja/S00004/<%=uniqueCode %>"><%=nickName %></a></span>
     </div>
     
     <!-- メッセージ -->
@@ -135,8 +135,8 @@ div.song_link div.cell div.song1 {
         <div class="image_base">
           <a href="meloko://?song_id=<%=songId %>">
             <div class="image song1">
-              <img class= "songimage" alt="<%=title %>" src="/web/images/<%=imageFileName %>">
-              <img alt= "play" class="play" src="/web/images/play.png" >
+              <img class= "songimage" alt="<%=title %>" src="/webB/images/<%=imageFileName %>">
+              <img alt= "play" class="play" src="/webB/images/play.png" >
             </div>
           </a>
         </div>
@@ -230,12 +230,12 @@ div.song_link div.cell div.song1 {
 
 	        <% if(!(nickName.equals(map.get("commentNickName")))){   //コメント投稿者が作曲家名と異なる場合%>
 	        	        <div class="rating star<%=map.get("rating") %>"></div>
-	    				<div class="composer_link"><a href="/web/ja/S00004/<%=map.get("commentUniqueCode") %>"><%=map.get("commentNickName") %></a></div>
+	    				<div class="composer_link"><a href="/webB/ja/S00004/<%=map.get("commentUniqueCode") %>"><%=map.get("commentNickName") %></a></div>
 	    				<p class="comment"><%=map.get("comment") %></p>
 	    				<p class="time"><%=map.get("writeDatetime") %></p>
 	        <%}else{%>
 
-	        	    	<div class="composer_link" style="padding-left:0;"><a href="/web/ja/S00004/<%=map.get("commentUniqueCode") %>"><%=map.get("commentNickName") %></a></div>
+	        	    	<div class="composer_link" style="padding-left:0;"><a href="/webB/ja/S00004/<%=map.get("commentUniqueCode") %>"><%=map.get("commentNickName") %></a></div>
 	        	    	<p class="comment" id="composerComment"><%=map.get("comment") %></p>
 	        	        <p class="time" id="composerTime"><%=map.get("writeDatetime") %></p>
 			<%} %>
@@ -252,7 +252,7 @@ div.song_link div.cell div.song1 {
 
     <!-- ページトップへjavaScript -->
     <div id="pagetop" hidden>
-      <img alt="ページトップ" src="/web/images/pagetop.png">
+      <img alt="ページトップ" src="/webB/images/pagetop.png">
     </div>
 
     <!-- フッター -->

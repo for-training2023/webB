@@ -51,11 +51,11 @@ public class S00003 extends HttpServlet {
 //////////////////////////////////////////////////////////////////////////
 
 	        String url = request.getRequestURI();  //URL取得
-	        int index = url.indexOf("/web/ja/S00003/");  //""内の文字数取得
-	        String azasu = url.substring(index+15);  //文字数分「url」から除き、それを変数に代入
+	        int index = url.indexOf("/webB/ja/S00003/");  //""内の文字数取得
+	        String strSongId = url.substring(index+16);  //文字数分「url」から除き、それを変数に代入
 	        
-	        for( int i = 0 ; i < azasu.length();i++) {  //「"/web/ja/S00003/」以降が文字列の場合は404に遷移
-	        	if(Character.isDigit(azasu.charAt(i))) {
+	        for( int i = 0 ; i < strSongId.length();i++) {  //「"/web/ja/S00003/」以降が文字列の場合は404に遷移
+	        	if(Character.isDigit(strSongId.charAt(i))) {
 	        	    continue;//数字の場合は次の文字の判定へ
 	        	}else {
 	    			getServletConfig().getServletContext().
@@ -64,7 +64,7 @@ public class S00003 extends HttpServlet {
 	        	}
 	        }
 	        
-	        int yeah = Integer.parseInt(azasu);  //曲IDをint型に変換
+	        int intSongId = Integer.parseInt(strSongId);  //曲IDをint型に変換
 	        
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -149,8 +149,8 @@ public class S00003 extends HttpServlet {
 	    	ResultSet rs2 = null;
 	    	pstmt = con.prepareStatement(sql);
 	    	pstmt2 = con.prepareStatement(sql2);
-	    	pstmt.setInt(1,yeah);
-	    	pstmt2.setInt(1,yeah);
+	    	pstmt.setInt(1,intSongId);
+	    	pstmt2.setInt(1,intSongId);
 	    	rs = pstmt.executeQuery();
 	    	rs2 = pstmt2.executeQuery();
         	
