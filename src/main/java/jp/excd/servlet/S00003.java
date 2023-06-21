@@ -389,112 +389,42 @@ public class S00003 extends HttpServlet {
 //////////////////////////////////////////////////////////////////////////
 	
 	private String changeKey(String key) {
-		if(key.equals("01")) {
-			key = "Cメジャー";
-		}
-		if(key.equals("02")) {
-			key = "Cシャープメジャー";
-		}
-		if(key.equals("03")) {
-			key = "Dフラットメジャー";
-		}
-		if(key.equals("04")) {
-			key = "Dメジャー";
-		}
-		if(key.equals("05")) {
-			key = "Dシャープメジャー";
-		}
-		if(key.equals("05")) {
-			key = "Dシャープメジャー";
-		}
-		if(key.equals("06")) {
-			key = "Eフラットメジャー";
-		}
-		if(key.equals("07")) {
-			key = "Eメジャー";
-		}
-		if(key.equals("08")) {
-			key = "Fメジャー";
-		}
-		if(key.equals("09")) {
-			key = "Fシャープメジャー";
-		}
-		if(key.equals("10")) {
-			key = "Gフラットメジャー";
-		}
-		if(key.equals("11")) {
-			key = "Gメジャー";
-		}
-		if(key.equals("12")) {
-			key = "Gシャープメジャー";
-		}
-		if(key.equals("13")) {
-			key = "Aフラットメジャー";
-		}
-		if(key.equals("14")) {
-			key = "Aメジャー";
-		}
-		if(key.equals("15")) {
-			key = "Aシャープメジャー";
-		}
-		if(key.equals("16")) {
-			key = "Bフラットメジャー";
-		}
-		if(key.equals("17")) {
-			key = "Bメジャー";
-		}
-		if(key.equals("18")) {
-			key = "Cマイナー";
-		}
-		if(key.equals("19")) {
-			key = "Cシャープマイナー";
-		}
-		if(key.equals("20")) {
-			key = "Dフラットマイナー";
-		}
-		if(key.equals("21")) {
-			key = "Dマイナー";
-		}
-		if(key.equals("22")) {
-			key = "Dシャープマイナー";
-		}
-		if(key.equals("23")) {
-			key = "Eフラットマイナー";
-		}
-		if(key.equals("24")) {
-			key = "Eマイナー";
-		}
-		if(key.equals("25")) {
-			key = "Fマイナー";
-		}
-		if(key.equals("26")) {
-			key = "Fシャープマイナー";
-		}
-		if(key.equals("27")) {
-			key = "Gフラットマイナー";
-		}
-		if(key.equals("28")) {
-			key = "Gマイナー";
-		}
-		if(key.equals("29")) {
-			key = "Gシャープマイナー";
-		}
-		if(key.equals("30")) {
-			key = "Aフラットマイナー";
-		}
-		if(key.equals("31")) {
-			key = "Aマイナー";
-		}
-		if(key.equals("32")) {
-			key = "Aシャープマイナー";
-		}
-		if(key.equals("33")) {
-			key = "Bフラットマイナー";
-		}
-		if(key.equals("34")) {
-			key = "Bマイナー";
-		}
-		return key;
+		Map<String, String> map = new HashMap<>();
+		map.put("01", "Cメジャー");
+		map.put("02", "Cシャープメジャー");
+		map.put("03", "Dフラットメジャー");
+		map.put("04", "Dメジャー");
+		map.put("05", "Dシャープメジャー");
+		map.put("06", "Eフラットメジャー");
+		map.put("07", "Eメジャー");
+		map.put("08", "Fメジャー");
+		map.put("09", "Fシャープメジャー");
+		map.put("10", "Gフラットメジャー");
+		map.put("11", "Gメジャー");
+		map.put("12", "Gシャープメジャー");
+		map.put("13", "Aフラットメジャー");
+		map.put("14", "Aメジャー");
+		map.put("15", "Aシャープメジャー");
+		map.put("16", "Bフラットメジャー");
+		map.put("17", "Bメジャー");
+		map.put("18", "Cマイナー");
+		map.put("19", "Cシャープマイナー");
+		map.put("20", "Dフラットマイナー");
+		map.put("21", "Dマイナー");
+		map.put("22", "Dシャープマイナー");
+		map.put("23", "Eフラットマイナー");
+		map.put("24", "Eマイナー");
+		map.put("25", "Fマイナー");
+		map.put("26", "Fシャープマイナー");
+		map.put("27", "Gフラットマイナー");
+		map.put("28", "Gマイナー");
+		map.put("29", "Gシャープマイナー");
+		map.put("30", "Aフラットマイナー");
+		map.put("31", "Aマイナー");
+		map.put("32", "Aシャープマイナー");
+		map.put("33", "Bフラットマイナー");
+		map.put("34", "Bマイナー");
+		return map.get(key);
 	}
 }
 
