@@ -236,6 +236,8 @@ public class S00003 extends HttpServlet {
 			double afterratingAverage = Math.round(ratingAverage);			
 			ratingAverage = afterratingAverage/10;
 			
+			
+			
 		    request.setAttribute("songId",songId);
 			request.setAttribute("title",title);  //リクエストスコープへオブジェクト設定
 			request.setAttribute("songComposerId",songComposerId);
@@ -245,7 +247,7 @@ public class S00003 extends HttpServlet {
 			request.setAttribute("releaseDatetime",getDatetime(releaseDatetime));
 			request.setAttribute("lastUpdateDatetime",getDatetime(lastUpdateDatetime));
 			request.setAttribute("message",message);
-			request.setAttribute("key",key);
+			request.setAttribute("key",changeKey(key));
 			request.setAttribute("scoreType",scoreType);
 			request.setAttribute("bpm",bpm);
 			request.setAttribute("imageFileName",imageFileName);
@@ -382,7 +384,121 @@ public class S00003 extends HttpServlet {
 		result = result.substring(0, 2);
 		return result;
 	}
+	
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+	
+	private String changeKey(String key) {
+		if(key.equals("01")) {
+			key = "Cメジャー";
+		}
+		if(key.equals("02")) {
+			key = "Cシャープメジャー";
+		}
+		if(key.equals("03")) {
+			key = "Dフラットメジャー";
+		}
+		if(key.equals("04")) {
+			key = "Dメジャー";
+		}
+		if(key.equals("05")) {
+			key = "Dシャープメジャー";
+		}
+		if(key.equals("05")) {
+			key = "Dシャープメジャー";
+		}
+		if(key.equals("06")) {
+			key = "Eフラットメジャー";
+		}
+		if(key.equals("07")) {
+			key = "Eメジャー";
+		}
+		if(key.equals("08")) {
+			key = "Fメジャー";
+		}
+		if(key.equals("09")) {
+			key = "Fシャープメジャー";
+		}
+		if(key.equals("10")) {
+			key = "Gフラットメジャー";
+		}
+		if(key.equals("11")) {
+			key = "Gメジャー";
+		}
+		if(key.equals("12")) {
+			key = "Gシャープメジャー";
+		}
+		if(key.equals("13")) {
+			key = "Aフラットメジャー";
+		}
+		if(key.equals("14")) {
+			key = "Aメジャー";
+		}
+		if(key.equals("15")) {
+			key = "Aシャープメジャー";
+		}
+		if(key.equals("16")) {
+			key = "Bフラットメジャー";
+		}
+		if(key.equals("17")) {
+			key = "Bメジャー";
+		}
+		if(key.equals("18")) {
+			key = "Cマイナー";
+		}
+		if(key.equals("19")) {
+			key = "Cシャープマイナー";
+		}
+		if(key.equals("20")) {
+			key = "Dフラットマイナー";
+		}
+		if(key.equals("21")) {
+			key = "Dマイナー";
+		}
+		if(key.equals("22")) {
+			key = "Dシャープマイナー";
+		}
+		if(key.equals("23")) {
+			key = "Eフラットマイナー";
+		}
+		if(key.equals("24")) {
+			key = "Eマイナー";
+		}
+		if(key.equals("25")) {
+			key = "Fマイナー";
+		}
+		if(key.equals("26")) {
+			key = "Fシャープマイナー";
+		}
+		if(key.equals("27")) {
+			key = "Gフラットマイナー";
+		}
+		if(key.equals("28")) {
+			key = "Gマイナー";
+		}
+		if(key.equals("29")) {
+			key = "Gシャープマイナー";
+		}
+		if(key.equals("30")) {
+			key = "Aフラットマイナー";
+		}
+		if(key.equals("31")) {
+			key = "Aマイナー";
+		}
+		if(key.equals("32")) {
+			key = "Aシャープマイナー";
+		}
+		if(key.equals("33")) {
+			key = "Bフラットマイナー";
+		}
+		if(key.equals("34")) {
+			key = "Bマイナー";
+		}
+		return key;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
+
+
