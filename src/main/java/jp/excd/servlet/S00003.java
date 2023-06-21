@@ -27,143 +27,132 @@ public class S00003 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String hostName = "192.168.1.68";//ホスト名
-        String connectUserName = "meloko";// ユーザ
-        String connectPassword = "exceed";// パスワード
-        String dbName = "meloko";// DB名
-        String timeZone = "Asia/Tokyo";// timeZone
-        final String URL = "jdbc:mysql://"// コネクション用のSQL
-                + hostName
-                + ":3306/"
-                + dbName
-                + "?serverTimezone="
-                + timeZone
-                + "&allowPublicKeyRetrieval=true"
-                + "&useSSL=false";
-        
+ 
         Connection con = null; // コネクション
-        
+ 
+        try {
+			String hostName = "192.168.1.68";//ホスト名
+	        String connectUserName = "meloko";// ユーザ
+	        String connectPassword = "exceed";// パスワード
+	        String dbName = "meloko";// DB名
+	        String timeZone = "Asia/Tokyo";// timeZone
+	        final String URL = "jdbc:mysql://"// コネクション用のSQL
+	                + hostName
+	                + ":3306/"
+	                + dbName
+	                + "?serverTimezone="
+	                + timeZone
+	                + "&allowPublicKeyRetrieval=true"
+	                + "&useSSL=false";
+	        
+	        con = DriverManager.getConnection(URL, connectUserName, connectPassword);
+
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
-        String url = request.getRequestURI();  //URL取得
-        int index = url.indexOf("/web/ja/S00003/");  //""内の文字数取得
-        String azasu = url.substring(index+15);  //文字数分「url」から除き、それを変数に代入
-        
-        for( int i = 0 ; i < azasu.length();i++) {  //「"/web/ja/S00003/」以降が文字列の場合は404に遷移
-        	if(Character.isDigit(azasu.charAt(i))) {
-        	    continue;//数字の場合は次の文字の判定へ
-        	}else {
-    			getServletConfig().getServletContext().
-    			getRequestDispatcher("/ja/404.jsp").
-    			forward( request, response );
-        	}
-        }
-        
-        int yeah = Integer.parseInt(azasu);  //曲IDをint型に変換
+	        String url = request.getRequestURI();  //URL取得
+	        int index = url.indexOf("/web/ja/S00003/");  //""内の文字数取得
+	        String azasu = url.substring(index+15);  //文字数分「url」から除き、それを変数に代入
+	        
+	        for( int i = 0 ; i < azasu.length();i++) {  //「"/web/ja/S00003/」以降が文字列の場合は404に遷移
+	        	if(Character.isDigit(azasu.charAt(i))) {
+	        	    continue;//数字の場合は次の文字の判定へ
+	        	}else {
+	    			getServletConfig().getServletContext().
+	    			getRequestDispatcher("/ja/404.jsp").
+	    			forward( request, response );
+	        	}
+	        }
+	        
+	        int yeah = Integer.parseInt(azasu);  //曲IDをint型に変換
+	        
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
-        String songId = null;
-        String title = null;  //タイトル
-        String songComposerId = null;  //曲の作曲者id
-        int ratingTotal = 0;  //総感動指数
-        String ratingAverage = null;  //平均感動指数
-        int totalListeningCount = 0;  //再生回数
-        double releaseDatetime = 0;  //公開日
-        double lastUpdateDatetime = 0;  //最終更新日
-        String message = null;  //メッセージ
-        String key = null;  //キー
-        String scoreType = null;  //楽譜表記
-        String bpm = null;  //BPM
-        String imageFileName = null;  //画像名
-        int imageFileHeight = 0;  //画像の高さ
-        int imageFileWidth = 0;  //画像の幅
-        String otherLinkUrl = null;  //関連リンクURL
-        String otherLinkDescription = null;  //関連リンク文字列
-        
-        String commentId = null;  //コメントID
-        String commentSongId = null;  //曲ID
-        String sequense = null;  //シーケンス
-        String comment = null;  //コメント
-        String commentComposerId = null;  //コメントの作曲者ID
-        String type = null;  //コメントタイプ
-        String toCommentId = null;  //元コメントID
-        double writeDatetime = 0;  //書き込み時期
-        String nickName = null;  //ニックネーム
-        String uniqueCode = null;
-        String commentNickName = null;
-        String commentUniqueCode = null;
-        double rating = 0;
-        
+	        
+	        String songId = null;
+	        String title = null;  //タイトル
+	        String songComposerId = null;  //曲の作曲者id
+	        int ratingTotal = 0;  //総感動指数
+	        String ratingAverage = null;  //平均感動指数
+	        int totalListeningCount = 0;  //再生回数
+	        double releaseDatetime = 0;  //公開日
+	        double lastUpdateDatetime = 0;  //最終更新日
+	        String message = null;  //メッセージ
+	        String key = null;  //キー
+	        String scoreType = null;  //楽譜表記
+	        String bpm = null;  //BPM
+	        String imageFileName = null;  //画像名
+	        int imageFileHeight = 0;  //画像の高さ
+	        int imageFileWidth = 0;  //画像の幅
+	        String otherLinkUrl = null;  //関連リンクURL
+	        String otherLinkDescription = null;  //関連リンク文字列
+	        
+	        String commentId = null;  //コメントID
+	        String commentSongId = null;  //曲ID
+	        String sequense = null;  //シーケンス
+	        String comment = null;  //コメント
+	        String commentComposerId = null;  //コメントの作曲者ID
+	        String type = null;  //コメントタイプ
+	        String toCommentId = null;  //元コメントID
+	        double writeDatetime = 0;  //書き込み時期
+	        String nickName = null;  //ニックネーム
+	        String uniqueCode = null;
+	        String commentNickName = null;
+	        String commentUniqueCode = null;
+	        double rating = 0;
         
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////        
 
-try {
-    con = DriverManager.getConnection(URL, connectUserName, connectPassword);
-    if(con.equals(null)){
-		getServletConfig().getServletContext().
-		getRequestDispatcher("/web/ja/500.jsp").
-		forward( request, response );
-    }
-} catch (SQLException e) {
-    e.printStackTrace();
-}
-        
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-
-        try {
-        	request.setCharacterEncoding("UTF-8");
-        	//コメント以外の情報取得のSQL文
-        	String sql ="select song.id,"
-        			+ "song.title,"
-        			+ "song.composer_id,"
-        			+ "song.rating_total,"
-        			+ "song.rating_average,"
-        			+ "song.total_listen_count,"
-        			+ "song.release_datetime,"
-        			+ "song.last_update_datetime,"
-        			+ "song.message,"
-        			+ "song.key,"
-        			+ "song.score_type,"
-        			+ "song.bpm,"
-        			+ "song.image_file_name,"
-        			+ "song.image_file_height,"
-        			+ "song.image_file_width,"
-        			+ "song.other_link_url,"
-        			+ "song.other_link_description,"
-        			+ "composer.unique_code,"
-        			+ "composer.nickname "
-        			+ "from song "
-        			+ "left outer join "
-        			+ "composer on song.composer_id = composer.id "
-        			+ "where song.id = ?;";  
-        	//コメント情報取得のSQL文
-        	String sql2 ="select * from comment "
-        			+ "left outer join "
-        			+ "composer "
-        			+ "on comment.composer_id = composer.id "
-        			+ "left outer join "
-        			+ "rating "
-        			+ "on rating.composer_id = comment.composer_id "
-        			+ "where comment.song_id = ? "
-        			+ "order by sequence asc;";
+	    	request.setCharacterEncoding("UTF-8");
+	    	//コメント以外の情報取得のSQL文
+	    	String sql ="select song.id,"
+	    			+ "song.title,"
+	    			+ "song.composer_id,"
+	    			+ "song.rating_total,"
+	    			+ "song.rating_average,"
+	    			+ "song.total_listen_count,"
+	    			+ "song.release_datetime,"
+	    			+ "song.last_update_datetime,"
+	    			+ "song.message,"
+	    			+ "song.key,"
+	    			+ "song.score_type,"
+	    			+ "song.bpm,"
+	    			+ "song.image_file_name,"
+	    			+ "song.image_file_height,"
+	    			+ "song.image_file_width,"
+	    			+ "song.other_link_url,"
+	    			+ "song.other_link_description,"
+	    			+ "composer.unique_code,"
+	    			+ "composer.nickname "
+	    			+ "from song "
+	    			+ "left outer join "
+	    			+ "composer on song.composer_id = composer.id "
+	    			+ "where song.id = ?;";  
+	    	//コメント情報取得のSQL文
+	    	String sql2 ="select * from comment "
+	    			+ "left outer join "
+	    			+ "composer "
+	    			+ "on comment.composer_id = composer.id "
+	    			+ "left outer join "
+	    			+ "rating "
+	    			+ "on rating.composer_id = comment.composer_id "
+	    			+ "where comment.song_id = ? "
+	    			+ "order by sequence asc;";
         	
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
-        	PreparedStatement pstmt = null;
-        	PreparedStatement pstmt2 = null;
-        	ResultSet rs = null;
-        	ResultSet rs2 = null;
-        	pstmt = con.prepareStatement(sql);
-        	pstmt2 = con.prepareStatement(sql2);
-        	pstmt.setInt(1,yeah);
-        	pstmt2.setInt(1,yeah);
-        	rs = pstmt.executeQuery();
-        	rs2 = pstmt2.executeQuery();
+	    	PreparedStatement pstmt = null;
+	    	PreparedStatement pstmt2 = null;
+	    	ResultSet rs = null;
+	    	ResultSet rs2 = null;
+	    	pstmt = con.prepareStatement(sql);
+	    	pstmt2 = con.prepareStatement(sql2);
+	    	pstmt.setInt(1,yeah);
+	    	pstmt2.setInt(1,yeah);
+	    	rs = pstmt.executeQuery();
+	    	rs2 = pstmt2.executeQuery();
         	
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////       	
@@ -230,49 +219,37 @@ try {
                 commentList.add(map);  //コメントリストにマップを格納
             }
             
-            request.setAttribute("commentList",commentList);
-//////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////// 
-            
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-	    if (con != null) {
-	    	try {
-	    		con.close();
-	            }catch(SQLException e) {
-	                e.printStackTrace();
-	            }
-	    }
+            request.setAttribute("commentList",commentList);          
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////	
 
-	    
-        NumberFormat changeFormat = NumberFormat.getNumberInstance(); //カンマ区切り
-        if(scoreType.equals("1")) {
-        	scoreType="1オクターブ上(男性ボーカル)";
-        }
-        
-	    request.setAttribute("songId",songId);
-		request.setAttribute("title",title);  //リクエストスコープへオブジェクト設定
-		request.setAttribute("songComposerId",songComposerId);
-		request.setAttribute("ratingTotal",changeFormat.format(ratingTotal));
-		request.setAttribute("ratingAverage",ratingAverage);
-		request.setAttribute("totalListeningCount",changeFormat.format(totalListeningCount));
-		request.setAttribute("releaseDatetime",getDatetime(releaseDatetime));
-		request.setAttribute("lastUpdateDatetime",getDatetime(lastUpdateDatetime));
-		request.setAttribute("message",message);
-		request.setAttribute("key",key);
-		request.setAttribute("scoreType",scoreType);
-		request.setAttribute("bpm",bpm);
-		request.setAttribute("imageFileName",imageFileName);
-		request.setAttribute("imageFileHeight",imageFileHeight);
-		request.setAttribute("imageFileWidth",imageFileWidth);
-		request.setAttribute("otherLinkUrl",otherLinkUrl);
-		request.setAttribute("otherLinkDescription",otherLinkDescription);
-		request.setAttribute("uniqueCode",uniqueCode);
-		request.setAttribute("nickName",nickName);
+	        NumberFormat changeFormat = NumberFormat.getNumberInstance(); //カンマ区切り
+	        if(scoreType.equals("1")) {
+	        	scoreType="1オクターブ上(男性ボーカル)";
+	        }
+			if(imageFileName == null) {
+				imageFileName = "noimage.png";
+			}
+		    request.setAttribute("songId",songId);
+			request.setAttribute("title",title);  //リクエストスコープへオブジェクト設定
+			request.setAttribute("songComposerId",songComposerId);
+			request.setAttribute("ratingTotal",changeFormat.format(ratingTotal));
+			request.setAttribute("ratingAverage",ratingAverage);
+			request.setAttribute("totalListeningCount",changeFormat.format(totalListeningCount));
+			request.setAttribute("releaseDatetime",getDatetime(releaseDatetime));
+			request.setAttribute("lastUpdateDatetime",getDatetime(lastUpdateDatetime));
+			request.setAttribute("message",message);
+			request.setAttribute("key",key);
+			request.setAttribute("scoreType",scoreType);
+			request.setAttribute("bpm",bpm);
+			request.setAttribute("imageFileName",imageFileName);
+			request.setAttribute("imageFileHeight",imageFileHeight);
+			request.setAttribute("imageFileWidth",imageFileWidth);
+			request.setAttribute("otherLinkUrl",otherLinkUrl);
+			request.setAttribute("otherLinkDescription",otherLinkDescription);
+			request.setAttribute("uniqueCode",uniqueCode);
+			request.setAttribute("nickName",nickName);
 		
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -286,7 +263,25 @@ try {
 			getRequestDispatcher("/ja/S00003.jsp").
 			forward( request, response );
 		}
+		
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////	
+		
+		} catch (Exception e) {
+			getServletConfig().getServletContext().
+			getRequestDispatcher("/ja/500.jsp").
+			forward( request, response );
+		} finally {
+		    if (con != null) {
+		    	try {
+		    		con.close();
+		            }catch(SQLException e) {
+		                e.printStackTrace();
+		            }
+		    }
+		}
 	}
+
 	
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
