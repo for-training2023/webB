@@ -44,9 +44,13 @@ public class S00003 extends HttpServlet {
 	                + timeZone
 	                + "&allowPublicKeyRetrieval=true"
 	                + "&useSSL=false";
-	        
-	        con = DriverManager.getConnection(URL, connectUserName, connectPassword);
-
+	        try {
+	        	con = DriverManager.getConnection(URL, connectUserName, connectPassword);
+	        }catch (Exception e){
+				getServletConfig().getServletContext().
+				getRequestDispatcher("/ja/500.jsp").
+				forward( request, response );
+	        }
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
@@ -236,8 +240,6 @@ public class S00003 extends HttpServlet {
 			double afterratingAverage = Math.round(ratingAverage);			
 			ratingAverage = afterratingAverage/10;
 			
-			
-			
 		    request.setAttribute("songId",songId);
 			request.setAttribute("title",title);  //リクエストスコープへオブジェクト設定
 			request.setAttribute("songComposerId",songComposerId);
@@ -276,7 +278,7 @@ public class S00003 extends HttpServlet {
 		
 		} catch (Exception e) {
 			getServletConfig().getServletContext().
-			getRequestDispatcher("/ja/500.jsp").
+			getRequestDispatcher("/ja/404.jsp").
 			forward( request, response );
 		} finally {
 		    if (con != null) {
