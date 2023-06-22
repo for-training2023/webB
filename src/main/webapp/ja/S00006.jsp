@@ -112,7 +112,7 @@ ul {
 				%>
  			</ul>
  			<div class="main_button">
-			<a href="/webB/ja/S00006/change">条件変更</a>
+			<a href="javascript:change.submit()" class="btn-change" id="changeLink">条件変更</a>
 		</div>
  		</div>
  	</div>

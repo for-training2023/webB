@@ -59,5 +59,18 @@
     <servlet-name>S00006back</servlet-name>
     <url-pattern>/ja/S00006/back</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>S00003</servlet-name>
+    <servlet-class>jp.excd.servlet.S00003</servlet-class>
+    <init-param>
+      <param-name>javaEncoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>S00003</servlet-name>
+    <url-pattern>/ja/S00003/*</url-pattern>
+  </servlet-mapping>
 
 </web-app>
