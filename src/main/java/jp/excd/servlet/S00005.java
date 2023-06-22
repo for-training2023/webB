@@ -78,9 +78,7 @@ public class S00005 extends HttpServlet {
 
 		// (1) 接続URLが「/ja/S00005/searh」以外の場合は、404.jspへフォワーディングする。
 		if ("/webB/ja/S00005/search".equals(URL)) {
-			System.out.println("sssssssssssssssss");
 		} else {
-			System.out.println("bbbbbbbbbbbbbbb");
 			getServletConfig().getServletContext().getRequestDispatcher("/ja/404.jsp").forward(request, response);
 		}
 
@@ -443,11 +441,33 @@ public class S00005 extends HttpServlet {
 			counter = counter + 1;
 			// 先頭の10件のみ処理を行う。
 			if (counter > 10) {
+				counter = counter -1;
 				break;
 			}
 			newList.add(l);
 		}
-		String count = NumberFormat.getNumberInstance().format(counter);
+		
+		//件数表示をする
+		int  kensu = 0;
+		
+		for (SongBean k : results) {
+			kensu = kensu + 1;
+			// 全hit件数処理を行う。
+			if (kensu > kensu) {
+				kensu = kensu -1;
+				break;
+			}
+		}
+		
+		String count = NumberFormat.getNumberInstance().format(kensu);
+		if(kensu > 10) {
+			count = count + "件が該当します。（うち10件を表示しています。）";
+		}else {
+			count = count + "件が該当します。";
+		}
+		
+		
+		
 		request.setAttribute("hits", count);
 		request.setAttribute("list", newList);
 
@@ -456,7 +476,6 @@ public class S00005 extends HttpServlet {
 		//request.getRequestDispatcher("/jsp/S00006.jsp").forward(request,response);
 		
 		getServletConfig().getServletContext().getRequestDispatcher("/ja/S00006.jsp").forward(request, response);
-		System.out.println("wwwwwwwwwwwwwwww");
 	}
 
 	//文言マスタより引数で渡されたkeyをIDにもつレコードを取得
@@ -796,9 +815,8 @@ public class S00005 extends HttpServlet {
 			String Rating_total = NumberFormat.getNumberInstance().format(rs.getLong("rating_total"));
 			bean.setRating_total_formated(Rating_total);
 			//平均評価数
-			String Rating_average = rs.getString("rating_average");
-			
-			bean.setRating_average_formated(Rating_average);
+			double Rating_average = rs.getDouble("rating_average");
+			bean.setRating_average_formated(String.valueOf(isRoundOff(Rating_average)));
 			//再生回数
 			String Total_listen_count = NumberFormat.getNumberInstance().format(rs.getLong("Total_listen_count"));
 			bean.setTotal_listen_count_formated(Total_listen_count);
@@ -807,13 +825,18 @@ public class S00005 extends HttpServlet {
 			bean.setRelease_datetime_formated(getLastUploadTime(Release_datetime));
 			//ファイルネーム
 			String Image_file_name = rs.getString("Image_file_name");
-			if(Image_file_name == null || Image_file_name.equals("")) {
+			if(Image_file_name == null || Image_file_name.equals("")) { //noimageの表示
 				Image_file_name = "noimage.png";
 			}
 			bean.setImage_file_name(Image_file_name);
+			//ファイルの高さ
+			
+			
+			
 
 			songList.add(bean);
 		}
+		
 		
 		// (17) ResultSetのインスタンス、PreparedStatementのインスタンスをクローズする。
 		pstmt.close();
@@ -821,6 +844,12 @@ public class S00005 extends HttpServlet {
 		// (18) 前処理で生成したListを呼び出し元に返却する。
 		return songList;
 	}
+	
+	private static double isRoundOff(double d) {
+		 d = ((double)Math.round(d * 10))/10;
+		 return d;
+	}
+	
 
 	private boolean isNumber(String num) {
 		try {

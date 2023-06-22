@@ -7,7 +7,6 @@
 <html>
 <%
 	List<SongBean> songs = (List<SongBean>) request.getAttribute("list");
-	System.out.println("00006");
 %>
 <head>
 <meta charset="utf-8">
@@ -21,12 +20,18 @@
 
 <style>
 
-div.song_list ul li div.cell div.gazou img {
+div.song_list ul li div.cell div.song1 img {
 	position: relative;
 	left: 0px;
 	top: -11px;
 	width: 275px;
 	height: 182px;
+}
+
+img.img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 ul {
@@ -60,7 +65,9 @@ ul {
 
 		<!-- 検索結果表示 -->
 		<div class="message_with_right_button">
-			<p><%=request.getAttribute("hits")%>件が該当します。</p>
+		
+			<p><%=request.getAttribute("hits")%></p>
+		
 			<div class="right_button">
 				<a href="javascript:change.submit()" class="btn-change" id="changeLink">条件変更</a>
 			</div>
@@ -81,18 +88,18 @@ ul {
  								<h1><%=record.getTitle()%></h1> <!-- ドットより左はfor文のrecordに対応している -->
  							</div>
  							<div class="image_base">
- 								
- 									<a href="/webB/ja/S00003/<%= record.getSong_id()%>">  
- 									<div class="image">
- 									<img src="/webB/images/<%=record.getImage_file_name()%>" class="play" alt="play" src="/webB/ja/play.png">
- 								</div>
+ 								<a href="/webB/ja/S00003/<%= record.getSong_id()%>">  
+ 									<div class=" image song">
+ 										<img class="img" src="/webB/images/<%=record.getImage_file_name()%>" >
+ 										<img alt="play" class="play" src="/webB/images/play.png" >
+ 									</div>
  								</a>
  							</div>
  						
  							<div>
  								<p>
 									<span class="label">総感動指数:</span><span class="value"><%=record.getRating_total_formated()%></span>
-		 							<span class="label">平均感動指数:</span><span class="value"><%=record.getRating_average_formated()%></span><br>
+		 							<span class="label">平均感動指数:</span><span class="value"><%=record.getRating_average_formated()%></span>
 		 							<span class="label">再生回数:</span><span class="value"><%=record.getTotal_listen_count_formated()%></span>
 		 							<span class="label">公開:</span><span class="value"><%=record.getRelease_datetime_formated()%></span>
  								</p>
@@ -149,7 +156,6 @@ ul {
 
 
  	<br>
- 	<hr>
  	<footer>
  		<div class="exceed">
  			Copyright <a href="https://www.excd.jp/">© EXCEED Co., Ltd.</a> All Rights Reserved.

@@ -17,6 +17,16 @@
   
   <servlet-mapping>
     <servlet-name>S00005</servlet-name>
+    <url-pattern>/ja/S00005</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>S00005_2</servlet-name>
+    <servlet-class>jp.excd.servlet.S00005</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>S00005</servlet-name>
     <url-pattern>/ja/S00005/*</url-pattern>
   </servlet-mapping>
   

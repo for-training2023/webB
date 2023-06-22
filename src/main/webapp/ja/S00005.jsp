@@ -15,10 +15,12 @@
 
 	// (3) 以下の項目を元に公開日の入力状態を再現する。
 	String release_date_Radio1 = "";
+	String release_date_Radio2 = "";
     if ("1".equals(request.getAttribute("release_date_is_radio"))) {
     	release_date_Radio1 = "checked=\"checked\"";
+    }else{
+    	release_date_Radio2 = "checked=\"checked\"";
     }
-	String release_date_Radio2 = "";
 	if ("0".equals(request.getAttribute("release_date_is_radio"))) {
 		release_date_Radio2 = "checked=\"checked\"";
 	}
@@ -33,10 +35,12 @@
 
 	// (5) 以下の項目を元に感動指数の入力状態を再現する。
 	String rating_radio1 = "";
+	String rating_radio2 = "";
 	if ("1".equals(request.getAttribute("rating_radio"))) {
 		rating_radio1 = "checked=\"checked\"";
+	}else{
+		rating_radio2 = "checked=\"checked\"";
 	}
-	String rating_radio2 = "";
 	if ("0".equals(request.getAttribute("rating_radio"))) {
 		rating_radio2 = "checked=\"checked\"";
 	}
@@ -53,17 +57,19 @@
 	
 	// (7) 以下の項目を元に平均感動指数の入力状態を再現する。
 	String rating_average_radio1 = "";
-	if ("1".equals(request.getAttribute("rating_average_radio"))) {
-		rating_radio1 = "checked=\"checked\"";
-	}
 	String rating_average_radio2 = "";
+	if ("1".equals(request.getAttribute("rating_average_radio"))) {
+		rating_average_radio1 = "checked=\"checked\"";
+	}else{
+		rating_average_radio2 = "checked=\"checked\"";
+	}
 	if ("0".equals(request.getAttribute("rating_average_radio"))) {
-		rating_radio2 = "checked=\"checked\"";
+		rating_average_radio2 = "checked=\"checked\"";
 	}
 	String rating_average_from = (String)request.getAttribute("rating_average_from");
-	if (rating_average_from == null) rating_average_from="1.0";
+	if (rating_average_from == null) rating_average_from="4.0";
 	String rating_average_to = (String)request.getAttribute("rating_average_to");
-	if (rating_average_to == null) rating_average_to ="1.0";
+	if (rating_average_to == null) rating_average_to ="5.0";
 
 	// (8) 「再生回数_エラー状態(views_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
 	String views_is_error = "";
@@ -73,12 +79,14 @@
 	
 	// (9) 以下の項目を元に再生回数の入力状態を再現する。
 	String views_radio1 = "";
-	if ("1".equals(request.getAttribute("views_radio"))) {
-		views_radio1 = "";
-	}
 	String views_radio2 = "";
+	if ("1".equals(request.getAttribute("views_radio"))) {
+		views_radio1 = "checked=\"checked\"";
+	}else{
+		views_radio2 = "checked=\"checked\"";
+	}
 	if ("0".equals(request.getAttribute("views_radio"))) {
-		views_radio2 = "";
+		views_radio2 = "checked=\"checked\"";
 	}
 	String views_from = (String)request.getAttribute("views_from");
 	if (views_from == null) views_from = "";
@@ -93,18 +101,22 @@
 
 	// (11) 以下の項目を元に曲名の入力状態を再現する。
 	String title_radio1 = "";
+	String title_radio2 = "";
 	if ("1".equals(request.getAttribute("title_radio"))) {
 		title_radio1 = "checked=\"checked\"";
+	}else{
+		title_radio2 = "checked=\"checked\"";
 	}
-	String title_radio2 = "";
 	if ("0".equals(request.getAttribute("title_radio"))) {
 		title_radio2 = "checked=\"checked\"";
 	}
 	String title_type_radio1 = "";
+	String title_type_radio2 = "";
 	if ("3".equals(request.getAttribute("title_type_radio"))) {
 		title_type_radio1 = "checked=\"checked\"";
+	}else{
+		title_type_radio2 = "checked=\"checked\"";
 	}
-	String title_type_radio2 = "";
 	if ("4".equals(request.getAttribute("title_type_radio"))) {
 		title_type_radio2 = "checked=\"checked\"";
 	}
@@ -125,14 +137,20 @@
 <script type="text/javascript" src="/webB/js/util.js"></script>
 <script type="text/javascript" src="/webB/js/input.js"></script>
 
-
 <script>
-$(function(){
-	$("#id_rating_average_from").val("<%= rating_average_from %>");
-	$("#id_rating_average_to").val("<%= rating_average_to %>");
-	$("#id_sort_order").val("<%= sort_order %>");
-});
+	$(function(){
+		$("#id_rating_average_from").val("<%= rating_average_from %>");
+		$("#id_rating_average_to").val("<%= rating_average_to %>");
+		$("#id_sort_order").val("<%= sort_order %>");
+	});
+
+const checkbox1 = document.getElementsByName("song_title_match_radio")
+
+function checkAll(){
+	checkbox1[0].checked = true
+}
 </script>
+
 <title>音楽室</title>
 
 <style>
@@ -255,10 +273,10 @@ $(function(){
 									<tr>
 										<td>
 											<input type="radio" id="id_rating_average_radio1"
-											name="rating_average_radio" value="1" class="onOffRadio" <%= rating_radio1 %>><span class="radio_label">指定 </span></td>
+											name="rating_average_radio" value="1" class="onOffRadio" <%= rating_average_radio1 %>><span class="radio_label">指定 </span></td>
 										<td>
 											<input type="radio" id="id_rating_average_radio2"
-											name="rating_average_radio" value="0" class="onOffRadio" <%= rating_radio2 %>><span class="radio_label">指定なし </span></td>
+											name="rating_average_radio" value="0" class="onOffRadio" <%= rating_average_radio2 %>><span class="radio_label">指定なし </span></td>
 									</tr>
 								</table>
 							</td>
@@ -296,7 +314,7 @@ $(function(){
 									<option value="3.7">3.7</option>
 									<option value="3.8">3.8</option>
 									<option value="3.9">3.9</option>
-									<option value="4.0">4.0</option>
+									<option value="4.0" selected>4.0</option>
 									<option value="4.1">4.1</option>
 									<option value="4.2">4.2</option>
 									<option value="4.3">4.3</option>
@@ -350,7 +368,7 @@ $(function(){
 									<option value="4.7">4.7</option>
 									<option value="4.8">4.8</option>
 									<option value="4.9">4.9</option>
-									<option value="5.0">5.0</option>
+									<option value="5.0" selected>5.0</option>
 								</select>
 							</td>
 							</tr>
@@ -401,7 +419,7 @@ $(function(){
 									<tr>
 										<td>
 											<input type="radio" id="id_song_title_radio1"
-											name="song_title_radio" value="1" class="onOffRadio" <%=title_radio1 %>><span class="radio_label">指定 </span></td>
+											name="song_title_radio" value="1" class="onOffRadio" <%=title_radio1 %> onClick="checkAll()"><span class="radio_label" >指定 </span></td>
 										<td>
 											<input type="radio" id="id_song_title_radio2"
 											name="song_title_radio" value="0" class="onOffRadio" <%=title_radio2 %>><span class="radio_label">指定なし </span></td>

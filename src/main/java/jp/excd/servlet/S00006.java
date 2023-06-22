@@ -14,7 +14,6 @@ public class S00006 extends HttpServlet {
 			HttpServletResponse response)
 			throws IOException, ServletException {
 		// （1）404.jspにフォワーディングする。
-		System.out.println("aaaaaaaaaaaaaa");
 		getServletConfig().getServletContext().getRequestDispatcher("/ja/404.jsp").forward(request, response);
 	}
 
