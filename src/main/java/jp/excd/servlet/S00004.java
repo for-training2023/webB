@@ -41,7 +41,7 @@ public class S00004 extends HttpServlet {
 
 		String url = request.getRequestURI();  //URL取得
 		String azasu = url.substring(16);  //文字数分「url」から除く
-
+		System.out.println(azasu);
 		//SQL結果を格納する変数の宣言
 		String id = null;
 		String nickname = null;  
@@ -77,6 +77,7 @@ public class S00004 extends HttpServlet {
 			try {
 				con = DriverManager.getConnection(URL, connectUserName, connectPassword);
 			} catch (SQLException e) {
+				System.out.println("SQL");
 				getServletConfig().getServletContext().  
 				getRequestDispatcher("/ja/500.jsp").
 				forward( request, response );
@@ -136,7 +137,6 @@ public class S00004 extends HttpServlet {
 				rs4 = pstmt4.executeQuery();//総再生回数
 				rs5 = pstmt5.executeQuery();//作曲者の平均感動指数
 				rs6 = pstmt6.executeQuery();//総感動指数
-
 				//SQL結果を変数に格納 ①作曲家
 				while(rs.next()) {
 					nickname = rs.getString("nickname");
@@ -162,11 +162,18 @@ public class S00004 extends HttpServlet {
 				while(rs3.next()) {
 					title = rs3.getString("title");
 					image_file_name = rs3.getString("image_file_name");
+					
+					if(image_file_name == null) {
+						image_file_name = "noimage.png";
+					}
+					
 					// 遊び用（のちに消す予定）
 					// パッションフルーツをgifに変換
 					if(image_file_name.equals("passionfruit.png")) {
 						image_file_name = "passionfruit.gif";
 					}
+					System.out.println("S00004:"+image_file_name);
+
 					image_file_height = rs3.getString("image_file_height");
 					image_file_width = rs3.getString("image_file_width");
 					rating_total= rs3.getString("rating_total");
@@ -275,6 +282,7 @@ public class S00004 extends HttpServlet {
 			}
 
 		} catch (Exception e) {
+			System.out.println("ここ");
 			getServletConfig().getServletContext().  
 			getRequestDispatcher("/ja/500.jsp").
 			forward( request, response );

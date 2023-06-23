@@ -3,6 +3,7 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
+<%System.out.println("JSP"); %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -44,6 +45,82 @@ div.song_list ul li div.cell div.song3 img {
 }
 </style>
 <script type="text/javascript">
+// URLパラメータからエラーメッセージを取得して表示する
+//var urlPrams = new URLSearchParams(window.location.search);
+//var erroeMessage = urlParams.get("error");
+//document.getElementById("errorMessage").textContent = errorMessage;
+
+window.onload = function loadFinished(){
+	//if (1 < document.location.search.length) {
+		//URLを取得
+		let url = new URL(location.href);
+		const enc = encodeURI(url);
+		
+		//var erroeMessage = [
+		//var encodedErrorMessage = encodeURIComponent(erroeMessage);
+		//var errorURL = location.href;
+		
+		// URLSearchParamsオブジェクトを取得
+		let params = url.searchParams;
+		console.log(params.get('category'));
+		var category = params.get('category');
+		console.log("category:"+category);
+		
+
+		var num =  replaceFullToHalf(category);
+		console.log("num:"+num);
+		//if(category == erroeMessage){
+		//	location.herf= "http://localhost:8080/webB/ja/400.jsp"
+		//}
+		if(category == null){
+			num = 1;
+		}
+		if(isNaN(num)){
+			console.log("数値ではない");
+			category = 1;
+			num = 1;
+		}
+		
+		if(category === void 0){
+			console.log("数値ではないnull");
+			num = 1;
+		}
+		
+		if(category > 5){
+			console.log("オーヴァーl");
+			num = 1;
+		}
+		
+		// URLSearchParamsオブジェクトを取得
+		console.log(params.get('from'));
+		var from = params.get('from');
+		console.log("params/" + params);
+		console.log("url.searchParams/" + url.searchParams);
+		console.log("from/" + from);
+		console.log("category/" + category);
+		console.log("num/" + num);
+		if(from == null){
+			from = 6;
+		}
+		if(isNaN(from)){
+			from = 6;
+		}
+		if( from === void 0){
+			console.log("数値ではない");
+			from = 6;
+		}
+	//}
+	var cool = "http://localhost:8080/webB/ja/S00001?category=" + num + "&from=" + from;
+	console.log("cool/" + cool);
+	history.pushState('','', cool);
+
+}
+
+function replaceFullToHalf(str){
+	  return str.replace(/[１-４]/g, function(s){
+	    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+	  });
+	}
 	/**
 	 * URLからURLパラメータ「from」を取り出し値を返却する。
 	 *	URLパラメータ「from」が見つからない場合はnullを返却する。
@@ -87,6 +164,9 @@ div.song_list ul li div.cell div.song3 img {
 			console.log("params/" + params);
 			console.log("url.searchParams/" + url.searchParams);
 			console.log("result/" + result);
+		if(isNaN(result)){
+			result = 1;
+		}
 			return result;
 		}
 		return null;
@@ -160,7 +240,7 @@ div.song_list ul li div.cell div.song3 img {
 			category : name,
 			from : from
 		};
-
+		window.location.herf= "/webB/ja/S00001?category=" + category + "&from=" + from 
 		// 押下したaタグのhrefに遷移先のURLを代入し、画面遷移する。
 		var target = document.getElementById(name)
 		target.href = "/webB/ja/S00001?category=" + category + "&from=" + from
@@ -294,7 +374,7 @@ div.song_list ul li div.cell div.song3 img {
 
 		<!-- トップバナー -->
 		<div class="top_banner">
-			<a href="/webB/ja/S00009.jsp"> 
+			<a href="https://itunes.apple.com/jp/app/id1440134774?mt=8"> 
 				<img alt="メロコ～iPhone用作曲アプリアイコン" src="../images/melokoIcon.png" class="icon">
 				<p>作曲アプリ「メロコ」。歌モノに特化したアプリです。このサイトの曲はすべてこのアプリで作成されています。</p>
 				 <img alt="メロコ～専用アプリダウンロード画面へのリンク" src="../images/right_blue_arrow.png" class="to_download_page_arrow">
@@ -374,8 +454,10 @@ div.song_list ul li div.cell div.song3 img {
 				</li>
 				
 			<!-- あとでけす -->
+			<%if(category.equals("5")){ %>
 				<li class="tab5<%=tab5%>"><a class="sort" href=""
-					data-value="5" id="5" onclick="sort1(5)">全件表示</a></li>
+					data-value="5" id="5" onclick="sort1(5)">全件表示</a></li> 
+			<%} %>
 			</ul>
 		</div>
 
@@ -449,20 +531,9 @@ div.song_list ul li div.cell div.song3 img {
 				*	ループの終了条件は、最小値を1ずつ加算し最大値と等しくなったら終了する。
 				*/
 				for (int i = outPutMin; i < outPutMax; i++) {
-					System.out.println("i=" + i);
-					System.out.println("outPutMin=" + outPutMin);
-					System.out.println("outPutMax=" + outPutMax);
-
-					// 表示件数が100を超える場合はループを中断する。
-					//　データが100件ないので正常に動作するか不明
-					if (i == 99) {
-						outPutMax = listMap.size();
-						System.out.println("outPutMax=" + outPutMax);
-
-						break;
-					}
+					
 					map = listMap.get(i);
-				%>
+				%><%=i+1 %>件目
 				<li>
 					<div class="cell">
 						<div class="song_title"><%=map.get("Title")%></div>
@@ -477,7 +548,7 @@ div.song_list ul li div.cell div.song3 img {
 								href='/webB/ja/S00004/<%=map.get("UniqueCode")%>'><%=map.get("NickName")%></a>
 								<%
 								} else {
-								%> <a class="comp" id="comp" href="/ja/404.jsp"><%=map.get("NickName")%></a>
+								%> <a class="comp" id="comp" href="/webB/ja/404.jsp"><%=map.get("NickName")%></a>
 								<%
 								}
 								%>
@@ -518,8 +589,9 @@ div.song_list ul li div.cell div.song3 img {
 		} else {
 		// 表示できる件数がない場合に、1～6の画面に戻るメッセージを表示する。
 		%>
-		これ以上、表示できるデータがありませんm(_ _)m<br> <a class="add" href=""
-			data-value="5" id="back" onclick="back(6)">→1から、6件目に戻ります。</a>
+		これ以上、表示できるデータがありませんm(_ _)m<br>
+		 <a class="add" href="" data-value="5" id="back" onclick="back(6)">→1件目から、6件目に戻ります。</a>
+		 <a class="test" href="http://localhost:8080/webB/ja/S00001?category=[&from=6">http://localhost:8080/webB/ja/S00001?category=[&from=6</a>
 
 		<%
 		}

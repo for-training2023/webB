@@ -45,6 +45,20 @@
 		<servlet-name>S00004</servlet-name>
 		<url-pattern>/ja/S00004/*</url-pattern>
 	</servlet-mapping>
+	
+	  <servlet>
+    <servlet-name>S00003</servlet-name>
+    <servlet-class>jp.excd.servlet.S00003</servlet-class>
+    <init-param>
+      <param-name>javaEncoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>S00003</servlet-name>
+    <url-pattern>/ja/S00003/*</url-pattern>
+  </servlet-mapping>
+  
  <servlet>
 		<servlet-name>S00001</servlet-name>
 		<servlet-class>jp.excd.servlet.S00001</servlet-class>

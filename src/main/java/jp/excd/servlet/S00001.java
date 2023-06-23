@@ -1,6 +1,7 @@
 package jp.excd.servlet;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 public class S00001 extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		
+
 		// UTF-8でエンコードする。
 		request.setCharacterEncoding("UTF-8");
 		
@@ -56,9 +57,9 @@ public class S00001 extends HttpServlet {
 		try {
 			// コネクション
 			con = DriverManager.getConnection(URL, connectUserName, connectPassword);
-			System.out.println(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
+			getServletConfig().getServletContext().getRequestDispatcher("/ja/500.jsp").forward(request, response);
 		}
 
 		// メインメソッドを呼び出す。
@@ -97,7 +98,6 @@ public class S00001 extends HttpServlet {
 		try {
 			// コネクション
 			con = DriverManager.getConnection(URL, connectUserName, connectPassword);
-			System.out.println(con);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -118,18 +118,29 @@ public class S00001 extends HttpServlet {
 	private void prmainProcessForTopocess(HttpServletRequest request, HttpServletResponse response, Connection con)
 			throws IOException, ServletException {
 		
+		
 		// URLパラメータ「category」を取得する
 		String category = request.getParameter("category");
+		if(category != null) {
+			// エンコードの例
+			String encodedResult = URLEncoder.encode(category, "UTF-8");
+			System.out.println("エンコード結果:" + encodedResult);
+		}
+		System.out.println(category);
 		
 		// URLパラメータ「from」を取得する
 		String from = request.getParameter("from");
-		
+System.out.println(from);
 		// ソート機能メソッドを呼び出す
+System.out.println("ソート機能メソッドを呼び出す");
 		category =  getSort(request, category, con);
+System.out.println("ソート機能メソッドの帰還");
 		request.setAttribute("Category", category);
 		
 		// 追加読み込み機能メソッドを呼び出す
+System.out.println("追加読み込み機能メソッドを呼び出す");
 		from = getAdd(request, response, from);
+System.out.println("追加読み込み機能メソッドの帰還");
 
 		// トップページに遷移する
 		getServletConfig().getServletContext().getRequestDispatcher("/ja/S00001.jsp").forward(request, response);
@@ -161,7 +172,7 @@ public class S00001 extends HttpServlet {
 		/* 変数categoryの値をチェックします
 		 * 	nullである場合には初期値の「1」を設定します
 		 */
-		if(category == null) {
+		if(category == null || "".equals(category)) {
 			category ="1";
 		}		
 		
@@ -170,7 +181,8 @@ public class S00001 extends HttpServlet {
 		 * 	SQL文に公開日の降順で並びかえる
 		 *  公開日の日付が30日前から現在までのデータのみ取得する
 		 */
-		if (category.equals("1")) {
+		if (category.equals("1") || category.equals("１")) {
+			System.out.println("正常");
 			sql += "ORDER BY s.release_datetime DESC;";
 			long Epoch = 2592000;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
@@ -179,7 +191,9 @@ public class S00001 extends HttpServlet {
 		 * 	SQL文に総感動指数の降順で並びかえる
 		 *  公開日の日付が30日前から現在までのデータのみ取得する
 		 */
-		}else if (category.equals("2")) {
+		}else if (category.equals("2") || category.equals("２")) {
+			System.out.println("正常");
+
 			sql += "ORDER BY s.rating_total DESC;";
 			long Epoch = 2592000;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
@@ -188,7 +202,7 @@ public class S00001 extends HttpServlet {
 		 * 	SQL文に平均感動指数の降順で並びかえる
 		 *  公開日の日付が30日前から現在までのデータのみ取得する
 		 */
-		}else if (category.equals("3")) {
+		}else if (category.equals("3") || category.equals("３")) {
 			sql += "ORDER BY s.rating_average DESC;";
 			long Epoch = 2592000;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
@@ -197,7 +211,7 @@ public class S00001 extends HttpServlet {
 		 * 	SQL文に総感動指数の降順で並びかえる
 		 *  公開日の日付が365日前から現在までのデータのみ取得する
 		 */
-		}else if (category.equals("4")) {
+		}else if (category.equals("4") || category.equals("４")) {
 			sql += "ORDER BY s.rating_total DESC;";
 			long Epoch = 31536000;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
@@ -219,11 +233,12 @@ public class S00001 extends HttpServlet {
 			
 		// その他の場合は、categoryが「1」の時と同様の処理を行う
 		}else {
+			System.out.println("異常");
+			category ="1";
 			sql += "ORDER BY s.release_datetime DESC;";
 			long Epoch = 2592000;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
 		}
-		System.out.println(sql);
 		
 		// プリペアードステートメント
 		PreparedStatement pstmt = null;
@@ -253,6 +268,11 @@ public class S00001 extends HttpServlet {
 
 			// Listのレコード値を格納するListを設定する
 			List<String> list = new ArrayList<String>();
+			
+			// 表示は先頭100件までなので100件取得したときに終了するためのint型を用意する
+			int j = 0;
+			System.out.println(sql);
+			System.out.println(sortTimeAgo);
 			while (rs.next()) {
 				// SQLの結果を格納する
 				String id = rs.getString("s.id");
@@ -268,7 +288,6 @@ public class S00001 extends HttpServlet {
 				String nickName = rs.getString("c.nickname");
 				String uniqueCode = rs.getString("c.unique_code");
 				
-				System.out.println(imageFileName);
 				// imageFileNameがnullの場合にnoimage.pngを設定する
 				if(imageFileName == null) {
 					imageFileName = "noimage.png";
@@ -302,6 +321,15 @@ public class S00001 extends HttpServlet {
 				request.setAttribute("ListMap", listMap);
 				list.addAll(map.values());
 				request.setAttribute("List", list);
+				
+				// 100件取得したら終了する
+				if (category.equals("5")) {
+					j--;
+				}
+				j++;
+				if(j == 100) {
+					break;
+				}
 			}
 			
 		} catch (SQLException e) {
@@ -332,7 +360,12 @@ public class S00001 extends HttpServlet {
 		// Listの件数を取得する
 		String listSize = Integer.toString(listMap.size());
 		request.setAttribute("ListSize", listSize);
-System.out.println("ListSize"+ listSize);
+		
+		int val = Integer.parseInt(category);
+		System.out.println("文字列を数字文字に変換："+val);
+		category = String.valueOf(val);
+		System.out.println("数字文字列を文字列に変換："+category);
+		
 		return category;
 	}
 	
@@ -348,7 +381,7 @@ System.out.println("ListSize"+ listSize);
 	 * @throws IOException
 	 * @throws ServletException 
 	 */
-	private String getAdd(HttpServletRequest request, HttpServletResponse response, String from) throws NumberFormatException, IOException, ServletException {
+	private String getAdd(HttpServletRequest request, HttpServletResponse response, String from) throws IllegalStateException, NumberFormatException, IOException, ServletException {
 		
 		/* 変数fromの値をチェックします
 		 * 	nullである場合には初期値の「6」を設定します
@@ -360,16 +393,15 @@ System.out.println("ListSize"+ listSize);
 		if ("".equals(from)) {
 			from = null;
 		}
-		if(from != null) {
-			try {
+		try {
+			if(from != null) {
+			
 				// 表示するレコードの最大値を設定する（初期値）
 				outPutMax = Integer.valueOf(from);
 				outPutMax -=1;
 				
 				// 変数outPutMaxを-5した値を表示するレコードの最小値に設定する
 				outPutMin = outPutMax - 5;
-System.out.println(outPutMax);
-System.out.println(outPutMin);
 				
 				// レコードの最小値が0以下の時の最小値に「0」を設定する
 				if (outPutMin < 0 ) {
@@ -384,16 +416,16 @@ System.out.println(outPutMin);
 				// URLパラメータの値-1を表示するレコードの最大値に代入する
 				outPutMax = Integer.parseInt(from);
 				outPutMax -= 1;
-			} catch (NumberFormatException e) {
-				// 数字以外の値が含まれているため500エラー
-				getServletConfig().getServletContext().getRequestDispatcher("/web/ja/500.jsp").forward(request, response);
-
-			}
-			
-		}else {
+			}else {
 			
 			from="6";
+			}
+		} catch (Exception e) {
+		// 数字以外の値が含まれているため500エラー
+			from = "6";
+			getServletConfig().getServletContext().getRequestDispatcher("/ja/500.jsp").forward(request, response);
 		}
+
 		
 		// レコード値の最小値をString型に変換し、値を送信する。
 		String min = Integer.toString(outPutMin);

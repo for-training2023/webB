@@ -263,7 +263,7 @@ div.song_list ul li div.cell div.song3 img {
 					<div class="cell">
 						<div class="song_title"><%=map.get("title")%></div>
 						<div class="image_base">
-							<a href="/web/ja/S00003/<%=map.get("song_id")%>">
+							<a href="/webB/ja/S00003/<%=map.get("song_id")%>">
 								<div class="image song">
 									<%
 									if (image_file_name != null) {
