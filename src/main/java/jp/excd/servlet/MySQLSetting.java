@@ -82,7 +82,7 @@ public class MySQLSetting extends HttpServlet {
 			String timeZone) throws SQLException {
 
 		// ホストの設定
-		String hostName = "localhost";
+		String hostName = "192.168.1.68";
 
 		// ユーザ名
 		String connectUserName = userName;

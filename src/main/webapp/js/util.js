@@ -86,31 +86,31 @@ var Util = {
       + '    <li>'
       + '      <a href="S00001.jsp">'
       + '        <p>HOME</p>'
-      + '        <img alt="HOME" class="right_arrow" src="/jissou/images/right_arrow.png" />'
+      + '        <img alt="HOME" class="right_arrow" src="/webB/images/right_arrow.png" />'
       + '      </a>'
       + '    </li>'
       + '    <li>'
       + '      <a href="S00005.jsp">'
       + '        <p>作品検索</p>'
-      + '        <img alt="作品検索" class="right_arrow" src="/jissou/images/right_arrow.png" />'
+      + '        <img alt="作品検索" class="right_arrow" src="/webB/images/right_arrow.png" />'
       + '      </a>'
       + '    </li>'
       + '    <li>'
       + '      <a href="S00007.jsp">'
       + '        <p>作曲家検索</p>'
-      + '        <img alt="作曲家検索" class="right_arrow" src="/jissou/images/right_arrow.png" />'
+      + '        <img alt="作曲家検索" class="right_arrow" src="/webB/images/right_arrow.png" />'
       + '      </a>'
       + '    </li>'
       + '    <li>'
       + '      <a href="S00009.jsp">'
       + '        <p>専用アプリダウンロード</p>'
-      + '        <img alt="専用アプリダウンロード" class="right_arrow" src="/jissou/images/right_arrow.png" />'
+      + '        <img alt="専用アプリダウンロード" class="right_arrow" src="/webB/images/right_arrow.png" />'
       + '      </a>'
       + '    </li>'
       + '    <li>'
       + '      <a href="https://excd.jp/">'
       + '        <p class="to_excd">運営企業</p>'
-      + '        <img alt="運営企業 class="pop_up" src="/jissou/images/return.png" />'
+      + '        <img alt="運営企業 class="pop_up" src="/webB/images/return.png" />'
       + '      </a>'
       + '    </li>'
       + '  </ul>'
@@ -191,3 +191,7 @@ $(function() {
         Util.addMenuEventHandller();
     });
 });
+
+//-----------------------------------------------------------------------------
+// 
+//-----------------------------------------------------------------------------

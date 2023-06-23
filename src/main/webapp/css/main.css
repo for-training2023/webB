@@ -205,9 +205,9 @@ div.main_button {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 40px;
-  width: 95%;
+  width: 95% 
 }
-div.main_button a {
+div.main_button a, div.main_button input{
   display: block;
   box-sizing: border-box;
   font-size: 18px;
@@ -795,17 +795,6 @@ div.top_tab ul li.tab4 {
   line-height: 28px;
   text-align:center;
 }
-div.top_tab ul li.tab5 {
-  position:absolute;
-  height: 28px;
-  width: 80px;
-  top: 0px;
-  left: 320px;
-  font-size: 10px;
-  line-height: 28px;
-  text-align:center;
-}
-
 div.top_tab ul li {
   background-color: #ffffff;
 }
@@ -1007,16 +996,5 @@ div.comments ul li div.reply p.time {
   color: #999999;
 }
 
-.flex8{
-    display: flex;
-    justify-content: center;/*コレ*/
-    align-items: center;/*コレ*/
-    height: 10px;
-    margin: 0px 0;
-}
-.flex8 div{
-    height: 50px;
-    width: 50px;
-}
 
 

@@ -58,5 +58,55 @@
     <servlet-name>S00003</servlet-name>
     <url-pattern>/ja/S00003/*</url-pattern>
   </servlet-mapping>
+  
+  	<servlet>
+    <servlet-name>S00005</servlet-name>
+    <servlet-class>jp.excd.servlet.S00005</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>S00005</servlet-name>
+    <url-pattern>/ja/S00005</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>S00005_2</servlet-name>
+    <servlet-class>jp.excd.servlet.S00005</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>S00005</servlet-name>
+    <url-pattern>/ja/S00005/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>S00006</servlet-name>
+    <servlet-class>jp.excd.servlet.S00006</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>S00006</servlet-name>
+    <url-pattern>/ja/S00006/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>S00006change</servlet-name>
+    <servlet-class>jp.excd.servlet.S00006</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>S00006change</servlet-name>
+    <url-pattern>/ja/S00006/change</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>S00006back</servlet-name>
+    <servlet-class>jp.excd.servlet.S00006</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>S00006back</servlet-name>
+    <url-pattern>/ja/S00006/back</url-pattern>
+  </servlet-mapping>
 
 </web-app>
