@@ -118,7 +118,7 @@ public class S00001 extends HttpServlet {
 	private void prmainProcessForTopocess(HttpServletRequest request, HttpServletResponse response, Connection con)
 			throws IOException, ServletException {
 		
-		
+		System.out.println("main");
 		// URLパラメータ「category」を取得する
 		String category = request.getParameter("category");
 		if(category != null) {
@@ -130,17 +130,12 @@ public class S00001 extends HttpServlet {
 		
 		// URLパラメータ「from」を取得する
 		String from = request.getParameter("from");
-System.out.println(from);
 		// ソート機能メソッドを呼び出す
-System.out.println("ソート機能メソッドを呼び出す");
 		category =  getSort(request, category, con);
-System.out.println("ソート機能メソッドの帰還");
 		request.setAttribute("Category", category);
 		
 		// 追加読み込み機能メソッドを呼び出す
-System.out.println("追加読み込み機能メソッドを呼び出す");
 		from = getAdd(request, response, from);
-System.out.println("追加読み込み機能メソッドの帰還");
 
 		// トップページに遷移する
 		getServletConfig().getServletContext().getRequestDispatcher("/ja/S00001.jsp").forward(request, response);
@@ -182,7 +177,6 @@ System.out.println("追加読み込み機能メソッドの帰還");
 		 *  公開日の日付が30日前から現在までのデータのみ取得する
 		 */
 		if (category.equals("1") || category.equals("１")) {
-			System.out.println("正常");
 			sql += "ORDER BY s.release_datetime DESC;";
 			long Epoch = 2592000;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
@@ -192,7 +186,6 @@ System.out.println("追加読み込み機能メソッドの帰還");
 		 *  公開日の日付が30日前から現在までのデータのみ取得する
 		 */
 		}else if (category.equals("2") || category.equals("２")) {
-			System.out.println("正常");
 
 			sql += "ORDER BY s.rating_total DESC;";
 			long Epoch = 2592000;
@@ -218,13 +211,13 @@ System.out.println("追加読み込み機能メソッドの帰還");
 	
 			
 			
-		// 遊び用（のちに消す予定）
+		// 隠しコマンド
 		/* categoryが「5」の時
 		 * 	SQL文に総感動指数の降順で並びかえる
 		 * 	全件表示する
 		 */	
 		}else if (category.equals("5")) {
-			sql += "ORDER BY s.rating_total DESC;";
+			sql += "ORDER BY s.total_listen_count DESC;";
 			Date date = new Date();
 			Long nowEpoch = new Long(date.getTime()/1000);
 			long Epoch = nowEpoch;
@@ -233,7 +226,6 @@ System.out.println("追加読み込み機能メソッドの帰還");
 			
 		// その他の場合は、categoryが「1」の時と同様の処理を行う
 		}else {
-			System.out.println("異常");
 			category ="1";
 			sql += "ORDER BY s.release_datetime DESC;";
 			long Epoch = 2592000;
@@ -362,9 +354,7 @@ System.out.println("追加読み込み機能メソッドの帰還");
 		request.setAttribute("ListSize", listSize);
 		
 		int val = Integer.parseInt(category);
-		System.out.println("文字列を数字文字に変換："+val);
 		category = String.valueOf(val);
-		System.out.println("数字文字列を文字列に変換："+category);
 		
 		return category;
 	}
@@ -450,10 +440,11 @@ System.out.println("追加読み込み機能メソッドの帰還");
 		// 現在のエポック秒を取得
 		Date date = new Date();
 		Long nowEpoch = new Long(date.getTime()/1000);
-	
+	System.out.println("now"+nowEpoch);
+	System.out.println("time"+time);
 		// 差分を算出
 		Long diff = nowEpoch - time;
-		
+	System.out.println("diff"+diff);
 		// 小数点以下を切り捨てる処理
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		numberFormat.setMaximumFractionDigits(0);

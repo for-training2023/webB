@@ -9,10 +9,8 @@
 
 </head>
 <body>
-<div class="wrapper">
   <h1>500</h1>
   <p>申し訳ございませんが、</p>
   <p>お探しのページが見つかりませんでした。</p>
-   <img src="/webB/images/ichigoore.png">
 </body>
 </html>

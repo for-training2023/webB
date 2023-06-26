@@ -45,81 +45,120 @@ div.song_list ul li div.cell div.song3 img {
 }
 </style>
 <script type="text/javascript">
-// URLパラメータからエラーメッセージを取得して表示する
-//var urlPrams = new URLSearchParams(window.location.search);
-//var erroeMessage = urlParams.get("error");
-//document.getElementById("errorMessage").textContent = errorMessage;
 
+	/**
+	 * 画面ロード時にURLパラメータを自動正しい形に修正する。
+	 *	数値以外の値が入った場合：1
+	 *	数値が5より大きい場合：1
+	 *	数値がnullの場合：1
+	 *	数値がundefinedの場合：1
+	 *	数値が全角の1～4の場合：全角数値を半角数値に修正したもの
+	 *
+	 *  ※不具合：[, ], \, |, {, }, ` が入力された場合には400エラーが作動してしまいます。 
+	 */
 window.onload = function loadFinished(){
-	//if (1 < document.location.search.length) {
-		//URLを取得
-		let url = new URL(location.href);
-		const enc = encodeURI(url);
-		
-		//var erroeMessage = [
-		//var encodedErrorMessage = encodeURIComponent(erroeMessage);
-		//var errorURL = location.href;
-		
-		// URLSearchParamsオブジェクトを取得
-		let params = url.searchParams;
-		console.log(params.get('category'));
-		var category = params.get('category');
-		console.log("category:"+category);
-		
+	
+	var mes = "";	 
+	//URLを取得
+	let url = new URL(location.href);
+	const enc = encodeURI(url);
+	
+	// URLSearchParamsオブジェクトを取得
+	let params = url.searchParams;
+	var category = params.get('category');
 
-		var num =  replaceFullToHalf(category);
-		console.log("num:"+num);
-		//if(category == erroeMessage){
-		//	location.herf= "http://localhost:8080/webB/ja/400.jsp"
-		//}
-		if(category == null){
-			num = 1;
-		}
-		if(isNaN(num)){
-			console.log("数値ではない");
-			category = 1;
-			num = 1;
-		}
-		
-		if(category === void 0){
-			console.log("数値ではないnull");
-			num = 1;
-		}
-		
-		if(category > 5){
-			console.log("オーヴァーl");
-			num = 1;
-		}
-		
-		// URLSearchParamsオブジェクトを取得
-		console.log(params.get('from'));
-		var from = params.get('from');
-		console.log("params/" + params);
-		console.log("url.searchParams/" + url.searchParams);
-		console.log("from/" + from);
-		console.log("category/" + category);
-		console.log("num/" + num);
-		if(from == null){
-			from = 6;
-		}
-		if(isNaN(from)){
-			from = 6;
-		}
-		if( from === void 0){
-			console.log("数値ではない");
-			from = 6;
-		}
-	//}
-	var cool = "http://localhost:8080/webB/ja/S00001?category=" + num + "&from=" + from;
-	console.log("cool/" + cool);
+	if(!category){
+		category = null;
+	}
+
+	// 値がnullの場合は「1」を設定する。
+	if(category == null){
+		category = '１';
+	}
+
+	// 全角を半角に修正する。
+	var categoryNum =  replaceCategory(category);
+	
+	// 値が数値でない場合は「1」を設定する。
+	if(isNaN(categoryNum)){
+		category = 1;
+		categoryNum = 1;
+	}
+	
+	// 値がundefinedの場合は「1」を設定する。
+	if(category === void 0){
+		category = 1;
+		categoryNum = 1;
+	}
+	
+	// 値が5より大きい場合は「1」を設定する。
+	if(category > 5){
+		category = 1;
+		categoryNum = 1;
+	}
+	
+	
+	// URLSearchParamsオブジェクトを取得
+	var from = params.get('from');
+	console.log("from/" + from);
+
+	if(!from){
+		console.log("空白");
+
+		from = null;
+	}
+	console.log("from/" + from);
+
+	// 値がnullの場合は「6」を設定する。
+	if(from == null){
+		console.log("ぬる");
+
+		from = "６";
+	}
+	console.log("from/" + from);
+
+	var fromNam = replaceFrom(from);
+	console.log("fromNam/" + fromNam);
+
+	// 値が数値でない場合は「6」を設定する。
+	if(isNaN(fromNam)){
+		console.log("異常");
+		fromNam = 6;
+	}
+	
+	// 値がundefinedの場合は「6」を設定する。
+	if( from === void 0){
+		fromNam = 6;
+	}
+
+	// 変更するURLを生成する。
+	var cool = "http://localhost:8080/webB/ja/S00001?category=" + categoryNum + "&from=" + fromNam;
+	console.log("categoryNum/" + categoryNum);
+	console.log("fromNam/" + fromNam);
+
+	// URLを表示する。
 	history.pushState('','', cool);
 
 }
-
-function replaceFullToHalf(str){
-	  return str.replace(/[１-４]/g, function(s){
-	    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-	  });
+	 /**
+	 * URLからURLパラメータ「category」の値を全角から半角に修正する。
+	 *	
+	 * return URLパラメータ「category」の値
+	 */
+	function replaceCategory(str){
+		return str.replace(/[１-４]/g, function(s){
+			return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+		});
+	}
+	 /**
+	 * URLからURLパラメータ「from」の値を全角から半角に修正する。
+	 *	
+	 * return URLパラメータ「from」の値
+	 */
+	function replaceFrom(str){
+		return str.replace(/[０-９]/g, function(s){
+			return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+		});
 	}
 	/**
 	 * URLからURLパラメータ「from」を取り出し値を返却する。
@@ -437,6 +476,13 @@ function replaceFullToHalf(str){
 					tab4 = " ";
 					tab5 = " selected";
 				}
+			}else{
+				category = "1";
+				tab1 = " selected";
+				tab2 = " ";
+				tab3 = " ";
+				tab4 = " ";
+				tab5 = " ";
 			}
 			%>
 			<ul>
@@ -525,6 +571,7 @@ function replaceFullToHalf(str){
 		<!-- ソングテーブル -->
 		<div class="song_list">
 			<ul>
+			<%= listMap.size()%>件表示できます。<br>
 				<%
 				/* リストの数だけループして表示する。
 				*	ループの初期値に最小値を代入する。
@@ -590,8 +637,7 @@ function replaceFullToHalf(str){
 		// 表示できる件数がない場合に、1～6の画面に戻るメッセージを表示する。
 		%>
 		これ以上、表示できるデータがありませんm(_ _)m<br>
-		 <a class="add" href="" data-value="5" id="back" onclick="back(6)">→1件目から、6件目に戻ります。</a>
-		 <a class="test" href="http://localhost:8080/webB/ja/S00001?category=[&from=6">http://localhost:8080/webB/ja/S00001?category=[&from=6</a>
+		 <a class="add" href="" data-value="5" id="back" onclick="back(6)">→1件目から、5件目に戻ります。</a>
 
 		<%
 		}
