@@ -20,6 +20,9 @@
 <script src="../js/util.js" type="text/javascript"></script>
 <!-- 画像の圧縮表示設定 -->
 <style type="text/css">
+ .sortselected{
+   pointer-events:none;
+ }
 div.song_list ul li div.cell div.song1 img {
 	position: relative;
 	left: 0px;
@@ -100,29 +103,20 @@ window.onload = function loadFinished(){
 	
 	// URLSearchParamsオブジェクトを取得
 	var from = params.get('from');
-	console.log("from/" + from);
 
 	if(!from){
-		console.log("空白");
-
 		from = null;
 	}
-	console.log("from/" + from);
 
 	// 値がnullの場合は「6」を設定する。
 	if(from == null){
-		console.log("ぬる");
-
 		from = "６";
 	}
-	console.log("from/" + from);
 
 	var fromNam = replaceFrom(from);
-	console.log("fromNam/" + fromNam);
 
 	// 値が数値でない場合は「6」を設定する。
 	if(isNaN(fromNam)){
-		console.log("異常");
 		fromNam = 6;
 	}
 	
@@ -133,8 +127,6 @@ window.onload = function loadFinished(){
 
 	// 変更するURLを生成する。
 	var cool = "http://localhost:8080/webB/ja/S00001?category=" + categoryNum + "&from=" + fromNam;
-	console.log("categoryNum/" + categoryNum);
-	console.log("fromNam/" + fromNam);
 
 	// URLを表示する。
 	history.pushState('','', cool);
@@ -169,16 +161,11 @@ window.onload = function loadFinished(){
 	function serchFrom() {
 		if (1 < document.location.search.length) {
 			//URLを取得
-			console.log(location.href);
 			let url = new URL(location.href);
 
 			// URLSearchParamsオブジェクトを取得
 			let params = url.searchParams;
-			console.log(params.get('from'));
 			var result = params.get('from');
-			console.log("params/" + params);
-			console.log("url.searchParams/" + url.searchParams);
-			console.log("result/" + result);
 			return result;
 		}
 		return null;
@@ -193,16 +180,11 @@ window.onload = function loadFinished(){
 	function serchCategory() {
 		if (1 < document.location.search.length) {
 			//URLを取得
-			console.log(location.href);
 			let url = new URL(location.href);
 
 			// URLSearchParamsオブジェクトを取得
 			let params = url.searchParams;
-			console.log(params.get('category'));
 			var result = params.get('category');
-			console.log("params/" + params);
-			console.log("url.searchParams/" + url.searchParams);
-			console.log("result/" + result);
 		if(isNaN(result)){
 			result = 1;
 		}
@@ -219,10 +201,8 @@ window.onload = function loadFinished(){
 	 */
 	function from() {
 		let bool = serchFrom();
-		console.log("bool/" + bool);
 		if (bool === null) {
 			var from = 6;
-			console.log("from:" + from);
 			return 6;
 		}
 		return bool;
@@ -237,10 +217,8 @@ window.onload = function loadFinished(){
 	 */
 	function category() {
 		let bool = serchCategory();
-		console.log("bool/" + bool);
 		if (bool === null) {
 			var category = 1;
-			console.log("category:" + category);
 			return 1;
 		}
 		return bool;
@@ -261,13 +239,8 @@ window.onload = function loadFinished(){
 		// category()を呼び出し代入する。
 		category = category();
 
-		console.log("from/" + from);
-		console.log("category/" + category);
-		console.log("name/" + name);
-
 		// 押下したソートの項目をcategoryに代入する。
 		category = name;
-		console.log("category/" + category);
 
 		// fromの値が0以下、nullの時はfromの値に初期値「6」を代入する。
 		if (from <= 0 || from == null || from == "") {
@@ -309,12 +282,8 @@ window.onload = function loadFinished(){
 		var num1 = Number(from);
 		var num2 = Number(add);
 
-		console.log("from/" + from);
-		console.log("add/" + add);
-
 		// fromとaddを加算する。
 		var result = num1 + num2;
-		console.log("from:" + num1 + "+add:" + num2 + "=" + result);
 
 		// サーブレットに値を送信する。
 		var request = {
@@ -324,13 +293,7 @@ window.onload = function loadFinished(){
 
 		// 押下したaタグのhrefに遷移先のURLを代入し、画面遷移する。
 		var target = document.getElementById('add');
-		console.log("target/" + target);
-		target.href = "/webB/ja/S00001?category=" + category + "&from="
-				+ result
-		console.log(target.href);
-		console.log(target.href);
-		console.log(target.href);
-
+		target.href = "/webB/ja/S00001?category=" + category + "&from=" + result
 	}
 
 	/**
@@ -355,11 +318,9 @@ window.onload = function loadFinished(){
 
 		// 数値に変換する。
 		var num1 = Number(back);
-		console.log("back/" + back);
 
 		// resultに代入する。
 		result = num1;
-		console.log("back:" + result);
 
 		// サーブレットに値を送信する。
 		var request = {
@@ -369,40 +330,8 @@ window.onload = function loadFinished(){
 
 		// 押下したaタグのhrefに遷移先のURLを代入し、画面遷移する。
 		var target = document.getElementById('back')
-		target.href = "/webB/ja/S00001?category=" + category + "&from="
-				+ result
-		console.log(target.href);
-		console.log(element.classList);
-		console.log(element.classList);
-	}
-
-	/**
-	 * S00004に値を送信して遷移する。
-	 *
-	 * @param uniqueCode	作曲者のユニークコード
-	 */
-	function composer(uniqueCode) {
-		var request = {
-			uniqueCode : uniqueCode
-		};
-		var target = document.getElementById('comp')
-		target.href = "/webB/ja/S00004/" + uniqueCode
-
-	}
-	/**
-	 * S00003に値を飛ばして遷移する。
-	 *
-	 * @param id	楽曲ID
-	 */
-	function song(id) {
-		var song = id;
-		var request = {
-			id : id
-		};
-		var target = document.getElementById('song')
-		target.href = "/webB/ja/S00003/" + id
-
-	}
+		target.href = "/webB/ja/S00001?category=" + category + "&from=" + result
+		}
 </script>
 </head>
 <body>
@@ -434,7 +363,7 @@ window.onload = function loadFinished(){
 		<div class="top_tab">
 			<%
 			// カテゴリ選択で選択した箇所に色をつけ、他の個所の色を消す。
-			String tab1 = " selected";
+			String tab1 = "selected";
 			String tab2 = " ";
 			String tab3 = " ";
 			String tab4 = " ";
@@ -442,7 +371,7 @@ window.onload = function loadFinished(){
 			String category = (String) request.getAttribute("Category");
 			if (category != null) {
 				if (category.equals("1")) {
-					tab1 = " selected";
+					tab1 = "selected";
 					tab2 = " ";
 					tab3 = " ";
 					tab4 = " ";
@@ -450,7 +379,7 @@ window.onload = function loadFinished(){
 				}
 				if (category.equals("2")) {
 					tab1 = " ";
-					tab2 = " selected";
+					tab2 = "selected";
 					tab3 = " ";
 					tab4 = " ";
 					tab5 = " ";
@@ -458,7 +387,7 @@ window.onload = function loadFinished(){
 				if (category.equals("3")) {
 					tab1 = " ";
 					tab2 = " ";
-					tab3 = " selected";
+					tab3 = "selected";
 					tab4 = " ";
 					tab5 = " ";
 				}
@@ -466,7 +395,7 @@ window.onload = function loadFinished(){
 					tab1 = " ";
 					tab2 = " ";
 					tab3 = " ";
-					tab4 = " selected";
+					tab4 = "selected";
 					tab5 = " ";
 				}
 				if (category.equals("5")) {
@@ -474,11 +403,11 @@ window.onload = function loadFinished(){
 					tab2 = " ";
 					tab3 = " ";
 					tab4 = " ";
-					tab5 = " selected";
+					tab5 = "selected";
 				}
 			}else{
 				category = "1";
-				tab1 = " selected";
+				tab1 = "selected";
 				tab2 = " ";
 				tab3 = " ";
 				tab4 = " ";
@@ -487,22 +416,22 @@ window.onload = function loadFinished(){
 			%>
 			<ul>
 				<li class="tab1 <%=tab1%>">
-					<a class="sort" href="" data-value="1" id="1" onclick="sort1(1)">新着</a>
+					<a class="sort<%=tab1%>" href=""  id="1" onclick="sort1(1)">新着</a>
 				</li>
 				<li class="tab2 <%=tab2%>" id="tab2">
-					<a class="sort" href="" data-value="2" id="2" onclick="sort1(2)">人気</a>
+					<a class="sort<%=tab2%>" href="" data-value="2" id="2" onclick="sort1(2)">人気</a>
 				</li>
 				<li class="tab3 <%=tab3%>">
-					<a class="sort" href="" data-value="3" id="3" onclick="sort1(3)">高評価</a>
+					<a class="sort<%=tab3%>" href="" data-value="3" id="3" onclick="sort1(3)">高評価</a>
 				</li>
 				<li class="tab4 <%=tab4%>">
-					<a class="sort" href="" data-value="4" id="4" onclick="sort1(4)">名作</a>
+					<a class="sort<%=tab4%>" href="" data-value="4" id="4" onclick="sort1(4)">名作</a>
 				</li>
 				
 			<!-- あとでけす -->
 			<%if(category.equals("5")){ %>
-				<li class="tab5<%=tab5%>"><a class="sort" href=""
-					data-value="5" id="5" onclick="sort1(5)">全件表示</a></li> 
+				<li class="tab5 <%=tab5%>">
+				<a class="sort<%=tab5%>" href="" data-value="5" id="5" onclick="sort1(5)">全件表示</a></li> 
 			<%} %>
 			</ul>
 		</div>

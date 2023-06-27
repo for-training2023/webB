@@ -35,7 +35,8 @@ public class S00001 extends HttpServlet {
 	private static final long ONE_YEAR = 31536000;
 	
 	// カテゴリの値の比較に使う定数。
-	private static final String[] CATEGORY= {"1", "2", "3", "4", "5"};
+	private static final String[] HANKAKU = {"1", "2", "3", "4", "5"};
+	private static final String[] ZENKAKU = {"１", "２", "３", "４"};
 	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -133,7 +134,6 @@ public class S00001 extends HttpServlet {
 			// エンコードの例
 			String encodedResult = URLEncoder.encode(category, "UTF-8");
 		}
-		
 		// URLパラメータ「from」を取得する
 		String from = request.getParameter("from");
 		// ソート機能メソッドを呼び出す
@@ -170,66 +170,80 @@ public class S00001 extends HttpServlet {
 		// プリペアードステートメントに代入する変数
 		String sortTimeAgo = "";
 
-		/* 変数categoryの値をチェックします
-		 * 	nullである場合には初期値の「1」を設定します
-		 */
-		if(category == null || "".equals(category)) {
-			category = CATEGORY[0];
-		}		
-		// 配列定数 CATEGORYの配列のアドレス用変数
+		// 配列定数のアドレス用変数
 		int num = 0;
-		// SQL文の組み立て
-		/* categoryが「2」の時
-		 * 	SQL文に総感動指数の降順で並びかえる
-		 *  公開日の日付が30日前から現在までのデータのみ取得する
-		 */
-		if (category.equals("2") || category.equals("２")) {
+		
+		// SQL文の組み立ての終了フラグ変数
+		int endNum = 0;
+		
+		// 変数categoryの値をチェックします
+		// 	nullである場合には初期値の「1」を設定します
+		if(category == null || "".equals(category)) {
+			category = HANKAKU[num];
+		}		
 
+		// SQL文の組み立て
+		// categoryが「2」の時
+		// 	SQL文に総感動指数の降順で並びかえる
+		//  公開日の日付が30日前から現在までのデータのみ取得する
+		num++;
+		if (category.equals(HANKAKU[num]) || category.equals(ZENKAKU[num])) {
 			sql += "ORDER BY s.rating_total DESC;";
 			long Epoch = ONE_MONTH;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
+			endNum = 1 ;
 		
-		/* categoryが「3」の時
-		 * 	SQL文に平均感動指数の降順で並びかえる
-		 *  公開日の日付が30日前から現在までのデータのみ取得する
-		 */
-		}else if (category.equals("3") || category.equals("３")) {
+		}
+		// categoryが「3」の時
+		// 	SQL文に平均感動指数の降順で並びかえる
+		//  公開日の日付が30日前から現在までのデータのみ取得する
+		num++;
+		if (category.equals(HANKAKU[num]) || category.equals(ZENKAKU[num])) {
+
 			sql += "ORDER BY s.rating_average DESC;";
 			long Epoch = ONE_MONTH;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
+			endNum = 1 ;
 		
-		/* categoryが「4」の時
-		 * 	SQL文に総感動指数の降順で並びかえる
-		 *  公開日の日付が365日前から現在までのデータのみ取得する
-		 */
-		}else if (category.equals("4") || category.equals("４")) {
+		}
+		// categoryが「4」の時
+		// 	SQL文に総感動指数の降順で並びかえる
+		//  公開日の日付が365日前から現在までのデータのみ取得する
+		num++;
+		if (category.equals(HANKAKU[num]) || category.equals(ZENKAKU[num])) {
+
 			sql += "ORDER BY s.rating_total DESC;";
 			long Epoch = ONE_YEAR;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
+			endNum = 1 ;
 	
+		}
 		// 隠しコマンド
-		/* categoryが「5」の時
-		 * 	SQL文に総感動指数の降順で並びかえる
-		 * 	全件表示する
-		 */	
-		}else if (category.equals("5")) {
+		// categoryが「5」の時
+		// 	SQL文に総感動指数の降順で並びかえる
+		// 	全件表示する	
+		num++;
+		if (category.equals(HANKAKU[num])) {
+
 			sql += "ORDER BY s.total_listen_count DESC;";
 			Date date = new Date();
 			Long nowEpoch = new Long(date.getTime()/1000);
 			long Epoch = nowEpoch;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
+			endNum = 1 ;
 		
-			
-		// その他の場合は、categoryが「1」の時と同様の処理を行う
-		/* categoryが「1」の時
-		 * 	SQL文に公開日の降順で並びかえる
-		 *  公開日の日付が30日前から現在までのデータのみ取得する
-		 */
-		}else {
-			category ="1";
+		}
+		if(endNum == 0) {
+
+			// その他の場合は、categoryが「1」の時と同様の処理を行う
+			// categoryが「1」の時
+			// 	SQL文に公開日の降順で並びかえる
+			//  公開日の日付が30日前から現在までのデータのみ取得する
+			category =HANKAKU[endNum];
 			sql += "ORDER BY s.release_datetime DESC;";
 			long Epoch = ONE_MONTH;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
+			endNum = 1;
 		}
 		
 		// プリペアードステートメント
@@ -254,7 +268,8 @@ public class S00001 extends HttpServlet {
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, sortTimeAgo);
-
+			System.out.println("sql:"+sql);
+			System.out.println("sortTimeAgo:"+sortTimeAgo);
 			// 実行
 			rs = pstmt.executeQuery();
 
@@ -263,8 +278,7 @@ public class S00001 extends HttpServlet {
 			
 			// 表示は先頭100件までなので100件取得したときに終了するためのint型を用意する
 			int j = 0;
-			System.out.println(sql);
-			System.out.println(sortTimeAgo);
+
 			while (rs.next()) {
 				// SQLの結果を格納する
 				String id = rs.getString("s.id");
@@ -283,11 +297,6 @@ public class S00001 extends HttpServlet {
 				// imageFileNameがnullの場合にnoimage.pngを設定する
 				if(imageFileName == null) {
 					imageFileName = "noimage.png";
-				}
-				// 遊び用（のちに消す予定）
-				// パッションフルーツをgifに変換
-				if(imageFileName.equals("passionfruit.png")) {
-					imageFileName = "passionfruit.gif";
 				}
 				
 				// ｎ日前を取得する
@@ -314,11 +323,12 @@ public class S00001 extends HttpServlet {
 				list.addAll(map.values());
 				request.setAttribute("List", list);
 				
-				// 100件取得したら終了する
-				if (category.equals("5")) {
+				// カテゴリが５の時は全件表示する
+				if (category.equals(HANKAKU[num])) {
 					j--;
 				}
 				j++;
+				// 100件取得したら終了する
 				if(j == 100) {
 					break;
 				}
@@ -388,7 +398,7 @@ public class S00001 extends HttpServlet {
 			
 				// 表示するレコードの最大値を設定する（初期値）
 				outPutMax = Integer.valueOf(from);
-				outPutMax -=1;
+				outPutMax -= 1;
 				
 				// 変数outPutMaxを-5した値を表示するレコードの最小値に設定する
 				outPutMin = outPutMax - 5;
@@ -407,12 +417,10 @@ public class S00001 extends HttpServlet {
 				outPutMax = Integer.parseInt(from);
 				outPutMax -= 1;
 			}else {
-			
-			from="6";
+				from="6";
 			}
 		} catch (Exception e) {
 		// 数字以外の値が含まれているため500エラー
-			from = "6";
 			getServletConfig().getServletContext().getRequestDispatcher("/ja/500.jsp").forward(request, response);
 		}
 
@@ -440,11 +448,10 @@ public class S00001 extends HttpServlet {
 		// 現在のエポック秒を取得
 		Date date = new Date();
 		Long nowEpoch = new Long(date.getTime()/1000);
-	System.out.println("now"+nowEpoch);
-	System.out.println("time"+time);
+
 		// 差分を算出
 		Long diff = nowEpoch - time;
-	System.out.println("diff"+diff);
+
 		// 小数点以下を切り捨てる処理
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		numberFormat.setMaximumFractionDigits(0);
