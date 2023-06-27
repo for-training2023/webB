@@ -268,8 +268,7 @@ public class S00001 extends HttpServlet {
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, sortTimeAgo);
-			System.out.println("sql:"+sql);
-			System.out.println("sortTimeAgo:"+sortTimeAgo);
+			
 			// 実行
 			rs = pstmt.executeQuery();
 
