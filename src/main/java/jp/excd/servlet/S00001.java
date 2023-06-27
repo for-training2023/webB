@@ -28,6 +28,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class S00001 extends HttpServlet {
 
+	// 現在時刻から一月前の時刻を割り出すための定数。一月分のエポック秒
+	private static final long ONE_MONTH = 2592000;
+	
+	// 現在時刻から一年前の時刻を割り出すための定数。一年分のエポック秒
+	private static final long ONE_YEAR = 31536000;
+	
+	// カテゴリの値の比較に使う定数。
+	private static final String[] CATEGORY= {"1", "2", "3", "4", "5"};
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
 		// UTF-8でエンコードする。
@@ -118,15 +127,12 @@ public class S00001 extends HttpServlet {
 	private void prmainProcessForTopocess(HttpServletRequest request, HttpServletResponse response, Connection con)
 			throws IOException, ServletException {
 		
-		System.out.println("main");
 		// URLパラメータ「category」を取得する
 		String category = request.getParameter("category");
 		if(category != null) {
 			// エンコードの例
 			String encodedResult = URLEncoder.encode(category, "UTF-8");
-			System.out.println("エンコード結果:" + encodedResult);
 		}
-		System.out.println(category);
 		
 		// URLパラメータ「from」を取得する
 		String from = request.getParameter("from");
@@ -168,27 +174,19 @@ public class S00001 extends HttpServlet {
 		 * 	nullである場合には初期値の「1」を設定します
 		 */
 		if(category == null || "".equals(category)) {
-			category ="1";
+			category = CATEGORY[0];
 		}		
-		
+		// 配列定数 CATEGORYの配列のアドレス用変数
+		int num = 0;
 		// SQL文の組み立て
-		/* categoryが「1」の時
-		 * 	SQL文に公開日の降順で並びかえる
-		 *  公開日の日付が30日前から現在までのデータのみ取得する
-		 */
-		if (category.equals("1") || category.equals("１")) {
-			sql += "ORDER BY s.release_datetime DESC;";
-			long Epoch = 2592000;
-			sortTimeAgo = Long.toString(getAgo(Epoch));
-		
 		/* categoryが「2」の時
 		 * 	SQL文に総感動指数の降順で並びかえる
 		 *  公開日の日付が30日前から現在までのデータのみ取得する
 		 */
-		}else if (category.equals("2") || category.equals("２")) {
+		if (category.equals("2") || category.equals("２")) {
 
 			sql += "ORDER BY s.rating_total DESC;";
-			long Epoch = 2592000;
+			long Epoch = ONE_MONTH;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
 		
 		/* categoryが「3」の時
@@ -197,7 +195,7 @@ public class S00001 extends HttpServlet {
 		 */
 		}else if (category.equals("3") || category.equals("３")) {
 			sql += "ORDER BY s.rating_average DESC;";
-			long Epoch = 2592000;
+			long Epoch = ONE_MONTH;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
 		
 		/* categoryが「4」の時
@@ -206,11 +204,9 @@ public class S00001 extends HttpServlet {
 		 */
 		}else if (category.equals("4") || category.equals("４")) {
 			sql += "ORDER BY s.rating_total DESC;";
-			long Epoch = 31536000;
+			long Epoch = ONE_YEAR;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
 	
-			
-			
 		// 隠しコマンド
 		/* categoryが「5」の時
 		 * 	SQL文に総感動指数の降順で並びかえる
@@ -225,10 +221,14 @@ public class S00001 extends HttpServlet {
 		
 			
 		// その他の場合は、categoryが「1」の時と同様の処理を行う
+		/* categoryが「1」の時
+		 * 	SQL文に公開日の降順で並びかえる
+		 *  公開日の日付が30日前から現在までのデータのみ取得する
+		 */
 		}else {
 			category ="1";
 			sql += "ORDER BY s.release_datetime DESC;";
-			long Epoch = 2592000;
+			long Epoch = ONE_MONTH;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
 		}
 		
