@@ -345,7 +345,7 @@ window.onload = function loadFinished(){
 			<a href="https://itunes.apple.com/jp/app/id1440134774?mt=8"> 
 				<img alt="メロコ～iPhone用作曲アプリアイコン" src="../images/melokoIcon.png" class="icon">
 				<p>作曲アプリ「メロコ」。歌モノに特化したアプリです。このサイトの曲はすべてこのアプリで作成されています。</p>
-				 <img alt="メロコ～専用アプリダウンロード画面へのリンク" src="../images/right_blue_arrow.png" class="to_download_page_arrow">
+				<img alt="メロコ～専用アプリダウンロード画面へのリンク" src="../images/right_blue_arrow.png" class="to_download_page_arrow">
 			</a>
 		</div>
 
@@ -353,7 +353,8 @@ window.onload = function loadFinished(){
 		<div class="title_bar">
 			<p class="main_title">音楽室</p>
 			<p class="sub_title">～作曲家たちのコミュニティー～</p>
-			<a href="#" id="menu_open"> <img alt="メニュー" src="../images/menu.png" class="menu-icon"></a>
+			<a href="#" id="menu_open">
+			<img alt="メニュー" src="../images/menu.png" class="menu-icon"></a>
 		</div>
 
 		<!-- メニューの起点 -->
@@ -428,7 +429,6 @@ window.onload = function loadFinished(){
 					<a class="sort<%=tab4%>" href="" data-value="4" id="4" onclick="sort1(4)">名作</a>
 				</li>
 				
-			<!-- あとでけす -->
 			<%if(category.equals("5")){ %>
 				<li class="tab5 <%=tab5%>">
 				<a class="sort<%=tab5%>" href="" data-value="5" id="5" onclick="sort1(5)">全件表示</a></li> 
@@ -500,6 +500,7 @@ window.onload = function loadFinished(){
 		<!-- ソングテーブル -->
 		<div class="song_list">
 			<ul>
+			<!- 作業中にわかりやすいよう表示 -->
 			<%= listMap.size()%>件表示できます。<br>
 				<%
 				/* リストの数だけループして表示する。
@@ -537,7 +538,9 @@ window.onload = function loadFinished(){
 									<img alt='<%=map.get("ImageFileName")%>' src='../images/<%=map.get("ImageFileName")%>'> 
 									<img alt="play" class="play" src="/webB/images/play.png">
 								</div>
-							</a>※IDは、<%=map.get("Id")%>です。
+							</a>
+							<!- 作業中にわかりやすいよう表示 -->
+							※IDは、<%=map.get("Id")%>です。
 						</div>
 						<div class="detail">
 							<span class="label_top">総感動指数：</span> <span class="value"><%=map.get("RatingTotal")%></span>
