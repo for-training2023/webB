@@ -52,7 +52,7 @@
 	// (6) 「平均感動指数_エラー状態(rating_average_is_error)」= "1"の場合、divタグのクラス属性に errorを加える。
 	String rating_average_is_error = "";
 	if ("1".equals(request.getAttribute("rating_average_is_error"))) {
-		rating_is_error = ", error";
+		rating_average_is_error = ", error";
 	}
 	
 	// (7) 以下の項目を元に平均感動指数の入力状態を再現する。

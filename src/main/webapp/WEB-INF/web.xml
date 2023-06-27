@@ -26,8 +26,8 @@
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>S00005</servlet-name>
-    <url-pattern>/ja/S00005/*</url-pattern>
+    <servlet-name>S00005_2</servlet-name>
+    <url-pattern>/ja/S00005/search</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -37,7 +37,7 @@
   
   <servlet-mapping>
     <servlet-name>S00006</servlet-name>
-    <url-pattern>/ja/S00006/*</url-pattern>
+    <url-pattern>/ja/S00006</url-pattern>
   </servlet-mapping>
   
   <servlet>
