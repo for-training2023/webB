@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -296,13 +295,13 @@ public class S00004 extends HttpServlet {
 		String resultVal;
 		double d_releaseDay = 0;
 		//現在のエポック秒を取得
-		Date date = new Date();
-		Double nowEpoch = (double) date.getTime();
+		//Date date = new Date();
+		//Double nowEpoch = (double) date.getTime();
 		
 		//差分を算出
 		//テスト用コード
-		//Double diff = (1686924000 - datetime) * 1000;
-		Double diff = (nowEpoch) - datetime * 1000;
+		Double diff = (1686924000 - datetime) * 1000;
+		//Double diff = (nowEpoch) - datetime * 1000;
 		
 		//小数点以下を切り捨てる処理
 		NumberFormat numberFormat = NumberFormat.getInstance();
