@@ -76,15 +76,15 @@ public class S00003 extends HttpServlet {
 	        String songId = null;
 	        String title = null;  //タイトル
 	        String songComposerId = null;  //曲の作曲者id
-	        int ratingTotal = 0;  //総感動指数
+	        long ratingTotal = 0;  //総感動指数
 	        double ratingAverage = 0;  //平均感動指数
-	        int totalListeningCount = 0;  //再生回数
+	        long totalListeningCount = 0;  //再生回数
 	        double releaseDatetime = 0;  //公開日
 	        double lastUpdateDatetime = 0;  //最終更新日
 	        String message = null;  //メッセージ
 	        String key = null;  //キー
 	        String scoreType = null;  //楽譜表記
-	        String bpm = null;  //BPM
+	        double bpm = 0;  //BPM
 	        String imageFileName = null;  //画像名
 	        int imageFileHeight = 0;  //画像の高さ
 	        int imageFileWidth = 0;  //画像の幅
@@ -165,15 +165,15 @@ public class S00003 extends HttpServlet {
             	songId = rs.getString("song.id");
                 title = rs.getString("song.title");
                 songComposerId = rs.getString("song.composer_id");
-                ratingTotal = rs.getInt("song.rating_total");
+                ratingTotal = rs.getLong("song.rating_total");
                 ratingAverage = rs.getDouble("song.rating_average");
-                totalListeningCount = rs.getInt("song.total_listen_count");
+                totalListeningCount = rs.getLong("song.total_listen_count");
                 releaseDatetime = rs.getDouble("song.release_datetime");
                 lastUpdateDatetime = rs.getDouble("song.last_update_datetime");
                 message = rs.getString("song.message");
                 key = rs.getString("song.key");
                 scoreType = rs.getString("song.score_type");
-                bpm = rs.getString("song.bpm");
+                bpm = rs.getDouble("song.bpm");
                 imageFileName = rs.getString("song.image_file_name");
                 imageFileHeight = rs.getInt("song.image_file_height");
                 imageFileWidth = rs.getInt("song.image_file_width");
@@ -251,7 +251,7 @@ public class S00003 extends HttpServlet {
 			request.setAttribute("message",message);
 			request.setAttribute("key",changeKey(key));
 			request.setAttribute("scoreType",scoreType);
-			request.setAttribute("bpm",bpm);
+			request.setAttribute("bpm",checkBpm(bpm));
 			request.setAttribute("imageFileName",imageFileName);
 			request.setAttribute("imageFileHeight",imageFileHeight);
 			request.setAttribute("imageFileWidth",imageFileWidth);
@@ -318,7 +318,7 @@ public class S00003 extends HttpServlet {
 		}
 		//2秒以上かつ60秒未満
 		else if (diff < 60000) {
-			resultVal = diff + "秒前";
+			resultVal = numberFormat.format(diff/1000) + "秒前";
 		}
 		//1分以上かつ2分未満
 		else if (diff < 120000) {
@@ -428,9 +428,20 @@ public class S00003 extends HttpServlet {
 		map.put("34", "Bマイナー");
 		return map.get(key);
 	}
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+	
+	private String checkBpm(double bpm) {
+		int tenTimesBpm = (int) (bpm * 10);  //引数のBPMを10倍してtenTimesBpmに代入
+		int remainder = tenTimesBpm % 10;  //tenTimesBpmが10で割り切れるか確かめるために、10で割った余りを変数"remainder"に代入
+		if(remainder == 0) {  //もし"remainder"が"0"だったら（一の位が”０”だったら）１０で割って（元に戻し）、Stringに変換でリターン
+			tenTimesBpm = tenTimesBpm / 10;
+			return Integer.toString(tenTimesBpm);
+		}else {
+			return String.valueOf(bpm);  //余りが"0"ではなかったら（小数点第一位が"0"ではなかったら）、引数のBPMをそのままString型に変換しリターン
+		}
+	}
+	
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////	
 }
-
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-
-
