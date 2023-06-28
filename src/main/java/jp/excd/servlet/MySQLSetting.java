@@ -82,7 +82,7 @@ public class MySQLSetting extends HttpServlet {
 			String timeZone) throws SQLException {
 
 		// ホストの設定
-		String hostName = "localhost";
+		String hostName = "192.168.1.68";
 
 		// ユーザ名
 		String connectUserName = userName;
@@ -98,14 +98,14 @@ public class MySQLSetting extends HttpServlet {
 		}
 
 		// コネクション用のSQL
-		final String URL = "jdbc:mysql://"
-				+ hostName
-				+ ":3306/"
-				+ dbName
-				+ "?serverTimezone="
-				+ timeZone
-				+ "&allowPublicKeyRetrieval=true"
-				+ "&useSSL=false";
+		final String URL = "jdbc:mysql://"// コネクション用のSQL
+                + hostName
+                + ":3306/"
+                + dbName
+                + "?serverTimezone="
+                + timeZone
+                + "&allowPublicKeyRetrieval=true"
+                + "&useSSL=false";
 
 		// コネクション接続
 		Connection conn = DriverManager.getConnection(URL, connectUserName, connectPassword);

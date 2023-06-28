@@ -110,7 +110,7 @@ var Util = {
       + '    <li>'
       + '      <a href="https://excd.jp/">'
       + '        <p class="to_excd">運営企業</p>'
-      + '        <img alt="運営企業" class="pop_up" src="/webB/images/return.png" />'
+      + '        <img alt="運営企業 class="pop_up" src="/webB/images/return.png" />'
       + '      </a>'
       + '    </li>'
       + '  </ul>'
@@ -191,4 +191,3 @@ $(function() {
         Util.addMenuEventHandller();
     });
 });
-
