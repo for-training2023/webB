@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" id="WebApp_ID" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<web-app version="2.5" id="WebApp_ID"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-<servlet>
-<servlet-name>S00007</servlet-name>
-<servlet-class>jp.excd.servlet.S00007</servlet-class>
-</servlet>
+	<!-- <servlet> <servlet-name>Init</servlet-name> <servlet-class>jp.excd.servlet.MySQLSetting</servlet-class> 
+		<load-on-startup>1</load-on-startup> </servlet> -->
 
-<servlet>
-<servlet-name>S00008</servlet-name>
-<servlet-class>jp.excd.servlet.S00008</servlet-class>
-</servlet>
 
-<servlet-mapping>
-<servlet-name>S00007</servlet-name>
-<url-pattern>/ja/S00007/*</url-pattern>
-</servlet-mapping>
+	<servlet>
+		<servlet-name>S00007</servlet-name>
+		<servlet-class>jp.excd.servlet.S00007</servlet-class>
+	</servlet>
 
-<servlet-mapping>
-<servlet-name>S00008</servlet-name>
-<url-pattern>/ja/S00008/*</url-pattern>
-</servlet-mapping>
+	<servlet>
+		<servlet-name>S00008</servlet-name>
+		<servlet-class>jp.excd.servlet.S00008</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>S00007</servlet-name>
+		<url-pattern>/ja/S00007/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>S00008</servlet-name>
+		<url-pattern>/ja/S00008/*</url-pattern>
+	</servlet-mapping>
+
+
 
 </web-app>
