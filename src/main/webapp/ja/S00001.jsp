@@ -3,7 +3,6 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
-<%System.out.println("JSP"); %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
