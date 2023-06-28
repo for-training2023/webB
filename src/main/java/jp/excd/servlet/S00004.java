@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class S00004 extends HttpServlet {
 
 
 			//Listの宣言
-			List<Map<String,String>> SongList = new ArrayList<>();
+			List<Map<String,String>> songlist = new ArrayList<>();
 
 
 			try {
@@ -188,7 +189,7 @@ public class S00004 extends HttpServlet {
 					map.put("release_datetime",s);//公開日
 					map.put("song_id",song_id);//曲ID
 
-					SongList.add(map);
+					songlist.add(map);
 
 				}
 
@@ -254,12 +255,7 @@ public class S00004 extends HttpServlet {
 			request.setAttribute("s_averageAll",s_averageAll);//曲の総合平均
 
 			//公開曲一覧
-			request.setAttribute("title",title);//曲名
-			request.setAttribute("image_file_name",image_file_name);//画像名前
-			request.setAttribute("image_file_height",image_file_height);//画像高さ
-			request.setAttribute("image_file_width",image_file_width);//画像幅
-			request.setAttribute("song_id",song_id);//曲ID
-			request.setAttribute("SongList",SongList);//List
+			request.setAttribute("songlist",songlist);//List
 
 			if(nickname == null){
 				//400エラー　作曲家名の取得で判断する
@@ -296,17 +292,17 @@ public class S00004 extends HttpServlet {
 	 * 	returnによって返される「resultVal」には実際に表示する文字列が格納される
 	 */
 	private String getDatetime(double datetime) {
-		//「～前」
+		//「～前」s
 		String resultVal;
 		double d_releaseDay = 0;
 		//現在のエポック秒を取得
-		//Date date = new Date();
-		//Double nowEpoch = (double) date.getTime();
+		Date date = new Date();
+		Double nowEpoch = (double) date.getTime();
 		
 		//差分を算出
 		//テスト用コード
-		Double diff = (1686924000 - datetime) * 1000;
-		//Double diff = (nowEpoch) - datetime * 1000;
+		//Double diff = (1686924000 - datetime) * 1000;
+		Double diff = (nowEpoch) - datetime * 1000;
 		
 		//小数点以下を切り捨てる処理
 		NumberFormat numberFormat = NumberFormat.getInstance();

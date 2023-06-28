@@ -51,6 +51,14 @@ div.song_list ul li div.cell div.song3 img {
     object-fit:cover;
 }
 
+.overflow-wrap.normal {
+  overflow-wrap: normal;
+}
+
+.overflow-wrap.break-word {
+  overflow-wrap: break-word;
+}
+
 </style>
 </head>
 <body>
@@ -77,7 +85,7 @@ String ratingAll = (String) request.getAttribute("ratingAll");//総感動指数
 
 String nothing = "データがありません。"; %>
 
-<% List<Map<String, String>> SongList = (List<Map<String, String>>) request.getAttribute("SongList"); %>
+<% List<Map<String, String>> songlist = (List<Map<String, String>>) request.getAttribute("songlist"); %>
 
 	<!-- メニューのキャンセルレイヤの起点 -->
 	<div id="layer_marker"></div>
@@ -178,6 +186,8 @@ String nothing = "データがありません。"; %>
 
 		<!-- 情報 -->
 		<div class="single_row_table">
+		 <div class="overflow-wrap">
+      <div class="break-word">
 			<table>
 				<tr>
 					<td class="label">情報</td>
@@ -202,7 +212,7 @@ String nothing = "データがありません。"; %>
 					</span>
 					<br>
 					
-					<span class="label_top">総感動指数：</span>
+					<span class="label_top" style="word-break: break-word">総感動指数：</span>
 					
 					<span class="value"> 
 					<%
@@ -229,13 +239,14 @@ String nothing = "データがありません。"; %>
 						</span>
 					<br>
 					
+					
 					<span class="label_top">総再生回数：</span>
 					
-					<span class="value">
+					<span class="value" style="word-break: break-word">
 					<%
 					//再生回数が一曲分でも取得出来ている場合 int型に換えてフォーマットを適用して表示する
 					if (listensum != null) {
-						int listensum2 = Integer.parseInt(listensum);
+						Long listensum2 = Long.parseLong(listensum);
 						out.println(String.format("%,d", listensum2));
 						//再生回数を一曲も取得出来ていない場合
 						} else {
@@ -247,6 +258,8 @@ String nothing = "データがありません。"; %>
 					
 				</tr>
 			</table>
+			</div>
+			</div>
 		</div>
 
 		<!-- 関連リンク -->
@@ -278,10 +291,11 @@ String nothing = "データがありません。"; %>
 				<%
 				
 					//曲が存在する分だけ繰り返し表示する
-					for (int i = 0; i < SongList.size(); i++) {
-					Map<String, String> map = SongList.get(i);
+					for (int i = 0; i < songlist.size(); i++) {
+					Map<String, String> map = songlist.get(i);
 					map.get("song_id");//曲ID
 					map.get("image_file_height");//画像高さ
+					String image_name = map.get("image_file_name");//画像名前
 					map.get("image_file_width");//画像幅 %>
 				<li>
 					<div class="cell">
@@ -291,17 +305,18 @@ String nothing = "データがありません。"; %>
 								<div class="image song1">
 								
 									<% 
+									
 									//画像が設定されている場合
-									if (image_file_name != null) { %>
+									if (image_name != null) { %>
 									
 									<!-- リンクを参照して画像を表示する -->
-									<img  class= "songimage" alt="<%=map.get("title")%>" src="/webB/images/<%=map.get("image_file_name")%>">
+									<img  class= "songimage" alt="<%=map.get("title")%>" src="/webB/images/<%=image_name%>">
 									<img alt="play" class="play" src="/webB/images/play.png">
 								</div>
 							</a>
 						</div>
 						<% } else { //画像が未設定の場合 Noimageを表示させる %>
-						<img alt="<%=map.get("image_file_name")%>" src="/webB/images/noimage.png">
+						<img alt="<%=image_name%>" src="/webB/images/noimage.png">
 						<img alt="play" class="play" src="/webB/images/play.png">
 					</div> </a>
 		</div>
