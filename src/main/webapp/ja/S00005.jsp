@@ -191,7 +191,7 @@ function checkAll(){
 			<% } %>
 
 			<!-- フォーム -->
-			<form method="post" name="form1" action="/webB/ja/S00005/search">
+			<form method="post" name="form1" action="/webB/ja/S00005/search" novalidate>
 
 			<!--条件divをまとめるdiv(contents)-->
 			<div class="contents_search">
