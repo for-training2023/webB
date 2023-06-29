@@ -9,6 +9,7 @@ public class ComposerBean {
 	private String listener_count;
 	private String language_type;
 	private String composer_id;
+	private String unique_code;
 	
 	/**
 	 * @return nickname
@@ -100,5 +101,18 @@ public class ComposerBean {
 	 */
 	public void setComposer_id(String composer_id) {
 		this.composer_id = composer_id;
+	}
+	
+	/**
+	 * @return  unique_code
+	 */
+	public String getUnique_code() {
+		return composer_id;
+	}
+	/**
+	 * @param  unique_code セットする unique_code
+	 */
+	public void setUnique_code(String unique_code) {
+		this.unique_code = unique_code;
 	}
 }

@@ -715,6 +715,9 @@ public class S00007 extends HttpServlet {
 			//作曲家ID
 			String Composer_id = rs.getString("id");
 			bean.setComposer_id(Composer_id);
+			//ユニークコード
+			String unique_code = rs.getString("unique_code");
+			bean.setUnique_code(unique_code);
 			//ニックネーム
 			String Nickname = rs.getString("nickname");
 			bean.setNickname(Nickname);

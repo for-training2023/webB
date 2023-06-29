@@ -165,7 +165,7 @@ a.nickname_link{    /* 作曲家リンクの文字色指定 */
 				<br>
 				<hr class="horizon" />
 				
-						<a href="/webB/ja/S00004/unique_code"  class="nickname_link"><%=record.getNickname()%></a>
+						<a href="/webB/ja/S00004/<%=record.getUnique_code()%>"  class="nickname_link"><%=record.getNickname()%></a>
 						<a href="/webB/ja/S00004/<%= record.getComposer_id()%>"> </a>
 						
 						<div class="detail">
