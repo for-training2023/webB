@@ -98,14 +98,14 @@ public class MySQLSetting extends HttpServlet {
 		}
 
 		// コネクション用のSQL
-		final String URL = "jdbc:mysql://"
-				+ hostName
-				+ ":3306/"
-				+ dbName
-				+ "?serverTimezone="
-				+ timeZone
-				+ "&allowPublicKeyRetrieval=true"
-				+ "&useSSL=false";
+		final String URL = "jdbc:mysql://"// コネクション用のSQL
+                + hostName
+                + ":3306/"
+                + dbName
+                + "?serverTimezone="
+                + timeZone
+                + "&allowPublicKeyRetrieval=true"
+                + "&useSSL=false";
 
 		// コネクション接続
 		Connection conn = DriverManager.getConnection(URL, connectUserName, connectPassword);

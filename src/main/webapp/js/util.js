@@ -84,25 +84,25 @@ var Util = {
       + '  </div>'
       + '  <ul>'
       + '    <li>'
-      + '      <a href="S00001.jsp">'
+      + '      <a href="/webB/ja/S00001.jsp">'
       + '        <p>HOME</p>'
       + '        <img alt="HOME" class="right_arrow" src="/webB/images/right_arrow.png" />'
       + '      </a>'
       + '    </li>'
       + '    <li>'
-      + '      <a href="S00005.jsp">'
+      + '      <a href="/webB/ja/S00005.jsp">'
       + '        <p>作品検索</p>'
       + '        <img alt="作品検索" class="right_arrow" src="/webB/images/right_arrow.png" />'
       + '      </a>'
       + '    </li>'
       + '    <li>'
-      + '      <a href="S00007.jsp">'
+      + '      <a href="/webB/ja/S00007.jsp">'
       + '        <p>作曲家検索</p>'
       + '        <img alt="作曲家検索" class="right_arrow" src="/webB/images/right_arrow.png" />'
       + '      </a>'
       + '    </li>'
       + '    <li>'
-      + '      <a href="S00009.jsp">'
+      + '      <a href="/webB/ja/S00009.jsp">'
       + '        <p>専用アプリダウンロード</p>'
       + '        <img alt="専用アプリダウンロード" class="right_arrow" src="/webB/images/right_arrow.png" />'
       + '      </a>'
@@ -191,7 +191,3 @@ $(function() {
         Util.addMenuEventHandller();
     });
 });
-
-//-----------------------------------------------------------------------------
-// 
-//-----------------------------------------------------------------------------
