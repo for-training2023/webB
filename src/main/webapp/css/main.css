@@ -207,7 +207,7 @@ div.main_button {
   margin-bottom: 40px;
   width: 95%;
 }
-div.main_button a {
+div.main_button a, div.main_button input{
   display: block;
   box-sizing: border-box;
   font-size: 18px;
@@ -1018,3 +1018,4 @@ div.comments ul li div.reply p.time {
     height: 50px;
     width: 50px;
 }
+
