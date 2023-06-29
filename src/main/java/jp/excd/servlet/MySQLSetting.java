@@ -22,7 +22,7 @@ public class MySQLSetting extends HttpServlet {
 	public static String AWS_IP_BLOCK = "10.1.11.";
 
 	// AWSのMySQLのホスト名
-	public static String AWS_RDS_HOST = "mysql-for-training.cywu4q57ijlf.ap-northeast-1.rds.amazonaws.com";
+	public static String AWS_RDS_HOST = "mysql-for-training.sample.ap-northeast-1.rds.amazonaws.com";
 
 	// AWSのユーザネーム
 	public static String AWS_RDS_USER_NAME = "root";
@@ -77,9 +77,9 @@ public class MySQLSetting extends HttpServlet {
 	// DBコネクション取得
 	//-----------------------------------------------------------------
 	public static Connection getConnection(String dbName,
-	                                        String userName,
-	                                        String password,
-	                                        String timeZone) throws SQLException {
+			String userName,
+			String password,
+			String timeZone) throws SQLException {
 
 		// ホストの設定
 		String hostName = "192.168.1.68";
@@ -98,7 +98,7 @@ public class MySQLSetting extends HttpServlet {
 		}
 
 		// コネクション用のSQL
-		final String URL = "jdbc:mysql://"
+		final String URL = "jdbc:mysql://"// コネクション用のSQL
                 + hostName
                 + ":3306/"
                 + dbName

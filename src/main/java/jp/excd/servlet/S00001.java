@@ -28,6 +28,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class S00001 extends HttpServlet {
 
+	// 現在時刻から一月前の時刻を割り出すための定数。一月分のエポック秒
+	private static final long ONE_MONTH = 2592000;
+	
+	// 現在時刻から一年前の時刻を割り出すための定数。一年分のエポック秒
+	private static final long ONE_YEAR = 31536000;
+	
+	// カテゴリの値の比較に使う定数。
+	private static final String[] HANKAKU = {"1", "2", "3", "4", "5"};
+	private static final String[] ZENKAKU = {"１", "２", "３", "４"};
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
 		// UTF-8でエンコードする。
@@ -118,29 +128,20 @@ public class S00001 extends HttpServlet {
 	private void prmainProcessForTopocess(HttpServletRequest request, HttpServletResponse response, Connection con)
 			throws IOException, ServletException {
 		
-		
 		// URLパラメータ「category」を取得する
 		String category = request.getParameter("category");
 		if(category != null) {
 			// エンコードの例
 			String encodedResult = URLEncoder.encode(category, "UTF-8");
-			System.out.println("エンコード結果:" + encodedResult);
 		}
-		System.out.println(category);
-		
 		// URLパラメータ「from」を取得する
 		String from = request.getParameter("from");
-System.out.println(from);
 		// ソート機能メソッドを呼び出す
-System.out.println("ソート機能メソッドを呼び出す");
 		category =  getSort(request, category, con);
-System.out.println("ソート機能メソッドの帰還");
 		request.setAttribute("Category", category);
 		
 		// 追加読み込み機能メソッドを呼び出す
-System.out.println("追加読み込み機能メソッドを呼び出す");
 		from = getAdd(request, response, from);
-System.out.println("追加読み込み機能メソッドの帰還");
 
 		// トップページに遷移する
 		getServletConfig().getServletContext().getRequestDispatcher("/ja/S00001.jsp").forward(request, response);
@@ -169,75 +170,80 @@ System.out.println("追加読み込み機能メソッドの帰還");
 		// プリペアードステートメントに代入する変数
 		String sortTimeAgo = "";
 
-		/* 変数categoryの値をチェックします
-		 * 	nullである場合には初期値の「1」を設定します
-		 */
+		// 配列定数のアドレス用変数
+		int num = 0;
+		
+		// SQL文の組み立ての終了フラグ変数
+		int endNum = 0;
+		
+		// 変数categoryの値をチェックします
+		// 	nullである場合には初期値の「1」を設定します
 		if(category == null || "".equals(category)) {
-			category ="1";
+			category = HANKAKU[num];
 		}		
-		
+
 		// SQL文の組み立て
-		/* categoryが「1」の時
-		 * 	SQL文に公開日の降順で並びかえる
-		 *  公開日の日付が30日前から現在までのデータのみ取得する
-		 */
-		if (category.equals("1") || category.equals("１")) {
-			System.out.println("正常");
-			sql += "ORDER BY s.release_datetime DESC;";
-			long Epoch = 2592000;
+		// categoryが「2」の時
+		// 	SQL文に総感動指数の降順で並びかえる
+		//  公開日の日付が30日前から現在までのデータのみ取得する
+		num++;
+		if (category.equals(HANKAKU[num]) || category.equals(ZENKAKU[num])) {
+			sql += "ORDER BY s.rating_total DESC;";
+			long Epoch = ONE_MONTH;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
+			endNum = 1 ;
 		
-		/* categoryが「2」の時
-		 * 	SQL文に総感動指数の降順で並びかえる
-		 *  公開日の日付が30日前から現在までのデータのみ取得する
-		 */
-		}else if (category.equals("2") || category.equals("２")) {
-			System.out.println("正常");
+		}
+		// categoryが「3」の時
+		// 	SQL文に平均感動指数の降順で並びかえる
+		//  公開日の日付が30日前から現在までのデータのみ取得する
+		num++;
+		if (category.equals(HANKAKU[num]) || category.equals(ZENKAKU[num])) {
+
+			sql += "ORDER BY s.rating_average DESC;";
+			long Epoch = ONE_MONTH;
+			sortTimeAgo = Long.toString(getAgo(Epoch));
+			endNum = 1 ;
+		
+		}
+		// categoryが「4」の時
+		// 	SQL文に総感動指数の降順で並びかえる
+		//  公開日の日付が365日前から現在までのデータのみ取得する
+		num++;
+		if (category.equals(HANKAKU[num]) || category.equals(ZENKAKU[num])) {
 
 			sql += "ORDER BY s.rating_total DESC;";
-			long Epoch = 2592000;
+			long Epoch = ONE_YEAR;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
-		
-		/* categoryが「3」の時
-		 * 	SQL文に平均感動指数の降順で並びかえる
-		 *  公開日の日付が30日前から現在までのデータのみ取得する
-		 */
-		}else if (category.equals("3") || category.equals("３")) {
-			sql += "ORDER BY s.rating_average DESC;";
-			long Epoch = 2592000;
-			sortTimeAgo = Long.toString(getAgo(Epoch));
-		
-		/* categoryが「4」の時
-		 * 	SQL文に総感動指数の降順で並びかえる
-		 *  公開日の日付が365日前から現在までのデータのみ取得する
-		 */
-		}else if (category.equals("4") || category.equals("４")) {
-			sql += "ORDER BY s.rating_total DESC;";
-			long Epoch = 31536000;
-			sortTimeAgo = Long.toString(getAgo(Epoch));
+			endNum = 1 ;
 	
-			
-			
-		// 遊び用（のちに消す予定）
-		/* categoryが「5」の時
-		 * 	SQL文に総感動指数の降順で並びかえる
-		 * 	全件表示する
-		 */	
-		}else if (category.equals("5")) {
-			sql += "ORDER BY s.rating_total DESC;";
+		}
+		// 隠しコマンド
+		// categoryが「5」の時
+		// 	SQL文に総感動指数の降順で並びかえる
+		// 	全件表示する	
+		num++;
+		if (category.equals(HANKAKU[num])) {
+
+			sql += "ORDER BY s.total_listen_count DESC;";
 			Date date = new Date();
 			Long nowEpoch = new Long(date.getTime()/1000);
 			long Epoch = nowEpoch;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
+			endNum = 1 ;
 		
-			
-		// その他の場合は、categoryが「1」の時と同様の処理を行う
-		}else {
-			System.out.println("異常");
-			category ="1";
+		}
+		if(endNum == 0) {
+
+			// その他の場合は、categoryが「1」の時と同様の処理を行う
+			// categoryが「1」の時
+			// 	SQL文に公開日の降順で並びかえる
+			//  公開日の日付が30日前から現在までのデータのみ取得する
+			category =HANKAKU[endNum];
 			sql += "ORDER BY s.release_datetime DESC;";
-			long Epoch = 2592000;
+			long Epoch = ONE_MONTH;
 			sortTimeAgo = Long.toString(getAgo(Epoch));
+			endNum = 1;
 		}
 		
 		// プリペアードステートメント
@@ -262,7 +268,7 @@ System.out.println("追加読み込み機能メソッドの帰還");
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, sortTimeAgo);
-
+			
 			// 実行
 			rs = pstmt.executeQuery();
 
@@ -271,8 +277,7 @@ System.out.println("追加読み込み機能メソッドの帰還");
 			
 			// 表示は先頭100件までなので100件取得したときに終了するためのint型を用意する
 			int j = 0;
-			System.out.println(sql);
-			System.out.println(sortTimeAgo);
+
 			while (rs.next()) {
 				// SQLの結果を格納する
 				String id = rs.getString("s.id");
@@ -291,11 +296,6 @@ System.out.println("追加読み込み機能メソッドの帰還");
 				// imageFileNameがnullの場合にnoimage.pngを設定する
 				if(imageFileName == null) {
 					imageFileName = "noimage.png";
-				}
-				// 遊び用（のちに消す予定）
-				// パッションフルーツをgifに変換
-				if(imageFileName.equals("passionfruit.png")) {
-					imageFileName = "passionfruit.gif";
 				}
 				
 				// ｎ日前を取得する
@@ -322,11 +322,12 @@ System.out.println("追加読み込み機能メソッドの帰還");
 				list.addAll(map.values());
 				request.setAttribute("List", list);
 				
-				// 100件取得したら終了する
-				if (category.equals("5")) {
+				// カテゴリが５の時は全件表示する
+				if (category.equals(HANKAKU[num])) {
 					j--;
 				}
 				j++;
+				// 100件取得したら終了する
 				if(j == 100) {
 					break;
 				}
@@ -362,9 +363,7 @@ System.out.println("追加読み込み機能メソッドの帰還");
 		request.setAttribute("ListSize", listSize);
 		
 		int val = Integer.parseInt(category);
-		System.out.println("文字列を数字文字に変換："+val);
 		category = String.valueOf(val);
-		System.out.println("数字文字列を文字列に変換："+category);
 		
 		return category;
 	}
@@ -398,7 +397,7 @@ System.out.println("追加読み込み機能メソッドの帰還");
 			
 				// 表示するレコードの最大値を設定する（初期値）
 				outPutMax = Integer.valueOf(from);
-				outPutMax -=1;
+				outPutMax -= 1;
 				
 				// 変数outPutMaxを-5した値を表示するレコードの最小値に設定する
 				outPutMin = outPutMax - 5;
@@ -417,12 +416,10 @@ System.out.println("追加読み込み機能メソッドの帰還");
 				outPutMax = Integer.parseInt(from);
 				outPutMax -= 1;
 			}else {
-			
-			from="6";
+				from="6";
 			}
 		} catch (Exception e) {
 		// 数字以外の値が含まれているため500エラー
-			from = "6";
 			getServletConfig().getServletContext().getRequestDispatcher("/ja/500.jsp").forward(request, response);
 		}
 
@@ -450,10 +447,10 @@ System.out.println("追加読み込み機能メソッドの帰還");
 		// 現在のエポック秒を取得
 		Date date = new Date();
 		Long nowEpoch = new Long(date.getTime()/1000);
-	
+
 		// 差分を算出
 		Long diff = nowEpoch - time;
-		
+
 		// 小数点以下を切り捨てる処理
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		numberFormat.setMaximumFractionDigits(0);

@@ -1,150 +1,169 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.List"%>
-<%@ page import="jp.excd.servlet.SongRecord"%>
+<%@ page import="jp.excd.bean.SongRecord"%>
+<%@ page import="jp.excd.bean.SongBean"%>
 <!DOCTYPE html>
 <html>
 <%
-	List<SongRecord> songs = (List<SongRecord>) request.getAttribute("list");
+	List<SongBean> songs = (List<SongBean>) request.getAttribute("list");
 %>
 <head>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>音楽室</title>
-<link rel="stylesheet" href="/web/css/main_1.css" />
-<link rel="stylesheet" type="text/css" href="/web/css/menu.css" />
-<link rel="stylesheet" type="text/css" href="/web/css/S00006.css" />
-<script src="/web/js/jquery-3.3.0.min.js"></script>
-<script type="text/javascript" src="/web/js/pageTop.js"></script>
-<script type="text/javascript" src="/web/js/menu.js"></script>
-<script type="text/javascript" src="/web/js/S00006.js"></script>
+<link rel="stylesheet" type="text/css" href="/webB/css/main.css">
+<script type="text/javascript" src="/webB/js/jquery-3.3.0.min.js"></script>
+<script type="text/javascript" src="/webB/js/input.js"></script>
+<script type="text/javascript" src="/webB/js/util.js"></script>
+
+<style>
+
+div.song_list ul li div.cell div.song1 img {
+	position: relative;
+	left: 0px;
+	top: -11px;
+	width: 275px;
+	height: 182px;
+}
+
+img.img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.exceed{
+	text-align: center;
+}
+
+</style>
 
 </head>
 <body>
-	<div id="overlay"></div>
+ 	<!-- メニューのキャンセルレイヤの起点 -->
+	<div id="layer_marker"></div>
+
 	<div class="wrapper">
+ 	
+	 	<!-- タイトルバー -->
+		<div class="title_bar">
+			<p class="page_title">作品検索</p>
+			<a href="javascript:back.submit()" class="back">&lt;&nbsp;戻る</a>
+			<a href="#" id="menu_open" class="menu_maker"> <img alt="メニュー" src="/webB/images/menu.png" class="menu-icon">
+			</a>
+		</div>
+	
+		<!-- メニューの起点 -->
+		<div id="menu_marker"></div>
+ 	
 
-		<div class="main">
-			<div class="left">
-				<a id="backLink" href="#">
-					<p>&lt;戻る</p>
-				</a>
-			</div>
-
-			<div class="title">
-				<h1>作品検索</h1>
-			</div>
-			<div class="right">
-				<div class="tyousei">
-					<img src="/web/images/menu_編集後.png" class="menu_top" alt="メニュー">
-				</div>
+		<!-- 検索結果表示 -->
+		<div class="message_with_right_button">
+		
+			<p><%=request.getAttribute("hits")%></p>
+		
+			<div class="right_button">
+				<a href="javascript:change.submit()" class="btn-change" id="changeLink">条件変更</a>
 			</div>
 		</div>
 
-		<div class="bottom_main">
-			<div class="gaitou">
-				<p><%=request.getAttribute("hits")%>件が該当します。
-				</p>
-			</div>
-			<div class="resultTitle">
-				<a href="#" class="btn-change" id="changeLink">条件変更</a>
-			</div>
-		</div>
+ 		
 
-		<div class="contents">
-			<ul>
-				<%
-					for (SongRecord record : songs) {
-				%>
-				<li>
-					<div class="detail">
-						<h1><%=record.getTitle()%></h1>
-						<div class="gazou">
-							<a href="/web/ja/S00003/<%= record.getSong_id()%>"> <img src="/web/images/<%=record.getImage_file_name()%>" class="trimc" alt="">
-							</a>
-						</div>
-						<p>
-							<span class="sisuu">総感動指数:</span><span><%=record.getRating_total()%></span>
-							<span class="sisuu">平均感動指数:</span><span><%=record.getRating_average()%></span><br>
-							<span class="sisuu">再生回数</span><span><%=record.getTotal_listen_count()%></span>
-							<span class="sisuu">公開:</span><span><%=record.getRelease_datetime()%></span>
-						</p>
-					</div>
-				</li>
+ 		<div class="song_list">
+ 			<ul>
+ 				<%
+ 					for (SongBean record : songs) { //recordの部分は自分で設定できる
+					
+ 				%>
+ 				<li>
+ 					<div class="cell">
+ 						<div class="detail">
+ 							<div class="song_title">
+ 								<h1><%=record.getTitle()%></h1> <!-- ドットより左はfor文のrecordに対応している -->
+ 							</div>
+ 							<div class="image_base">
+ 								<a href="/webB/ja/S00003/<%= record.getSong_id()%>">  
+ 									<div class=" image song">
+ 										<img class="img" src="/webB/images/<%=record.getImage_file_name()%>" >
+ 										<img alt="play" class="play" src="/webB/images/play.png" >
+ 									</div>
+ 								</a>
+ 							</div>
+ 						
+ 							<div>
+ 								<p>
+									<span class="label">総感動指数:</span><span class="value"><%=record.getRating_total_formated()%></span>
+		 							<span class="label">平均感動指数:</span><span class="value"><%=record.getRating_average_formated()%></span>
+		 							<span class="label">再生回数:</span><span class="value"><%=record.getTotal_listen_count_formated()%></span>
+		 							<span class="label">公開:</span><span class="value"><%=record.getRelease_datetime_formated()%></span>
+ 								</p>
+ 							</div>
+ 						</div>
+ 					</div>
+ 				</li>
 				<%
 					}
 				%>
-			</ul>
-			<div class="jouken2">
-				<a id="changeLink2" href="#" class="btn-change2">条件変更</a>
-			</div>
+ 			</ul>
+ 			<div class="main_button">
+			<a href="javascript:change.submit()" class="btn-change" id="changeLink">条件変更</a>
 		</div>
-	</div>
+ 		</div>
+ 	</div>
 
-	<form id="formBack" method="POST" action="/web/ja/S00006/back">
-		<input name="release_date_is_radio" type="hidden" value="<%= request.getAttribute("release_date_is_radio") %>">
+ 	<form name="back" id="formBack" method="POST" action="/webB/ja/S00006/back">
+ 		<input name="release_date_is_radio" type="hidden" value="<%= request.getAttribute("release_date_is_radio") %>">
 		<input name="release_date_is_from" type="hidden" value="<%= request.getAttribute("release_date_is_from") %>">
-		<input name="release_date_is_to" type="hidden" value="<%= request.getAttribute("release_date_is_to") %>">
-		<input name="rating_radio" type="hidden" value="<%= request.getAttribute("rating_radio") %>">
-		<input name="rating_from" type="hidden" value="<%= request.getAttribute("rating_from") %>">
-		<input name="rating_to" type="hidden" value="<%= request.getAttribute("rating_to") %>">
-		<input name="rating_average_radio" type="hidden" value="<%= request.getAttribute("rating_average_radio") %>">
+ 		<input name="release_date_is_to" type="hidden" value="<%= request.getAttribute("release_date_is_to") %>">
+ 		<input name="rating_radio" type="hidden" value="<%= request.getAttribute("rating_radio") %>">
+ 		<input name="rating_from" type="hidden" value="<%= request.getAttribute("rating_from") %>">
+ 		<input name="rating_to" type="hidden" value="<%= request.getAttribute("rating_to") %>">
+ 		<input name="rating_average_radio" type="hidden" value="<%= request.getAttribute("rating_average_radio") %>">
+ 		<input name="rating_average_from" type="hidden" value="<%= request.getAttribute("rating_average_from") %>">
+ 		<input name="rating_average_to" type="hidden" value="<%= request.getAttribute("rating_average_to") %>">
+ 		<input name="views_radio" type="hidden" value="<%= request.getAttribute("views_radio") %>">
+ 		<input name="views_from" type="hidden" value="<%= request.getAttribute("views_from") %>">
+ 		<input name="views_to" type="hidden" value="<%= request.getAttribute("views_to") %>">
+ 		<input name="title_radio" type="hidden" value="<%= request.getAttribute("title_radio") %>">
+ 		<input name="title_type_radio" type="hidden" value="<%= request.getAttribute("title_type_radio") %>">
+ 		<input name="title" type="hidden" value="<%= request.getAttribute("title") %>">
+ 		<input name="sort_order" type="hidden" value="<%= request.getAttribute("sort_order") %>">
+ 	</form>
+ 	<form name="change" id="formChange" method="POST" action="/webB/ja/S00006/change">
+ 		<input name="release_date_is_radio" type="hidden" value="<%= request.getAttribute("release_date_is_radio") %>">
+ 		<input name="release_date_is_from" type="hidden" value="<%= request.getAttribute("release_date_is_from") %>">
+ 		<input name="release_date_is_to" type="hidden" value="<%= request.getAttribute("release_date_is_to") %>">
+ 		<input name="rating_radio" type="hidden" value="<%= request.getAttribute("rating_radio") %>">
+ 		<input name="rating_from" type="hidden" value="<%= request.getAttribute("rating_from") %>">
+ 		<input name="rating_to" type="hidden" value="<%= request.getAttribute("rating_to") %>">
+ 		<input name="rating_average_radio" type="hidden" value="<%= request.getAttribute("rating_average_radio") %>">
 		<input name="rating_average_from" type="hidden" value="<%= request.getAttribute("rating_average_from") %>">
-		<input name="rating_average_to" type="hidden" value="<%= request.getAttribute("rating_average_to") %>">
-		<input name="views_radio" type="hidden" value="<%= request.getAttribute("views_radio") %>">
-		<input name="views_from" type="hidden" value="<%= request.getAttribute("views_from") %>">
-		<input name="views_to" type="hidden" value="<%= request.getAttribute("views_to") %>">
-		<input name="title_radio" type="hidden" value="<%= request.getAttribute("title_radio") %>">
-		<input name="title_type_radio" type="hidden" value="<%= request.getAttribute("title_type_radio") %>">
-		<input name="title" type="hidden" value="<%= request.getAttribute("title") %>">
-		<input name="sort_order" type="hidden" value="<%= request.getAttribute("sort_order") %>">
-	</form>
-	<form id="formChange" method="POST" action="/web/ja/S00006/change">
-		<input name="release_date_is_radio" type="hidden" value="<%= request.getAttribute("release_date_is_radio") %>">
-		<input name="release_date_is_from" type="hidden" value="<%= request.getAttribute("release_date_is_from") %>">
-		<input name="release_date_is_to" type="hidden" value="<%= request.getAttribute("release_date_is_to") %>">
-		<input name="rating_radio" type="hidden" value="<%= request.getAttribute("rating_radio") %>">
-		<input name="rating_from" type="hidden" value="<%= request.getAttribute("rating_from") %>">
-		<input name="rating_to" type="hidden" value="<%= request.getAttribute("rating_to") %>">
-		<input name="rating_average_radio" type="hidden" value="<%= request.getAttribute("rating_average_radio") %>">
-		<input name="rating_average_from" type="hidden" value="<%= request.getAttribute("rating_average_from") %>">
-		<input name="rating_average_to" type="hidden" value="<%= request.getAttribute("rating_average_to") %>">
-		<input name="views_radio" type="hidden" value="<%= request.getAttribute("views_radio") %>">
-		<input name="views_from" type="hidden" value="<%= request.getAttribute("views_from") %>">
-		<input name="views_to" type="hidden" value="<%= request.getAttribute("views_to") %>">
-		<input name="title_radio" type="hidden" value="<%= request.getAttribute("title_radio") %>">
-		<input name="title_type_radio" type="hidden" value="<%= request.getAttribute("title_type_radio") %>">
-		<input name="title" type="hidden" value="<%= request.getAttribute("title") %>">
-		<input name="sort_order" type="hidden" value="<%= request.getAttribute("sort_order") %>">
-	</form>
+ 		<input name="rating_average_to" type="hidden" value="<%= request.getAttribute("rating_average_to") %>">
+ 		<input name="views_radio" type="hidden" value="<%= request.getAttribute("views_radio") %>">
+ 		<input name="views_from" type="hidden" value="<%= request.getAttribute("views_from") %>">
+ 		<input name="views_to" type="hidden" value="<%= request.getAttribute("views_to") %>">
+ 		<input name="title_radio" type="hidden" value="<%= request.getAttribute("title_radio") %>">
+ 		<input name="title_type_radio" type="hidden" value="<%= request.getAttribute("title_type_radio") %>">
+ 		<input name="title" type="hidden" value="<%= request.getAttribute("title") %>">
+ 		<input name="sort_order" type="hidden" value="<%= request.getAttribute("sort_order") %>">
+ 	</form>
 
-	<nav id="menu-conts" class="hidden">
-		<div>
-			メニュー
-			<button type="button" id="close-btn">×CLOSE</button>
-		</div>
-		<ul>
-			<li><a href="https://www.excd.jp/web/ja/S00001">HOME</a></li>
-			<li><a href="https://www.excd.jp/web/ja/S00005">作品検索</a></li>
-			<li><a href="https://www.excd.jp/web/ja/S00007">作曲家検索</a></li>
-			<li><a href="https://www.excd.jp/web/ja/S00008">専用アプリダウンロード</a></li>
-			<li><a href="https://excd.jp/">運営会社</a><a
-				href="https://excd.jp/"><img src="/web/images/return.png"
-					id="return" alt="メニュー"></a></li>
-		</ul>
-	</nav>
 
-	<br>
-	<hr>
-	<footer>
-		<p>
-			Copyright &copy; <a href="https://www.excd.jp/top" style = "font-siza:15pt">EXCEED Co.,ltd. </a>
-		</p>
+ 	<br>
+ 	<footer>
+ 		<div class="exceed">
+ 			Copyright <a href="https://www.excd.jp/">© EXCEED Co., Ltd.</a> All Rights Reserved.
+ 		</div>
 
-		<div id="pagetop" hidden>
-			<img src="/web/images/pagetop.png" alt="ページトップ">
-		</div>
+ 		<div id="pagetop" hidden>
+ 			<img src="/webB/images/pagetop.png" alt="ページトップ">
+ 		</div>
 
 	</footer>
 

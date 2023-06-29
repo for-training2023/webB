@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 public class S00003 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, NullPointerException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
  
         Connection con = null; // コネクション
  
@@ -44,9 +44,13 @@ public class S00003 extends HttpServlet {
 	                + timeZone
 	                + "&allowPublicKeyRetrieval=true"
 	                + "&useSSL=false";
-	        
-	        con = DriverManager.getConnection(URL, connectUserName, connectPassword);
-
+	        try {
+	        	con = DriverManager.getConnection(URL, connectUserName, connectPassword);
+	        }catch (Exception e){
+				getServletConfig().getServletContext().
+				getRequestDispatcher("/ja/500.jsp").
+				forward( request, response );
+	        }
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
@@ -72,15 +76,15 @@ public class S00003 extends HttpServlet {
 	        String songId = null;
 	        String title = null;  //タイトル
 	        String songComposerId = null;  //曲の作曲者id
-	        int ratingTotal = 0;  //総感動指数
+	        long ratingTotal = 0;  //総感動指数
 	        double ratingAverage = 0;  //平均感動指数
-	        int totalListeningCount = 0;  //再生回数
+	        long totalListeningCount = 0;  //再生回数
 	        double releaseDatetime = 0;  //公開日
 	        double lastUpdateDatetime = 0;  //最終更新日
 	        String message = null;  //メッセージ
 	        String key = null;  //キー
 	        String scoreType = null;  //楽譜表記
-	        String bpm = null;  //BPM
+	        double bpm = 0;  //BPM
 	        String imageFileName = null;  //画像名
 	        int imageFileHeight = 0;  //画像の高さ
 	        int imageFileWidth = 0;  //画像の幅
@@ -147,7 +151,6 @@ public class S00003 extends HttpServlet {
 	    	PreparedStatement pstmt2 = null;
 	    	ResultSet rs = null;
 	    	ResultSet rs2 = null;
-	    	System.out.println(sql);
 	    	pstmt = con.prepareStatement(sql);
 	    	pstmt2 = con.prepareStatement(sql2);
 	    	pstmt.setInt(1,intSongId);
@@ -162,15 +165,15 @@ public class S00003 extends HttpServlet {
             	songId = rs.getString("song.id");
                 title = rs.getString("song.title");
                 songComposerId = rs.getString("song.composer_id");
-                ratingTotal = rs.getInt("song.rating_total");
+                ratingTotal = rs.getLong("song.rating_total");
                 ratingAverage = rs.getDouble("song.rating_average");
-                totalListeningCount = rs.getInt("song.total_listen_count");
+                totalListeningCount = rs.getLong("song.total_listen_count");
                 releaseDatetime = rs.getDouble("song.release_datetime");
                 lastUpdateDatetime = rs.getDouble("song.last_update_datetime");
                 message = rs.getString("song.message");
                 key = rs.getString("song.key");
                 scoreType = rs.getString("song.score_type");
-                bpm = rs.getString("song.bpm");
+                bpm = rs.getDouble("song.bpm");
                 imageFileName = rs.getString("song.image_file_name");
                 imageFileHeight = rs.getInt("song.image_file_height");
                 imageFileWidth = rs.getInt("song.image_file_width");
@@ -178,7 +181,6 @@ public class S00003 extends HttpServlet {
                 otherLinkDescription = rs.getString("song.other_link_description");
                 uniqueCode = rs.getString("composer.unique_code");
                 nickName = rs.getString("composer.nickname");
-                
             }
 
 //////////////////////////////////////////////////////////////////////////
@@ -198,7 +200,7 @@ public class S00003 extends HttpServlet {
                 commentUniqueCode = rs2.getString("composer.unique_code");  //コメント投稿者のユニークコード取得
                 commentNickName = rs2.getString("composer.nickname");  //コメント投稿者のニックネーム取得
                 rating = rs2.getDouble("rating.rating");  //レーティングを取得
-
+                
                 Map<String,String> map = new HashMap<String,String>();  //コメント内の各パラメータを格納するマップを定義
                 
                 String s =getDatetime(writeDatetime);  //投稿時間（エポック秒）を「～日前」の形に変更し、変数「s」に格納
@@ -247,9 +249,9 @@ public class S00003 extends HttpServlet {
 			request.setAttribute("releaseDatetime",getDatetime(releaseDatetime));
 			request.setAttribute("lastUpdateDatetime",getDatetime(lastUpdateDatetime));
 			request.setAttribute("message",message);
-			request.setAttribute("key",key);
+			request.setAttribute("key",changeKey(key));
 			request.setAttribute("scoreType",scoreType);
-			request.setAttribute("bpm",bpm);
+			request.setAttribute("bpm",checkBpm(bpm));
 			request.setAttribute("imageFileName",imageFileName);
 			request.setAttribute("imageFileHeight",imageFileHeight);
 			request.setAttribute("imageFileWidth",imageFileWidth);
@@ -274,9 +276,9 @@ public class S00003 extends HttpServlet {
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////	
 		
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			getServletConfig().getServletContext().
-			getRequestDispatcher("/ja/500.jsp").
+			getRequestDispatcher("/ja/404.jsp").
 			forward( request, response );
 		} finally {
 		    if (con != null) {
@@ -316,7 +318,7 @@ public class S00003 extends HttpServlet {
 		}
 		//2秒以上かつ60秒未満
 		else if (diff < 60000) {
-			resultVal = diff + "秒前";
+			resultVal = numberFormat.format(diff/1000) + "秒前";
 		}
 		//1分以上かつ2分未満
 		else if (diff < 120000) {
@@ -384,7 +386,62 @@ public class S00003 extends HttpServlet {
 		result = result.substring(0, 2);
 		return result;
 	}
+	
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+	
+	private String changeKey(String key) {
+		Map<String, String> map = new HashMap<>();
+		map.put("01", "Cメジャー");
+		map.put("02", "Cシャープメジャー");
+		map.put("03", "Dフラットメジャー");
+		map.put("04", "Dメジャー");
+		map.put("05", "Dシャープメジャー");
+		map.put("06", "Eフラットメジャー");
+		map.put("07", "Eメジャー");
+		map.put("08", "Fメジャー");
+		map.put("09", "Fシャープメジャー");
+		map.put("10", "Gフラットメジャー");
+		map.put("11", "Gメジャー");
+		map.put("12", "Gシャープメジャー");
+		map.put("13", "Aフラットメジャー");
+		map.put("14", "Aメジャー");
+		map.put("15", "Aシャープメジャー");
+		map.put("16", "Bフラットメジャー");
+		map.put("17", "Bメジャー");
+		map.put("18", "Cマイナー");
+		map.put("19", "Cシャープマイナー");
+		map.put("20", "Dフラットマイナー");
+		map.put("21", "Dマイナー");
+		map.put("22", "Dシャープマイナー");
+		map.put("23", "Eフラットマイナー");
+		map.put("24", "Eマイナー");
+		map.put("25", "Fマイナー");
+		map.put("26", "Fシャープマイナー");
+		map.put("27", "Gフラットマイナー");
+		map.put("28", "Gマイナー");
+		map.put("29", "Gシャープマイナー");
+		map.put("30", "Aフラットマイナー");
+		map.put("31", "Aマイナー");
+		map.put("32", "Aシャープマイナー");
+		map.put("33", "Bフラットマイナー");
+		map.put("34", "Bマイナー");
+		return map.get(key);
+	}
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+	
+	private String checkBpm(double bpm) {
+		int tenTimesBpm = (int) (bpm * 10);  //引数のBPMを10倍してtenTimesBpmに代入
+		int remainder = tenTimesBpm % 10;  //tenTimesBpmが10で割り切れるか確かめるために、10で割った余りを変数"remainder"に代入
+		if(remainder == 0) {  //もし"remainder"が"0"だったら（一の位が”０”だったら）１０で割って（元に戻し）、Stringに変換でリターン
+			tenTimesBpm = tenTimesBpm / 10;
+			return Integer.toString(tenTimesBpm);
+		}else {
+			return String.valueOf(bpm);  //余りが"0"ではなかったら（小数点第一位が"0"ではなかったら）、引数のBPMをそのままString型に変換しリターン
+		}
+	}
+	
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////	
 }
-
-//////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////

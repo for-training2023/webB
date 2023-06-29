@@ -3,7 +3,6 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
-<%System.out.println("JSP"); %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -20,6 +19,9 @@
 <script src="../js/util.js" type="text/javascript"></script>
 <!-- 画像の圧縮表示設定 -->
 <style type="text/css">
+ .sortselected{
+   pointer-events:none;
+ }
 div.song_list ul li div.cell div.song1 img {
 	position: relative;
 	left: 0px;
@@ -45,81 +47,109 @@ div.song_list ul li div.cell div.song3 img {
 }
 </style>
 <script type="text/javascript">
-// URLパラメータからエラーメッセージを取得して表示する
-//var urlPrams = new URLSearchParams(window.location.search);
-//var erroeMessage = urlParams.get("error");
-//document.getElementById("errorMessage").textContent = errorMessage;
 
+	/**
+	 * 画面ロード時にURLパラメータを自動正しい形に修正する。
+	 *	数値以外の値が入った場合：1
+	 *	数値が5より大きい場合：1
+	 *	数値がnullの場合：1
+	 *	数値がundefinedの場合：1
+	 *	数値が全角の1～4の場合：全角数値を半角数値に修正したもの
+	 *
+	 *  ※不具合：[, ], \, |, {, }, ` が入力された場合には400エラーが作動してしまいます。 
+	 */
 window.onload = function loadFinished(){
-	//if (1 < document.location.search.length) {
-		//URLを取得
-		let url = new URL(location.href);
-		const enc = encodeURI(url);
-		
-		//var erroeMessage = [
-		//var encodedErrorMessage = encodeURIComponent(erroeMessage);
-		//var errorURL = location.href;
-		
-		// URLSearchParamsオブジェクトを取得
-		let params = url.searchParams;
-		console.log(params.get('category'));
-		var category = params.get('category');
-		console.log("category:"+category);
-		
+	
+	var mes = "";	 
+	//URLを取得
+	let url = new URL(location.href);
+	const enc = encodeURI(url);
+	
+	// URLSearchParamsオブジェクトを取得
+	let params = url.searchParams;
+	var category = params.get('category');
 
-		var num =  replaceFullToHalf(category);
-		console.log("num:"+num);
-		//if(category == erroeMessage){
-		//	location.herf= "http://localhost:8080/webB/ja/400.jsp"
-		//}
-		if(category == null){
-			num = 1;
-		}
-		if(isNaN(num)){
-			console.log("数値ではない");
-			category = 1;
-			num = 1;
-		}
-		
-		if(category === void 0){
-			console.log("数値ではないnull");
-			num = 1;
-		}
-		
-		if(category > 5){
-			console.log("オーヴァーl");
-			num = 1;
-		}
-		
-		// URLSearchParamsオブジェクトを取得
-		console.log(params.get('from'));
-		var from = params.get('from');
-		console.log("params/" + params);
-		console.log("url.searchParams/" + url.searchParams);
-		console.log("from/" + from);
-		console.log("category/" + category);
-		console.log("num/" + num);
-		if(from == null){
-			from = 6;
-		}
-		if(isNaN(from)){
-			from = 6;
-		}
-		if( from === void 0){
-			console.log("数値ではない");
-			from = 6;
-		}
-	//}
-	var cool = "http://localhost:8080/webB/ja/S00001?category=" + num + "&from=" + from;
-	console.log("cool/" + cool);
+	if(!category){
+		category = null;
+	}
+
+	// 値がnullの場合は「1」を設定する。
+	if(category == null){
+		category = '１';
+	}
+
+	// 全角を半角に修正する。
+	var categoryNum =  replaceCategory(category);
+	
+	// 値が数値でない場合は「1」を設定する。
+	if(isNaN(categoryNum)){
+		category = 1;
+		categoryNum = 1;
+	}
+	
+	// 値がundefinedの場合は「1」を設定する。
+	if(category === void 0){
+		category = 1;
+		categoryNum = 1;
+	}
+	
+	// 値が5より大きい場合は「1」を設定する。
+	if(category > 5){
+		category = 1;
+		categoryNum = 1;
+	}
+	
+	
+	// URLSearchParamsオブジェクトを取得
+	var from = params.get('from');
+
+	if(!from){
+		from = null;
+	}
+
+	// 値がnullの場合は「6」を設定する。
+	if(from == null){
+		from = "６";
+	}
+
+	var fromNam = replaceFrom(from);
+
+	// 値が数値でない場合は「6」を設定する。
+	if(isNaN(fromNam)){
+		fromNam = 6;
+	}
+	
+	// 値がundefinedの場合は「6」を設定する。
+	if( from === void 0){
+		fromNam = 6;
+	}
+
+	// 変更するURLを生成する。
+	var cool = "http://localhost:8080/webB/ja/S00001?category=" + categoryNum + "&from=" + fromNam;
+
+	// URLを表示する。
 	history.pushState('','', cool);
 
 }
-
-function replaceFullToHalf(str){
-	  return str.replace(/[１-４]/g, function(s){
-	    return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
-	  });
+	 /**
+	 * URLからURLパラメータ「category」の値を全角から半角に修正する。
+	 *	
+	 * return URLパラメータ「category」の値
+	 */
+	function replaceCategory(str){
+		return str.replace(/[１-４]/g, function(s){
+			return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+		});
+	}
+	 /**
+	 * URLからURLパラメータ「from」の値を全角から半角に修正する。
+	 *	
+	 * return URLパラメータ「from」の値
+	 */
+	function replaceFrom(str){
+		return str.replace(/[０-９]/g, function(s){
+			return String.fromCharCode(s.charCodeAt(0) - 0xFEE0);
+		});
 	}
 	/**
 	 * URLからURLパラメータ「from」を取り出し値を返却する。
@@ -130,16 +160,11 @@ function replaceFullToHalf(str){
 	function serchFrom() {
 		if (1 < document.location.search.length) {
 			//URLを取得
-			console.log(location.href);
 			let url = new URL(location.href);
 
 			// URLSearchParamsオブジェクトを取得
 			let params = url.searchParams;
-			console.log(params.get('from'));
 			var result = params.get('from');
-			console.log("params/" + params);
-			console.log("url.searchParams/" + url.searchParams);
-			console.log("result/" + result);
 			return result;
 		}
 		return null;
@@ -154,16 +179,11 @@ function replaceFullToHalf(str){
 	function serchCategory() {
 		if (1 < document.location.search.length) {
 			//URLを取得
-			console.log(location.href);
 			let url = new URL(location.href);
 
 			// URLSearchParamsオブジェクトを取得
 			let params = url.searchParams;
-			console.log(params.get('category'));
 			var result = params.get('category');
-			console.log("params/" + params);
-			console.log("url.searchParams/" + url.searchParams);
-			console.log("result/" + result);
 		if(isNaN(result)){
 			result = 1;
 		}
@@ -180,10 +200,8 @@ function replaceFullToHalf(str){
 	 */
 	function from() {
 		let bool = serchFrom();
-		console.log("bool/" + bool);
 		if (bool === null) {
 			var from = 6;
-			console.log("from:" + from);
 			return 6;
 		}
 		return bool;
@@ -198,10 +216,8 @@ function replaceFullToHalf(str){
 	 */
 	function category() {
 		let bool = serchCategory();
-		console.log("bool/" + bool);
 		if (bool === null) {
 			var category = 1;
-			console.log("category:" + category);
 			return 1;
 		}
 		return bool;
@@ -222,13 +238,8 @@ function replaceFullToHalf(str){
 		// category()を呼び出し代入する。
 		category = category();
 
-		console.log("from/" + from);
-		console.log("category/" + category);
-		console.log("name/" + name);
-
 		// 押下したソートの項目をcategoryに代入する。
 		category = name;
-		console.log("category/" + category);
 
 		// fromの値が0以下、nullの時はfromの値に初期値「6」を代入する。
 		if (from <= 0 || from == null || from == "") {
@@ -270,12 +281,8 @@ function replaceFullToHalf(str){
 		var num1 = Number(from);
 		var num2 = Number(add);
 
-		console.log("from/" + from);
-		console.log("add/" + add);
-
 		// fromとaddを加算する。
 		var result = num1 + num2;
-		console.log("from:" + num1 + "+add:" + num2 + "=" + result);
 
 		// サーブレットに値を送信する。
 		var request = {
@@ -285,13 +292,7 @@ function replaceFullToHalf(str){
 
 		// 押下したaタグのhrefに遷移先のURLを代入し、画面遷移する。
 		var target = document.getElementById('add');
-		console.log("target/" + target);
-		target.href = "/webB/ja/S00001?category=" + category + "&from="
-				+ result
-		console.log(target.href);
-		console.log(target.href);
-		console.log(target.href);
-
+		target.href = "/webB/ja/S00001?category=" + category + "&from=" + result
 	}
 
 	/**
@@ -316,11 +317,9 @@ function replaceFullToHalf(str){
 
 		// 数値に変換する。
 		var num1 = Number(back);
-		console.log("back/" + back);
 
 		// resultに代入する。
 		result = num1;
-		console.log("back:" + result);
 
 		// サーブレットに値を送信する。
 		var request = {
@@ -330,40 +329,8 @@ function replaceFullToHalf(str){
 
 		// 押下したaタグのhrefに遷移先のURLを代入し、画面遷移する。
 		var target = document.getElementById('back')
-		target.href = "/webB/ja/S00001?category=" + category + "&from="
-				+ result
-		console.log(target.href);
-		console.log(element.classList);
-		console.log(element.classList);
-	}
-
-	/**
-	 * S00004に値を送信して遷移する。
-	 *
-	 * @param uniqueCode	作曲者のユニークコード
-	 */
-	function composer(uniqueCode) {
-		var request = {
-			uniqueCode : uniqueCode
-		};
-		var target = document.getElementById('comp')
-		target.href = "/webB/ja/S00004/" + uniqueCode
-
-	}
-	/**
-	 * S00003に値を飛ばして遷移する。
-	 *
-	 * @param id	楽曲ID
-	 */
-	function song(id) {
-		var song = id;
-		var request = {
-			id : id
-		};
-		var target = document.getElementById('song')
-		target.href = "/webB/ja/S00003/" + id
-
-	}
+		target.href = "/webB/ja/S00001?category=" + category + "&from=" + result
+		}
 </script>
 </head>
 <body>
@@ -377,7 +344,7 @@ function replaceFullToHalf(str){
 			<a href="https://itunes.apple.com/jp/app/id1440134774?mt=8"> 
 				<img alt="メロコ～iPhone用作曲アプリアイコン" src="../images/melokoIcon.png" class="icon">
 				<p>作曲アプリ「メロコ」。歌モノに特化したアプリです。このサイトの曲はすべてこのアプリで作成されています。</p>
-				 <img alt="メロコ～専用アプリダウンロード画面へのリンク" src="../images/right_blue_arrow.png" class="to_download_page_arrow">
+				<img alt="メロコ～専用アプリダウンロード画面へのリンク" src="../images/right_blue_arrow.png" class="to_download_page_arrow">
 			</a>
 		</div>
 
@@ -385,7 +352,8 @@ function replaceFullToHalf(str){
 		<div class="title_bar">
 			<p class="main_title">音楽室</p>
 			<p class="sub_title">～作曲家たちのコミュニティー～</p>
-			<a href="#" id="menu_open"> <img alt="メニュー" src="../images/menu.png" class="menu-icon"></a>
+			<a href="#" id="menu_open">
+			<img alt="メニュー" src="../images/menu.png" class="menu-icon"></a>
 		</div>
 
 		<!-- メニューの起点 -->
@@ -395,7 +363,7 @@ function replaceFullToHalf(str){
 		<div class="top_tab">
 			<%
 			// カテゴリ選択で選択した箇所に色をつけ、他の個所の色を消す。
-			String tab1 = " selected";
+			String tab1 = "selected";
 			String tab2 = " ";
 			String tab3 = " ";
 			String tab4 = " ";
@@ -403,7 +371,7 @@ function replaceFullToHalf(str){
 			String category = (String) request.getAttribute("Category");
 			if (category != null) {
 				if (category.equals("1")) {
-					tab1 = " selected";
+					tab1 = "selected";
 					tab2 = " ";
 					tab3 = " ";
 					tab4 = " ";
@@ -411,7 +379,7 @@ function replaceFullToHalf(str){
 				}
 				if (category.equals("2")) {
 					tab1 = " ";
-					tab2 = " selected";
+					tab2 = "selected";
 					tab3 = " ";
 					tab4 = " ";
 					tab5 = " ";
@@ -419,7 +387,7 @@ function replaceFullToHalf(str){
 				if (category.equals("3")) {
 					tab1 = " ";
 					tab2 = " ";
-					tab3 = " selected";
+					tab3 = "selected";
 					tab4 = " ";
 					tab5 = " ";
 				}
@@ -427,7 +395,7 @@ function replaceFullToHalf(str){
 					tab1 = " ";
 					tab2 = " ";
 					tab3 = " ";
-					tab4 = " selected";
+					tab4 = "selected";
 					tab5 = " ";
 				}
 				if (category.equals("5")) {
@@ -435,28 +403,34 @@ function replaceFullToHalf(str){
 					tab2 = " ";
 					tab3 = " ";
 					tab4 = " ";
-					tab5 = " selected";
+					tab5 = "selected";
 				}
+			}else{
+				category = "1";
+				tab1 = "selected";
+				tab2 = " ";
+				tab3 = " ";
+				tab4 = " ";
+				tab5 = " ";
 			}
 			%>
 			<ul>
 				<li class="tab1 <%=tab1%>">
-					<a class="sort" href="" data-value="1" id="1" onclick="sort1(1)">新着</a>
+					<a class="sort<%=tab1%>" href=""  id="1" onclick="sort1(1)">新着</a>
 				</li>
 				<li class="tab2 <%=tab2%>" id="tab2">
-					<a class="sort" href="" data-value="2" id="2" onclick="sort1(2)">人気</a>
+					<a class="sort<%=tab2%>" href="" data-value="2" id="2" onclick="sort1(2)">人気</a>
 				</li>
 				<li class="tab3 <%=tab3%>">
-					<a class="sort" href="" data-value="3" id="3" onclick="sort1(3)">高評価</a>
+					<a class="sort<%=tab3%>" href="" data-value="3" id="3" onclick="sort1(3)">高評価</a>
 				</li>
 				<li class="tab4 <%=tab4%>">
-					<a class="sort" href="" data-value="4" id="4" onclick="sort1(4)">名作</a>
+					<a class="sort<%=tab4%>" href="" data-value="4" id="4" onclick="sort1(4)">名作</a>
 				</li>
 				
-			<!-- あとでけす -->
 			<%if(category.equals("5")){ %>
-				<li class="tab5<%=tab5%>"><a class="sort" href=""
-					data-value="5" id="5" onclick="sort1(5)">全件表示</a></li> 
+				<li class="tab5 <%=tab5%>">
+				<a class="sort<%=tab5%>" href="" data-value="5" id="5" onclick="sort1(5)">全件表示</a></li> 
 			<%} %>
 			</ul>
 		</div>
@@ -525,6 +499,8 @@ function replaceFullToHalf(str){
 		<!-- ソングテーブル -->
 		<div class="song_list">
 			<ul>
+			<!- 作業中にわかりやすいよう表示 -->
+			<%= listMap.size()%>件表示できます。<br>
 				<%
 				/* リストの数だけループして表示する。
 				*	ループの初期値に最小値を代入する。
@@ -561,7 +537,9 @@ function replaceFullToHalf(str){
 									<img alt='<%=map.get("ImageFileName")%>' src='../images/<%=map.get("ImageFileName")%>'> 
 									<img alt="play" class="play" src="/webB/images/play.png">
 								</div>
-							</a>※IDは、<%=map.get("Id")%>です。
+							</a>
+							<!- 作業中にわかりやすいよう表示 -->
+							※IDは、<%=map.get("Id")%>です。
 						</div>
 						<div class="detail">
 							<span class="label_top">総感動指数：</span> <span class="value"><%=map.get("RatingTotal")%></span>
@@ -590,8 +568,7 @@ function replaceFullToHalf(str){
 		// 表示できる件数がない場合に、1～6の画面に戻るメッセージを表示する。
 		%>
 		これ以上、表示できるデータがありませんm(_ _)m<br>
-		 <a class="add" href="" data-value="5" id="back" onclick="back(6)">→1件目から、6件目に戻ります。</a>
-		 <a class="test" href="http://localhost:8080/webB/ja/S00001?category=[&from=6">http://localhost:8080/webB/ja/S00001?category=[&from=6</a>
+		 <a class="add" href="" data-value="5" id="back" onclick="back(6)">→1件目から、5件目に戻ります。</a>
 
 		<%
 		}
