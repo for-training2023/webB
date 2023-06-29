@@ -7,27 +7,39 @@
 	<!-- <servlet> <servlet-name>Init</servlet-name> <servlet-class>jp.excd.servlet.MySQLSetting</servlet-class> 
 		<load-on-startup>1</load-on-startup> </servlet> -->
 
-
 	<servlet>
 		<servlet-name>S00007</servlet-name>
 		<servlet-class>jp.excd.servlet.S00007</servlet-class>
 	</servlet>
 
+	<servlet-mapping>
+		<servlet-name>S00007</servlet-name>
+		<url-pattern>/ja/S00007/search</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>S00007</servlet-name>
+		<url-pattern>/ja/S00007</url-pattern>
+	</servlet-mapping>
+	
+	
 	<servlet>
 		<servlet-name>S00008</servlet-name>
 		<servlet-class>jp.excd.servlet.S00008</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>S00007</servlet-name>
-		<url-pattern>/ja/S00007/*</url-pattern>
+		<servlet-name>S00008</servlet-name>
+		<url-pattern>/ja/S00008</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>S00008</servlet-name>
-		<url-pattern>/ja/S00008/*</url-pattern>
+		<url-pattern>/ja/S00008/back</url-pattern>
 	</servlet-mapping>
 
-
-
+	<servlet-mapping>
+		<servlet-name>S00008</servlet-name>
+		<url-pattern>/ja/S00008/change</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -20,24 +20,22 @@ import javax.servlet.http.HttpServletResponse;
 
 public class S00007 extends HttpServlet {
 
-	private static final String retValue = null;
-
 	public void doGet(
 			HttpServletRequest request,
 			HttpServletResponse response)
-			throws IOException, ServletException {
-		
+					throws IOException, ServletException {
+
 		getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request, response);
 	}
 
 	public void doPost(
 			HttpServletRequest request,
 			HttpServletResponse response)
-			throws IOException, ServletException {
+					throws IOException, ServletException {
 
 		Connection con = null;
 		request.setCharacterEncoding("UTF-8");
-		
+
 		String dbName = "meloko";//DB名
 		String userName = "meloko";//ユーザ
 		String password = "exceed";//パスワード
@@ -47,7 +45,7 @@ public class S00007 extends HttpServlet {
 		try {
 			// (1)DB接続（コネクションの確立）
 			con = MySQLSetting.getConnection (dbName, userName, password, timeZone);
-			
+
 			// (2)内部メソッド呼び出し
 			this.mainProcessForSearchComposers(request, response, con);
 
@@ -58,7 +56,7 @@ public class S00007 extends HttpServlet {
 		} finally {
 			try {
 				if (con != null) {
-					
+
 					// (3)接続したコネクションの切断を行う。
 					con.close();
 				}
@@ -69,10 +67,10 @@ public class S00007 extends HttpServlet {
 
 		}
 	}
-	
+
 	private void mainProcessForSearchComposers(HttpServletRequest request, HttpServletResponse response, Connection con)
 			throws IOException, Exception {
-		
+
 		// 接続URL受け取り
 		String URL = request.getRequestURI();
 
@@ -130,7 +128,6 @@ public class S00007 extends HttpServlet {
 		request.setAttribute("language_type_en", language_type_en);
 		request.setAttribute("sort_order", sort_order);
 
-		Integer rf = null;
 		Integer rt = null;
 		Double rAf = null;
 		Double rAt = null;
@@ -140,26 +137,21 @@ public class S00007 extends HttpServlet {
 		//-----------------------------------------------------------------------------------------------
 		// 入力チェック
 		//-----------------------------------------------------------------------------------------------
-		
+
 		// (3) ニックネームについてエラー判定を行う。
 		//「ニックネーム」を入力するか、「指定しない」を選択してください。
-				if ("1".equals(nickname_radio)) {
-					if (nickname == null || "".equals(nickname)) {
-						//エラー
-						String s = this.getDescription(con, "ES00007_001");
-						request.setAttribute("error", s);
-						request.setAttribute("rating_from_error", "1");
-						getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp")
-								.forward(request, response);
-						return;
-					} else {
-						//処理続行
-						if (!("1".equals(nickname_radio))) {
-							//処理続行
-						}
+		if ("1".equals(nickname_radio)) {
+			if (nickname == null || "".equals(nickname)) {
+				//エラー
+				String s = this.getDescription(con, "ES00007_001");
+				request.setAttribute("error", s);
+				request.setAttribute("rating_from_error", "1");
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp")
+				.forward(request, response);
+				return;					
+			}
+		}
 
-					}
-				}
 
 		// (4) 登録日FROMについてエラー判定を行う。
 		//「登録日」は、西暦で入力してください。
@@ -174,11 +166,9 @@ public class S00007 extends HttpServlet {
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
 						response);
 				return;
-			} else {
-				// 処理継続
 			}
 		}
-		
+
 		// (5) 登録日TOについてエラー判定を行う。
 		if ("1".equals(joined_date_radio)) {
 			if (joined_date_to == null || "".equals(joined_date_to)) {
@@ -190,15 +180,13 @@ public class S00007 extends HttpServlet {
 				request.setAttribute("rating_from_error", "2");
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
 						response);
-			} else {
-				// 処理継続
 			}
 		}
-		
+
 		// (6) 登録日FROM、登録日TOについてエラー判定を行う。
 		if ("1".equals(joined_date_radio)) {
 			if (joined_date_from == null || "".equals(joined_date_from) &&
-			(joined_date_to == null || "".equals(joined_date_to))) {
+					(joined_date_to == null || "".equals(joined_date_to))) {
 				//エラー
 				String s = this.getDescription(con, "ES00007_004");
 				request.setAttribute("error", s);
@@ -227,137 +215,112 @@ public class S00007 extends HttpServlet {
 				return;
 			}
 		}
-		
+
+
 		// (8) 誕生日FROMについてエラー判定を行う。
-				if ("1".equals(birthday_radio)) {
-					if (birthday_from == null || "".equals(birthday_from)) {
-						// 処理継続
-					} else if (this.isDateValue(birthday_from) == false) {
-						// エラー
-						String s = this.getDescription(con, "ES00007_006");
-						request.setAttribute("error", s);
-						request.setAttribute("rating_from_error", "3");
-						getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-								response);
-						return;
-					} else {
-						// 処理継続
-					}
-				}
-				
+		if ("1".equals(birthday_radio)) {
+			if (birthday_from == null || "".equals(birthday_from)) {
+				// 処理継続
+			} else if (this.isDateValue(birthday_from) == false) {
+				// エラー
+				String s = this.getDescription(con, "ES00007_006");
+				request.setAttribute("error", s);
+				request.setAttribute("rating_from_error", "3");
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+						response);
+				return;
+			}
+		}
+
 		// (9) 誕生日TOについてエラー判定を行う。
-				if ("1".equals(birthday_radio)) {
-					if (birthday_to == null || "".equals(birthday_to)) {
-						// 処理継続
-					} else if (this.isDateValue(birthday_to) == false) {
-						// エラー
-						String s = this.getDescription(con, "ES00007_007");
-						request.setAttribute("error", s);
-						request.setAttribute("rating_from_error", "3");
-						getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-								response);
-					} else {
-						// 処理継続
-					}
-				}
-		
+		if ("1".equals(birthday_radio)) {
+			if (birthday_to == null || "".equals(birthday_to)) {
+				// 処理継続
+			} else if (this.isDateValue(birthday_to) == false) {
+				// エラー
+				String s = this.getDescription(con, "ES00007_007");
+				request.setAttribute("error", s);
+				request.setAttribute("rating_from_error", "3");
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+						response);
+				return;
+			}
+		}
+
 		// (10) 誕生日FROM、誕生日TOについてエラー判定を行う。
-				if ("1".equals(birthday_radio)) {
-					if (birthday_from == null || "".equals(birthday_from) &&
-					(birthday_to== null || "".equals(birthday_to))) {
-						//エラー
-						String s = this.getDescription(con,"ES00007_008");
-						request.setAttribute("error", s);
-						request.setAttribute("rating_from_error", "3");
-						getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-								response);
-						return;
-					} else if (birthday_from == null
-							|| "".equals(birthday_from) && this.isDateValue(birthday_to) == true) {
-						//処理続行
-					} else if (this.isDateValue(birthday_from)) {
-						//処理続行
-					}
-				}
+		if ("1".equals(birthday_radio)) {
+			if (birthday_from == null || "".equals(birthday_from) && (birthday_to== null || "".equals(birthday_to))) {
+				//エラー
+				String s = this.getDescription(con,"ES00007_008");
+				request.setAttribute("error", s);
+				request.setAttribute("rating_from_error", "3");
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+						response);
+				return;
+			} else if (birthday_from == null || "".equals(birthday_from) && this.isDateValue(birthday_to) == true) {
+				//処理続行
+			} else if (this.isDateValue(birthday_from)) {
+				//処理続行
+			}
+		}
 
 		// (11) 誕生日FROM、誕生日TOについてエラー判定を行う。
-				if ("1".equals(birthday_radio)) {
-					int checkResult = birthday_to.compareTo(birthday_from);
-					if (checkResult < 0) {
-						// エラー
-						String s = this.getDescription(con, "ES00007_009");
-						request.setAttribute("error", s);
-						request.setAttribute("birthday_from", "3");
-						getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-								response);
-						return;
-					}
+		if ("1".equals(birthday_radio)) {
+			int checkResult = birthday_to.compareTo(birthday_from);
+			if (checkResult < 0) {
+				// エラー
+				String s = this.getDescription(con, "ES00007_009");
+				request.setAttribute("error", s);
+				request.setAttribute("birthday_from", "3");
+				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+						response);
+				return;
+			}
+		}
+
+
+		if ("1".equals(listener_count_radio)) {
+			//(12)リスナー数FROMが正の整数かエラー判定を行う。
+			if (!("".equals(listener_count_from))){
+				int lf = Integer.parseInt(listener_count_from);
+				if(lf<0) {
+					//エラー
+					String s = this.getDescription(con, "ES00007_010");
+					request.setAttribute("error", s);
+					request.setAttribute("rating_from_error", "4");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp")
+					.forward(request, response);
+					return;
 				}
-		
-		// (12) リスナー数FROM エラー判定を行う。
-		if ("1".equals(listener_count_radio)) {
-			if (listener_count_from == null || "".equals(listener_count_from)) {
-				//処理継続
-			} else if (this.isNumber(listener_count_from) == false) {
-				//エラー
-				String s = this.getDescription(con, "ES00007_010");
-				request.setAttribute("error", s);
-				request.setAttribute("rating_from_error", "4");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp")
-						.forward(request, response);
-				return;
-			} else {
-				//処理継続
-				vf = Integer.parseInt(listener_count_from);
 			}
-			if (!("1".equals(listener_count_radio))) {
-				//処理続行
+
+			//(13)リスナー数TOが正の整数かエラー判定を行う。		
+			if (!( "".equals(listener_count_to))){		
+				int lt = Integer.parseInt(listener_count_to);
+				if(lt<0) {
+					//エラー
+					String s = this.getDescription(con, "ES00007_010");
+					request.setAttribute("error", s);
+					request.setAttribute("rating_from_error", "4");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp")
+					.forward(request, response);
+					return;
+				} 
 			}
-		}
-		// (13) リスナー数TO エラー判定を行う。
-		if ("1".equals(listener_count_radio)) {
-			if (listener_count_to == null || "".equals(listener_count_to)) {
-				//処理継続
-			} else if (this.isNumber(listener_count_to) == false) {
-				//エラー
-				String s = this.getDescription(con, "ES00007_011");
-				request.setAttribute("error", s);
-				request.setAttribute("rating_from_error", "4");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp")
-						.forward(request, response);
-				return;
-			} else {
-				//処理継続
-				vt = Integer.parseInt(listener_count_to);
-			}
-			if (!("1".equals(listener_count_radio))) {
-				//処理続行
-			}
-		}
-		
-		// (14) リスナー数FROM　リスナー数TO エラー判定を行う。
-		if ("1".equals(listener_count_radio))
-			if (listener_count_from == null || "".equals(listener_count_from) &&
-			(listener_count_to == null|| "".equals(listener_count_to))) {
+
+			// (14) リスナー数FROM　リスナー数TO エラー判定を行う。
+			if ( "".equals(listener_count_from) && "".equals(listener_count_to)) {
 				//エラー
 				String s = this.getDescription(con, "ES00007_012");
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "4");
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp")
-						.forward(request, response);
+				.forward(request, response);
 				return;
-			} else if (listener_count_from == null
-					|| "".equals(listener_count_from) && this.isNumber(listener_count_to) == true) {
-				//処理続行
-			} else if (this.isNumber(listener_count_from)) {
-				//処理続行
-			}
-		if (!("1".equals(listener_count_radio))) {
-			//処理続行
-		}
 
-		// (15) リスナー数FROM、リスナー数TOについて、以下のとおりエラー判定を行う。
-		if ("1".equals(listener_count_radio)) {
+			}
+
+			// (15) リスナー数FROM、リスナー数TOについて、以下のとおりエラー判定を行う。
 			if (listener_count_from != null) {
 				vf = Integer.parseInt(listener_count_from);
 			}
@@ -370,32 +333,31 @@ public class S00007 extends HttpServlet {
 				request.setAttribute("error", s);
 				request.setAttribute("rating_from_error", "4");
 				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp")
-						.forward(request, response);
+				.forward(request, response);
 				return;
 			}
-		} else {
-			//処理続行
 
 		}
-		if (!("1".equals(listener_count_radio))) {
-			//処理続行
-		}
+
+
+
+
 
 		// (16) 言語について、以下のとおりエラー判定を行う。
 		if ("002".equals(language_type_jp)) {
 			//処理続行
 		}else if("001".equals(language_type_en)) {
 			//処理続行
-	    }else if(!("002".equals(language_type_jp)) && !("001".equals(language_type_en))){
-	    	//エラー
+		}else if(!("002".equals(language_type_jp)) && !("001".equals(language_type_en))){
+			//エラー
 			String s = this.getDescription(con, "ES00007_014");
 			request.setAttribute("error", s);
 			request.setAttribute("rating_from_error", "5");
 			getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp")
-					.forward(request, response);
+			.forward(request, response);
 			return;
 		}
-		
+
 		// (17) SQLの組み立てと、Where句への値の設定を行う。
 		List<ComposerBean> results = null;
 		try {
@@ -423,7 +385,7 @@ public class S00007 extends HttpServlet {
 			getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request, response);
 			return;
 		}
-		
+
 		if (results == null) {
 			results = new ArrayList<ComposerBean>();
 		}
@@ -436,13 +398,13 @@ public class S00007 extends HttpServlet {
 			getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request, response);
 			return;
 		}
-		
+
 		// (19) 前処理で得られたListを用いて、Requestオブジェクトに値を設定していく。
 		List<ComposerBean> newList =  new ArrayList<ComposerBean>();
-		
+
 		int counter = 0;
 		int hit = 0;
-		
+
 		for (ComposerBean l : results) {
 			counter = counter + 1;
 			// 先頭の10件のみ処理を行う。
@@ -460,12 +422,12 @@ public class S00007 extends HttpServlet {
 				break;
 			}
 		}
-		
+
 		String hits = NumberFormat.getNumberInstance().format(hit);
 		request.setAttribute("hits", hits);
 		request.setAttribute("list", newList);
-		
-		
+
+
 		//S00008にフォワーディングする
 		getServletConfig().getServletContext().getRequestDispatcher("/ja/S00008.jsp").forward(request, response);
 	}
@@ -492,7 +454,7 @@ public class S00007 extends HttpServlet {
 	}
 
 	//(2)入力値のBean（ValueInputBean）を生成して、値を詰める。
-	
+
 	private List<ComposerBean> executeQuery(HttpServletRequest request, HttpServletResponse response, Connection con,
 			String nickname_radio,
 			String nickname_type_radio,
@@ -544,31 +506,31 @@ public class S00007 extends HttpServlet {
 
 		// (2) SQLを連結するための文字列を宣言する。
 		String query = sql1 + sql2;
-		
+
 		// (3) プレイスホルダに設定する値を格納するためのListを用意する。
 		List<PlaceHolderInput> list = new ArrayList<PlaceHolderInput>();
-		
+
 		// (4) ニックネームのSQLへの連結及びプレイスホルダへの設定
 		if ("1".equals(nickname_radio)) {
 			if (nickname == null || "".equals(nickname)) {
 				//処理続行
 			} else if (list.size() == 0) {
-					query = query + sql3;
-					if ("3".equals(nickname_type_radio)) {
+				query = query + sql3;
+				if ("3".equals(nickname_type_radio)) {
 					query = query + sql4;
 					nickname = '%'+ nickname + '%';
 					PlaceHolderInput phi = new PlaceHolderInput();
 					phi.setType("3");
 					phi.setStringValue(nickname);
 					list.add(phi);
-					} else if ("4".equals(nickname_type_radio)) {
+				} else if ("4".equals(nickname_type_radio)) {
 					query = query + sql5;// + "'" + nickname + "' ";
 					PlaceHolderInput phi = new PlaceHolderInput();
 					phi.setType("3");
 					phi.setStringValue(nickname);
 					list.add(phi);
-					}
-					
+				}
+
 			}else {
 				throw new Exception();
 			} 
@@ -597,7 +559,7 @@ public class S00007 extends HttpServlet {
 			//処理続行
 		}
 
-	
+
 		// (6) 登録日TOのSQLへの連結及びプレイスホルダへの設定
 		if ("1".equals(joined_date_radio)) {
 			if (joined_date_to == null || "".equals(joined_date_to)) {
@@ -645,7 +607,7 @@ public class S00007 extends HttpServlet {
 		} else {
 			//処理続行
 		}
-		
+
 		// (8) 誕生日FROMのSQLへの連結及びプレイスホルダへの設定
 		if ("1".equals(birthday_radio)) {
 			if (birthday_from == null || "".equals(birthday_from)) {
@@ -670,7 +632,7 @@ public class S00007 extends HttpServlet {
 			//処理続行
 		}
 
-			
+
 		// (9) 誕生日TOのSQLへの連結及びプレイスホルダへの設定
 		if ("1".equals(birthday_radio)) {
 			if (birthday_to == null || "".equals(birthday_to)) {
@@ -694,7 +656,7 @@ public class S00007 extends HttpServlet {
 		} else {
 			//処理続行
 		}
-		
+
 		// (10) リスナー数FROMのSQLへの連結及びプレイスホルダへの設定
 		if ("1".equals(listener_count_radio)) {
 			if (listener_count_from == null || "".equals(listener_count_from)) {
@@ -717,7 +679,7 @@ public class S00007 extends HttpServlet {
 		} else {
 			//処理続行
 		}
-		
+
 		// (11) リスナー数TOのSQLへの連結及びプレイスホルダへの設定
 		if ("1".equals(listener_count_radio)) {
 			if (listener_count_to == null || "".equals(listener_count_to)) {
@@ -740,7 +702,7 @@ public class S00007 extends HttpServlet {
 		} else {
 			//処理続行
 		}
-		
+
 		// (12) 言語のSQLへの連結及びプレイスホルダへの設定
 		if ("001".equals(language_type_en)) {
 			if (list.size() == 0) {
@@ -780,7 +742,7 @@ public class S00007 extends HttpServlet {
 		} else {
 			throw new Exception();
 		}
-		
+
 		// (14) PreparedStatementのインスタンスを得る。
 		PreparedStatement pstmt = con.prepareStatement(query);
 
@@ -802,7 +764,7 @@ public class S00007 extends HttpServlet {
 		List<ComposerBean> composerList = new ArrayList<ComposerBean>();
 
 		Date d = new Date();
-		
+
 		while (rs.next()) {
 			ComposerBean bean = new ComposerBean();
 			//作曲家ID
@@ -826,7 +788,7 @@ public class S00007 extends HttpServlet {
 				Joined_date = "null";
 			}
 			bean.setJoined_date(Joined_date);	
-			
+
 			//性別
 			String Gender = rs.getString("gender");
 			if("1".equals(Gender)) {
@@ -837,7 +799,7 @@ public class S00007 extends HttpServlet {
 				Gender = null;
 			}
 			bean.setGender( Gender);
-			
+
 			//誕生日
 			String Birthday = rs.getString("birthday");
 			if(Birthday != null) {
@@ -853,14 +815,14 @@ public class S00007 extends HttpServlet {
 				Birthday = null;
 			}
 			bean.setBirthday( Birthday);
-			
+
 			//リスナー数
 			String Listener_count = NumberFormat.getNumberInstance().format(rs.getInt("listener_count"));
 			bean.setListener_count( Listener_count);
-			
+
 			//言語区分
 			String Language_type = rs.getString("language_type");
-			
+
 			if("001".equals(Language_type)) {
 				String Language = "英語";
 				bean.setLanguage_type(Language);	
@@ -868,17 +830,17 @@ public class S00007 extends HttpServlet {
 				String Language = "日本語";
 				bean.setLanguage_type(Language);	
 			}
-					
+
 
 			composerList.add(bean);
 		}
-		
+
 		// (17) ResultSetのインスタンス、PreparedStatementのインスタンスをクローズする。
 		pstmt.close();
 
 		// (18) 前処理で生成したListを呼び出し元に返却する。
 		return composerList;
-		
+
 	}
 
 	private boolean isNumber(String num) {
@@ -890,14 +852,6 @@ public class S00007 extends HttpServlet {
 		}
 	}
 
-	private boolean isDouble(String num) {
-		try {
-			Double.parseDouble(num);
-			return true;
-		} catch (NumberFormatException e) {
-			return false; // エラーにならないように、とりあえずダミー
-		}
-	}
 
 	private boolean isDateValue(String value) {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -910,11 +864,4 @@ public class S00007 extends HttpServlet {
 		}
 	}
 
-	private long getDateValue(String value) throws ParseException {
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date dt = format.parse(value);
-		long miliTime = dt.getTime();
-		long retValue = (miliTime / 1000);
-		return retValue;
-	}
 }
