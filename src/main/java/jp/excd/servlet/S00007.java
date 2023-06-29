@@ -153,38 +153,9 @@ public class S00007 extends HttpServlet {
 		}
 
 
-		// (4) 登録日FROMについてエラー判定を行う。
-		//「登録日」は、西暦で入力してください。
 		if ("1".equals(joined_date_radio)) {
-			if (joined_date_from == null || "".equals(joined_date_from)) {
-				// 処理継続
-			} else if (this.isDateValue(joined_date_from) == false) {
-				// エラー
-				String s = this.getDescription(con, "ES00007_002");
-				request.setAttribute("error", s);
-				request.setAttribute("rating_from_error", "2");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-						response);
-				return;
-			}
-		}
 
-		// (5) 登録日TOについてエラー判定を行う。
-		if ("1".equals(joined_date_radio)) {
-			if (joined_date_to == null || "".equals(joined_date_to)) {
-				// 処理継続
-			} else if (this.isDateValue(joined_date_to) == false) {
-				// エラー
-				String s = this.getDescription(con, "ES00007_003");
-				request.setAttribute("error", s);
-				request.setAttribute("rating_from_error", "2");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-						response);
-			}
-		}
-
-		// (6) 登録日FROM、登録日TOについてエラー判定を行う。
-		if ("1".equals(joined_date_radio)) {
+			// (6) 登録日FROM、登録日TOについてエラー判定を行う。
 			if (joined_date_from == null || "".equals(joined_date_from) &&
 					(joined_date_to == null || "".equals(joined_date_to))) {
 				//エラー
@@ -200,52 +171,27 @@ public class S00007 extends HttpServlet {
 			} else if (this.isDateValue(joined_date_from)) {
 				//処理続行
 			}
-		}
 
-		// (7) 登録日FROM、登録日TOについてエラー判定を行う。
-		if ("1".equals(joined_date_radio)) {
-			int checkResult = joined_date_to.compareTo(joined_date_from);
-			if (checkResult < 0) {
-				// エラー
-				String s = this.getDescription(con, "ES00007_005");
-				request.setAttribute("error", s);
-				request.setAttribute("rating_from_error", "2");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-						response);
-				return;
+
+			// (7) 登録日FROM、登録日TOについてエラー判定を行う。
+			if(!( "".equals(joined_date_from)) && !( "".equals(joined_date_to))) {
+				int checkResult = joined_date_to.compareTo(joined_date_from);
+				if (checkResult < 0) {
+					// エラー
+					String s = this.getDescription(con, "ES00007_005");
+					request.setAttribute("error", s);
+					request.setAttribute("rating_from_error", "2");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+							response);
+					return;
+				}
 			}
 		}
 
 
-		// (8) 誕生日FROMについてエラー判定を行う。
-		if ("1".equals(birthday_radio)) {
-			if (birthday_from == null || "".equals(birthday_from)) {
-				// 処理継続
-			} else if (this.isDateValue(birthday_from) == false) {
-				// エラー
-				String s = this.getDescription(con, "ES00007_006");
-				request.setAttribute("error", s);
-				request.setAttribute("rating_from_error", "3");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-						response);
-				return;
-			}
-		}
 
-		// (9) 誕生日TOについてエラー判定を行う。
-		if ("1".equals(birthday_radio)) {
-			if (birthday_to == null || "".equals(birthday_to)) {
-				// 処理継続
-			} else if (this.isDateValue(birthday_to) == false) {
-				// エラー
-				String s = this.getDescription(con, "ES00007_007");
-				request.setAttribute("error", s);
-				request.setAttribute("rating_from_error", "3");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-						response);
-				return;
-			}
-		}
+
+
 
 		// (10) 誕生日FROM、誕生日TOについてエラー判定を行う。
 		if ("1".equals(birthday_radio)) {
@@ -262,25 +208,25 @@ public class S00007 extends HttpServlet {
 			} else if (this.isDateValue(birthday_from)) {
 				//処理続行
 			}
-		}
 
-		// (11) 誕生日FROM、誕生日TOについてエラー判定を行う。
-		if ("1".equals(birthday_radio)) {
-			int checkResult = birthday_to.compareTo(birthday_from);
-			if (checkResult < 0) {
-				// エラー
-				String s = this.getDescription(con, "ES00007_009");
-				request.setAttribute("error", s);
-				request.setAttribute("birthday_from", "3");
-				getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
-						response);
-				return;
+			// (11) 誕生日FROM、誕生日TOについてエラー判定を行う。
+			if(!( "".equals(birthday_from)) &&  !("".equals(birthday_to))){
+				int checkResult = birthday_to.compareTo(birthday_from);
+				if (checkResult < 0) {
+					// エラー
+					String s = this.getDescription(con, "ES00007_009");
+					request.setAttribute("error", s);
+					request.setAttribute("birthday_from", "3");
+					getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request,
+							response);
+					return;
+				}
 			}
 		}
 
 
+		//(12)リスナー数FROMが正の整数かエラー判定を行う。
 		if ("1".equals(listener_count_radio)) {
-			//(12)リスナー数FROMが正の整数かエラー判定を行う。
 			if (!("".equals(listener_count_from))){
 				int lf = Integer.parseInt(listener_count_from);
 				if(lf<0) {
@@ -381,6 +327,7 @@ public class S00007 extends HttpServlet {
 					sort_order);
 		} catch (Exception e) {
 			String error = getDescription(con, "ES00007_015");
+			e.printStackTrace();
 			request.setAttribute("error", error);
 			getServletConfig().getServletContext().getRequestDispatcher("/ja/S00007.jsp").forward(request, response);
 			return;
@@ -541,8 +488,7 @@ public class S00007 extends HttpServlet {
 		if ("1".equals(joined_date_radio)) {
 			if (joined_date_from == null || "".equals(joined_date_from)) {
 				// 処理続行
-			}
-			if (this.isDateValue(joined_date_from)) {
+			}else if (this.isDateValue(joined_date_from)) {
 				if (list.size() == 0) {
 					query = query + sql3;
 				} else {
@@ -555,6 +501,9 @@ public class S00007 extends HttpServlet {
 				phi.setStringValue(joined_date_from);
 				list.add(phi);
 			}
+			else {
+				throw new Exception();
+			}
 		} else {
 			//処理続行
 		}
@@ -564,8 +513,7 @@ public class S00007 extends HttpServlet {
 		if ("1".equals(joined_date_radio)) {
 			if (joined_date_to == null || "".equals(joined_date_to)) {
 				//処理続行
-			}
-			if (this.isDateValue(joined_date_to)) {
+			}else if (this.isDateValue(joined_date_to)) {
 				if (list.size() == 0) {
 					query = query + sql3;
 				} else {
@@ -588,8 +536,7 @@ public class S00007 extends HttpServlet {
 		if ("1".equals(gender_radio)) {
 			if (gender == null || "".equals(gender)) {
 				//処理続行
-			}
-			if (this.isNumber(gender)) {
+			}else if (this.isNumber(gender)) {
 				if (list.size() == 0) {
 					query = query + sql3;
 				} else {
@@ -612,8 +559,7 @@ public class S00007 extends HttpServlet {
 		if ("1".equals(birthday_radio)) {
 			if (birthday_from == null || "".equals(birthday_from)) {
 				// 処理続行
-			}
-			if (this.isDateValue(birthday_from)) {
+			}else if (this.isDateValue(birthday_from)) {
 				if (list.size() == 0) {
 					query = query + sql3;
 				} else {
@@ -637,8 +583,7 @@ public class S00007 extends HttpServlet {
 		if ("1".equals(birthday_radio)) {
 			if (birthday_to == null || "".equals(birthday_to)) {
 				//処理続行
-			}
-			if (this.isDateValue(birthday_to)) {
+			}else if (this.isDateValue(birthday_to)) {
 				if (list.size() == 0) {
 					query = query + sql3;
 				} else {
