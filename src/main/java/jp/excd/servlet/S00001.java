@@ -283,15 +283,24 @@ public class S00001 extends HttpServlet {
 				String id = rs.getString("s.id");
 				String title = rs.getString("s.title");
 				String composerId = rs.getString("s.composer_id");
-				String ratingTotal = rs.getString("s.rating_total");
-				String ratingAverage = rs.getString("s.rating_average");
-				String totalListenCount = rs.getString("s.total_listen_count");
+				int ratingTotal = rs.getInt("s.rating_total");
+				Double ratingAverage = rs.getDouble("s.rating_average");
+				Long totalListenCount = rs.getLong("s.total_listen_count");
 				double releaseDatetime = rs.getDouble("s.release_datetime");
 				String imageFileName = rs.getString("s.image_file_name");
 				String imageFileHeight = rs.getString("s.image_file_height");
 				String imageFileWidth = rs.getString("s.image_file_width");
 				String nickName = rs.getString("c.nickname");
 				String uniqueCode = rs.getString("c.unique_code");
+				
+				// 再生回数をフォーマットする
+				String fromatTotal = String.format("%,d", ratingTotal);
+				
+				// 平均感動指数をフォーマットする
+				String formatAverage = String.format("%.1f", ratingAverage);
+				
+				// 再生回数をフォーマットする
+				String fromatListenCount = String.format("%,d", totalListenCount);
 				
 				// imageFileNameがnullの場合にnoimage.pngを設定する
 				if(imageFileName == null) {
@@ -306,9 +315,9 @@ public class S00001 extends HttpServlet {
 				map.put("Id", id);
 				map.put("Title", title);
 				map.put("ComposerId", composerId);
-				map.put("RatingTotal", ratingTotal);
-				map.put("RatingAverage", ratingAverage);
-				map.put("TotalListenCount", totalListenCount);
+				map.put("RatingTotal", fromatTotal);
+				map.put("RatingAverage", formatAverage);
+				map.put("TotalListenCount", fromatListenCount);
 				map.put("ReleaseDatetime", ago);
 				map.put("ImageFileName", imageFileName);
 				map.put("ImageFileHeight", imageFileHeight);
